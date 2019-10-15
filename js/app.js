@@ -11,6 +11,12 @@
 		var _init = function(){
 console.log("App initialize...");
 			
+			_vars["gpsCoords"]={
+				"latitude" : document.querySelector("#gpscoords-latitude"),
+				"longitude" : document.querySelector("#gpscoords-longitude"),
+				"accuracy" : document.querySelector("#gpscoords-accuracy"),
+			};
+
 			_vars["waitOverlay"] = document.querySelector("#wait");
 			_vars["waitOverlay"].style.display="none";
 			
@@ -23,7 +29,17 @@ console.log(e);
 				_vars["waitOverlay"].classList.add("open");
 				
 				_handleCoordinateBtn({
-					"postFunc": function(){
+					"postFunc": function( coords ){
+						_vars["gpsCoords"]["latitude"].innerHTML = coords.latitude;
+						_vars["gpsCoords"]["longitude"].innerHTML = coords.longitude;
+						_vars["gpsCoords"]["accuracy"].innerHTML = coords.accuracy;
+						// timestamp_value.innerHTML = position.timestamp;
+						
+						// speed_value.innerHTML = coords.speed;
+						// altitude_value.innerHTML = coords.altitude;
+						// altitudeAccuracy_value.innerHTML = coords.altitudeAccuracy;
+						// heading_value.innerHTML = position.heading;
+						
 						_vars["waitOverlay"].classList.remove("open");
 						_vars["waitOverlay"].classList.add("close");
 					}
@@ -41,18 +57,8 @@ console.log( position);
 // for(var item in position.coords){
 	// console.log( item, position.coords[item] );
 // }
-				// var coords = position.coords;
-				// latitude_value.innerHTML = coords.latitude;
-				// longitude_value.innerHTML = coords.longitude;
-				// accuracy_value.innerHTML = coords.accuracy;
-				// timestamp_value.innerHTML = position.timestamp;
-				
-				// speed_value.innerHTML = coords.speed;
-				// altitude_value.innerHTML = coords.altitude;
-				// altitudeAccuracy_value.innerHTML = coords.altitudeAccuracy;
-				// heading_value.innerHTML = position.heading;
 				if( typeof opt["postFunc"] === "function"){
-					opt["postFunc"]();
+					opt["postFunc"]( position.coords );
 				}
 				
 			}, function (error){
