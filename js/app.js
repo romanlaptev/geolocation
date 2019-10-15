@@ -25,7 +25,7 @@ console.log("App initialize...");
 console.log(e);
 
 				_vars["waitOverlay"].style.display="";
-				_vars["waitOverlay"].classList.remove("close");
+				//_vars["waitOverlay"].classList.remove("close");
 				_vars["waitOverlay"].classList.add("open");
 				
 				_handleCoordinateBtn({
@@ -41,7 +41,8 @@ console.log(e);
 						// heading_value.innerHTML = position.heading;
 						
 						_vars["waitOverlay"].classList.remove("open");
-						_vars["waitOverlay"].classList.add("close");
+						//_vars["waitOverlay"].classList.add("close");
+						_vars["waitOverlay"].style.display="none";
 					}
 				});
 				
