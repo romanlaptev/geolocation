@@ -31,10 +31,10 @@
 				_vars["waitOverlay"].classList.add("open");
 				
 				_handleCoordinateBtn({
-					"postFunc": function( coords ){
-						_vars["gpsCoords"]["latitude"].innerHTML = coords.latitude;
-						_vars["gpsCoords"]["longitude"].innerHTML = coords.longitude;
-						_vars["gpsCoords"]["accuracy"].innerHTML = coords.accuracy;
+					"postFunc": function( position.coords ){
+						_vars["gpsCoords"]["latitude"].innerHTML = position.coords.latitude;
+						_vars["gpsCoords"]["longitude"].innerHTML = position.coords.longitude;
+						_vars["gpsCoords"]["accuracy"].innerHTML = position.coords.accuracy;
 						_vars["gpsCoords"]["datetime"].innerHTML = _getDateTime( position.timestamp );
 						
 						
@@ -70,7 +70,7 @@ console.log( position);
 	// console.log( item, position.coords[item] );
 // }
 				if( typeof opt["postFunc"] === "function"){
-					opt["postFunc"]( position.coords );
+					opt["postFunc"]( position );
 				}
 				
 			}, function (error){
