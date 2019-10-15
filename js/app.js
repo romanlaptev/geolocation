@@ -9,20 +9,22 @@
 		};//end _vars
 		
 		var _init = function(){
-console.log("App initialize...");
+//console.log("App initialize...");
 			
 			_vars["gpsCoords"]={
 				"latitude" : document.querySelector("#gpscoords-latitude"),
 				"longitude" : document.querySelector("#gpscoords-longitude"),
 				"accuracy" : document.querySelector("#gpscoords-accuracy"),
+				"datetime" : document.querySelector("#gpscoords-datetime")
 			};
 
 			_vars["waitOverlay"] = document.querySelector("#wait");
 			_vars["waitOverlay"].style.display="none";
-			
+
+//-----------------------------------------
 			_vars["getCoord"] = document.querySelector("#get_coords");
 			_vars["getCoord"].onclick = function(e){
-console.log(e);
+//console.log(e);
 
 				_vars["waitOverlay"].style.display="";
 				//_vars["waitOverlay"].classList.remove("close");
@@ -33,7 +35,13 @@ console.log(e);
 						_vars["gpsCoords"]["latitude"].innerHTML = coords.latitude;
 						_vars["gpsCoords"]["longitude"].innerHTML = coords.longitude;
 						_vars["gpsCoords"]["accuracy"].innerHTML = coords.accuracy;
-						// timestamp_value.innerHTML = position.timestamp;
+						_vars["gpsCoords"]["datetime"].innerHTML = function(){
+							var now = new Date( position.timestamp );
+							_cDate = func.timeStampToDateStr(now);
+console.log(now, _cDate);
+							return _cDate;
+						};
+						
 						
 						// speed_value.innerHTML = coords.speed;
 						// altitude_value.innerHTML = coords.altitude;
@@ -47,6 +55,7 @@ console.log(e);
 				});
 				
 			}//end event
+//-----------------------------------------
 			
 		};// end _init
 

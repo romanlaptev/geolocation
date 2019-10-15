@@ -203,6 +203,40 @@ margin: 0;
 /* ---------------------------------------------------------------------------- */
 
 
+/* OTHER */
+.load-icon {
+	width: 50px;
+	-webkit-animation: loadAnim 0.8s linear infinite; /* Chrome, Safari, Opera */
+	animation: loadAnim 0.8s linear infinite;
+}
+/* Chrome, Safari, Opera */
+@-webkit-keyframes loadAnim {
+	0% {
+		transform:rotate(0deg);
+		-ms-transform:rotate(0deg); /* IE 9 */
+		-webkit-transform:rotate(0deg); /* Opera, Chrome, and Safari */
+	}
+	100% {
+		transform:rotate(360deg);
+		-ms-transform:rotate(360deg); /* IE 9 */
+		-webkit-transform:rotate(360deg); /* Opera, Chrome, and Safari */
+	}
+}
+
+/* Standard syntax */
+@keyframes loadAnim {
+	0% {
+		transform:rotate(0deg);
+		-ms-transform:rotate(0deg); /* IE 9 */
+		-webkit-transform:rotate(0deg); /* Opera, Chrome, and Safari */
+	}
+	100% {
+		transform:rotate(360deg);
+		-ms-transform:rotate(360deg); /* IE 9 */
+		-webkit-transform:rotate(360deg); /* Opera, Chrome, and Safari */
+	}
+}
+
 .geo-accuracy-inaccurate {
 	color: red;
 }
