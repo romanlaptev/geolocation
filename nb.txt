@@ -22,6 +22,14 @@ t7
 - ввод координат...
 ------------
 
+	latitude - Широта.
+	longitude - Долгота.
+	altitude - Высота в метрах над уровнем моря.
+	accuracy - Погрешность в метрах.
+	altitudeAccuracy - Погрешность высоты над уровнем моря в метрах.
+	heading - Направление устройства по отношению к северу.
+	speed - Скорость в метрах в секунду.
+-----------
 http://htmlbook.ru/html5/geolocation
 
 https://developer.mozilla.org/ru/docs/Web/API/Geolocation/Using_geolocation
@@ -40,3 +48,6 @@ https://habr.com/ru/post/131249/
 
 http://uralbash.ru/articles/2012/osm_example/
 Пример карты OpenStreetMap на своем сайте
+
+
+https://ruseller.com/lessons.php?id=2723
