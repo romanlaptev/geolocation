@@ -35,12 +35,7 @@
 						_vars["gpsCoords"]["latitude"].innerHTML = coords.latitude;
 						_vars["gpsCoords"]["longitude"].innerHTML = coords.longitude;
 						_vars["gpsCoords"]["accuracy"].innerHTML = coords.accuracy;
-						_vars["gpsCoords"]["datetime"].innerHTML = function(){
-							var now = new Date( position.timestamp );
-							_cDate = func.timeStampToDateStr(now);
-console.log(now, _cDate);
-							return _cDate;
-						};
+						_vars["gpsCoords"]["datetime"].innerHTML = _getDateTime( position.timestamp );
 						
 						
 						// speed_value.innerHTML = coords.speed;
@@ -59,7 +54,14 @@ console.log(now, _cDate);
 			
 		};// end _init
 
-
+		_getDateTime = function( timestamp ){
+			var now = new Date( timestamp );
+			_cDate = func.timeStampToDateStr(now);
+console.log(now, _cDate);
+			return _cDate;
+		};//end _getDateTime()
+		
+		
 		var _handleCoordinateBtn = function(opt){
 			navigator.geolocation.getCurrentPosition( function (position) {
 console.log( "async navigator.geolocation.getCurrentPosition ");
