@@ -31,6 +31,9 @@ window.onload = function(){
 		support = true;
 	}
 
+//for test
+support = true;
+
 	//Start webApp
 	if( support ){
 		_runApp();

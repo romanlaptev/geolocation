@@ -9,12 +9,26 @@
 		};//end _vars
 		
 		var _init = function(){
-//console.log("App initialize...");
+console.log("App initialize...");
+			
+			_vars["waitOverlay"] = document.querySelector("#wait");
+			_vars["waitOverlay"].style.display="none";
 			
 			_vars["getCoord"] = document.querySelector("#get_coords");
 			_vars["getCoord"].onclick = function(e){
 console.log(e);
-				_handleCoordinateBtn();
+
+				_vars["waitOverlay"].style.display="";
+				_vars["waitOverlay"].classList.remove("close");
+				_vars["waitOverlay"].classList.add("open");
+				
+				_handleCoordinateBtn({
+					"postFunc": function(){
+						_vars["waitOverlay"].classList.remove("open");
+						_vars["waitOverlay"].classList.add("close");
+					}
+				});
+				
 			}//end event
 			
 		};// end _init
@@ -37,6 +51,10 @@ console.log( position);
 				// altitude_value.innerHTML = coords.altitude;
 				// altitudeAccuracy_value.innerHTML = coords.altitudeAccuracy;
 				// heading_value.innerHTML = position.heading;
+				if( typeof opt["postFunc"] === "function"){
+					opt["postFunc"]();
+				}
+				
 			}, function (error){
 				var errorTypes = {
 					1: "Permission denied",

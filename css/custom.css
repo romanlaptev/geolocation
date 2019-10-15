@@ -141,3 +141,63 @@ margin: 0;
 	background-color: #f2dede;
 	border-color: #ebccd1;
 }
+
+
+/* wait window */
+.overlay{
+	z-index: 9998;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(100,100,100,0.25);
+	opacity: 0;
+	will-change: opacity;
+	transition: all 200ms;
+}
+.overlay.open{
+	opacity: 0.9;
+}
+.overlay.close{
+	opacity: 0;
+}
+.overlay > div{
+	position:relative;
+	top: 30%;
+	transform: translateY(-30%);
+	-webkit-transform: translateY(-30%);
+}
+
+.overlay > div > div{
+	width: 300px;
+	min-height: 172px;
+	border:1px solid #aaa;
+	border-radius: 5px;
+	background-color: #fff;
+	padding: 15px;
+	padding-top: 25px;
+	margin: 0 auto;
+	box-shadow: 1px 1px 10px rgba(0,0,0,0.25);
+}
+.overlay > div > div > div{
+	text-align: center;
+	vertical-align: middle;
+}
+.overlay > div > div > div:nth-child(1){ /* load animation image */
+	height: 50px;
+}
+.overlay > div > div > div:nth-child(2){ /* text */
+	width: 100%;
+	padding: 20px;
+}
+
+.overlay > div > div #btnWaitCancel{
+	margin-bottom: 0;
+}
+
+#wait .icon-container{
+	height: 48px;
+	overflow: hidden;
+}
+/* ---------------------------------------------------------------------------- */
