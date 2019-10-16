@@ -3,10 +3,12 @@
 	var App =  App || function(){
 	
 		// private variables and functions
-		//.......
+
 		_vars = {
 			"logMsg" : ""
 		};//end _vars
+
+		const GPS_TIMEOUT_POSITION = 300; //(sec) time that is allowed to end finding position		
 		
 		var _init = function(){
 //console.log("App initialize...");
@@ -29,29 +31,10 @@
 			_vars["btnGetCoord"] = document.querySelector("#get_coords");
 			_vars["btnGetCoord"].onclick = function(e){
 //console.log(e);
-
 				_vars["waitOverlay"].style.display="";
 				//_vars["waitOverlay"].classList.remove("close");
 				_vars["waitOverlay"].classList.add("open");
-				
-				_handleCoordinateBtn({
-					"postFunc": function( position ){
-						_vars["gpsCoords"]["latitude"].innerHTML = position.coords.latitude;
-						_vars["gpsCoords"]["longitude"].innerHTML = position.coords.longitude;
-						_vars["gpsCoords"]["accuracy"].innerHTML = position.coords.accuracy;
-						_vars["gpsCoords"]["datetime"].innerHTML = _getDateTime( position.timestamp );
-						
-						_vars["gpsCoords"]["altitude"].innerHTML = position.coords.altitude;
-						_vars["gpsCoords"]["altitudeAccuracy"].innerHTML = position.coords.altitudeAccuracy;
-						_vars["gpsCoords"]["heading"].innerHTML = position.coords.heading;
-						_vars["gpsCoords"]["speed"].innerHTML = position.coords.speed;
-						
-						_vars["waitOverlay"].classList.remove("open");
-						//_vars["waitOverlay"].classList.add("close");
-						_vars["waitOverlay"].style.display="none";
-					}
-				});
-				
+				_handleCoordinateBtn();
 			}//end event
 //-----------------------------------------
 			
@@ -65,7 +48,57 @@
 		};//end _getDateTime()
 		
 		
-		var _handleCoordinateBtn = function(opt){
+		var _handleCoordinateBtn = function(){
+
+			var success_fn = function(posObj){
+console.log( "async navigator.geolocation.getCurrentPosition ");
+console.log( posObj);
+// for(var item in posObj.coords){
+	// console.log( item, posObj.coords[item] );
+// }
+				_vars["gpsCoords"]["latitude"].innerHTML = posObj.coords.latitude;
+				_vars["gpsCoords"]["longitude"].innerHTML = posObj.coords.longitude;
+				_vars["gpsCoords"]["accuracy"].innerHTML = posObj.coords.accuracy;
+				_vars["gpsCoords"]["datetime"].innerHTML = _getDateTime( posObj.timestamp );
+				
+				_vars["gpsCoords"]["altitude"].innerHTML = posObj.coords.altitude;
+				_vars["gpsCoords"]["altitudeAccuracy"].innerHTML = posObj.coords.altitudeAccuracy;
+				_vars["gpsCoords"]["heading"].innerHTML = posObj.coords.heading;
+				_vars["gpsCoords"]["speed"].innerHTML = posObj.coords.speed;
+				
+				_vars["waitOverlay"].classList.remove("open");
+				//_vars["waitOverlay"].classList.add("close");
+				_vars["waitOverlay"].style.display="none";
+			}//end success_fn()
+			
+			var fail_fn = function(error){
+				var errorTypes = {
+					1: "Permission denied",
+					2: "Position is not available",
+					3: "Request timeout"
+				};
+				_vars["logMsg"] = "Error code: " + error.code + ", " + errorTypes[error.code] + ", " + error.message;
+console.log(error);
+				func.logAlert(_vars["logMsg"], "error");
+			}//end fail_fn()
+			
+			_getGPSCoordinate( success_fn, fail_fn );			
+		};//_handleCoordinateBtn()
+		
+
+		var  _getGPSCoordinate = function(success_fn, fail_fn){
+			
+			var opts = {
+				enableHighAccuracy: true,  // high accuracy
+				maximumAge: 0,  // no cache
+				timeout: ( GPS_TIMEOUT_POSITION * 1000) // timeout
+			};
+			navigator.geolocation.getCurrentPosition(
+				success_fn,
+				fail_fn,
+				opts);
+			
+/*			
 			navigator.geolocation.getCurrentPosition( function (position) {
 console.log( "async navigator.geolocation.getCurrentPosition ");
 console.log( position);
@@ -86,7 +119,8 @@ console.log( position);
 console.log(error);
 				func.logAlert(_vars["logMsg"], "error");
 			});
-		};//_handleCoordinateBtn
+*/			
+		};//end _getGPSCoordinate()
 		
 		// public interfaces
 		return {
