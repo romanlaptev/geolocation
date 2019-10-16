@@ -39,11 +39,17 @@ https://tech.yandex.ru/maps/mapsapi/
 https://tech.yandex.ru/maps/jsapi/doc/2.1/dg/concepts/geolocation-docpage/
 Определение местоположения пользователя
 
+-----------------------
+https://console.developers.google.com/
+
 https://habr.com/ru/post/110460/
 Google Maps API
 
 https://habr.com/ru/post/131249/
 Примеры работы с разными map API
+
+https://ziscod.com/tekushhee-mestopolozhenie-google-maps-api-html-5-geolocation/
+-------------------
 
 
 http://uralbash.ru/articles/2012/osm_example/

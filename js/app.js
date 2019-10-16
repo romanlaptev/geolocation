@@ -13,7 +13,7 @@
 		var _init = function(){
 //console.log("App initialize...");
 			
-			_vars["gpsCoords"]={
+			_vars["htmlObj"]={
 				"latitude" : document.querySelector("#latitude"),
 				"longitude" : document.querySelector("#longitude"),
 				"accuracy" : document.querySelector("#accuracy"),
@@ -21,7 +21,8 @@
 				"altitude" : document.querySelector("#altitude"),
 				"altitudeAccuracy" : document.querySelector("#altitude-accuracy"),
 				"heading" : document.querySelector("#heading"),
-				"speed" : document.querySelector("#speed")
+				"speed" : document.querySelector("#speed"),
+				"addresText": document.querySelector("#adrtext")
 			};
 
 			_vars["waitOverlay"] = document.querySelector("#wait");
@@ -56,16 +57,23 @@ console.log( posObj);
 // for(var item in posObj.coords){
 	// console.log( item, posObj.coords[item] );
 // }
-				_vars["gpsCoords"]["latitude"].innerHTML = posObj.coords.latitude;
-				_vars["gpsCoords"]["longitude"].innerHTML = posObj.coords.longitude;
-				_vars["gpsCoords"]["accuracy"].innerHTML = posObj.coords.accuracy;
-				_vars["gpsCoords"]["datetime"].innerHTML = _getDateTime( posObj.timestamp );
+				_vars["htmlObj"]["latitude"].innerHTML = posObj.coords.latitude;
+				_vars["htmlObj"]["longitude"].innerHTML = posObj.coords.longitude;
+				_vars["htmlObj"]["accuracy"].innerHTML = posObj.coords.accuracy;
+				_vars["htmlObj"]["datetime"].innerHTML = _getDateTime( posObj.timestamp );
 				
-				_vars["gpsCoords"]["altitude"].innerHTML = posObj.coords.altitude;
-				_vars["gpsCoords"]["altitudeAccuracy"].innerHTML = posObj.coords.altitudeAccuracy;
-				_vars["gpsCoords"]["heading"].innerHTML = posObj.coords.heading;
-				_vars["gpsCoords"]["speed"].innerHTML = posObj.coords.speed;
+				_vars["htmlObj"]["altitude"].innerHTML = posObj.coords.altitude;
+				_vars["htmlObj"]["altitudeAccuracy"].innerHTML = posObj.coords.altitudeAccuracy;
+				_vars["htmlObj"]["heading"].innerHTML = posObj.coords.heading;
+				_vars["htmlObj"]["speed"].innerHTML = posObj.coords.speed;
 				
+				//get address
+				_getGPSAdress({
+					lng: posObj.coords.longitude,
+					lat: posObj.coords.latitude//,
+					//isWait: false
+				});
+
 				_vars["waitOverlay"].classList.remove("open");
 				//_vars["waitOverlay"].classList.add("close");
 				_vars["waitOverlay"].style.display="none";
@@ -86,6 +94,11 @@ console.log(error);
 		};//_handleCoordinateBtn()
 		
 
+		var _handleMapBtn = function(opt){
+		};//_handleMapBtn()
+
+
+
 		var  _getGPSCoordinate = function(success_fn, fail_fn){
 			
 			var opts = {
@@ -97,30 +110,40 @@ console.log(error);
 				success_fn,
 				fail_fn,
 				opts);
-			
-/*			
-			navigator.geolocation.getCurrentPosition( function (position) {
-console.log( "async navigator.geolocation.getCurrentPosition ");
-console.log( position);
-// for(var item in position.coords){
-	// console.log( item, position.coords[item] );
-// }
-				if( typeof opt["postFunc"] === "function"){
-					opt["postFunc"]( position );
-				}
-				
-			}, function (error){
-				var errorTypes = {
-					1: "Permission denied",
-					2: "Position is not available",
-					3: "Request timeout"
-				};
-				_vars["logMsg"] = "Error code: " + error.code + ", " + errorTypes[error.code] + ", " + error.message;
-console.log(error);
-				func.logAlert(_vars["logMsg"], "error");
-			});
-*/			
 		};//end _getGPSCoordinate()
+		
+		var _getGPSAdress = function(opt){
+//console.log(opt);
+			var p = {
+				lng : null,
+				lat : null//,
+				//isWait : true
+			};
+			//extend p object
+			for(var key in opt ){
+				p[key] = opt[key];
+			}
+console.log(p);
+			var google_map_pos = new google.maps.LatLng( p.lat, p.lng );
+console.log( google_map_pos );
+
+			var google_maps_geocoder = new google.maps.Geocoder();
+			google_maps_geocoder.geocode({ "latLng": google_map_pos },
+				function( results, status ) {
+console.log( results );
+				}
+			);
+
+			// var _wrapLatLng = function(lat, lng){
+				// //if(_fake_gps){
+					// //return {lat:56.961462, lng:24.139792, lat5:56.96146, lng5:24.13979};
+				// //}else{
+					// return {lat: lat, lng: lng, lat5: lat.toFixed(5), lng5: lng.toFixed(5)};
+				// //}
+			// };//_wrapLatLng
+			
+		};//end _getGPSAdress()
+		
 		
 		// public interfaces
 		return {
