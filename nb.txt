@@ -39,6 +39,9 @@ https://tech.yandex.ru/maps/mapsapi/
 https://tech.yandex.ru/maps/jsapi/doc/2.1/dg/concepts/geolocation-docpage/
 ќпределение местоположени€ пользовател€
 
+https://geocode-maps.yandex.ru/1.x/?geocode=27.525773,53.89079
+https://tech.yandex.ru/maps/jsapi/doc/2.1/ref/reference/geocode-docpage/
+
 -----------------------
 https://console.developers.google.com/
 

@@ -45,16 +45,6 @@ console.log("_app:", _app);
 		_app.init();
 	}//end _runApp()
 
-//--------------------------------- yandex map API
-console.log("ymaps: ", ymaps);
-		ymaps.ready(init);
-		function init(){ 
-			var myMap = new ymaps.Map("map", {
-				center: [55.76, 37.64],
-				zoom: 7
-			}); 
-		}
-
 };//end window.load
 
 
