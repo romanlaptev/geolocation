@@ -39,8 +39,10 @@ https://tech.yandex.ru/maps/mapsapi/
 https://tech.yandex.ru/maps/jsapi/doc/2.1/dg/concepts/geolocation-docpage/
 Определение местоположения пользователя
 
+
 https://geocode-maps.yandex.ru/1.x/?geocode=27.525773,53.89079
 https://tech.yandex.ru/maps/jsapi/doc/2.1/ref/reference/geocode-docpage/
+
 
 -----------------------
 https://console.developers.google.com/
@@ -60,3 +62,34 @@ http://uralbash.ru/articles/2012/osm_example/
 
 
 https://ruseller.com/lessons.php?id=2723
+
+
+=============================
+https://tech.yandex.ru/maps/geocoder/doc/desc/reference/response_structure-docpage/
+https://geocode-maps.yandex.ru/1.x/?apikey=6868d08d-fea9-41c7-8f32-f3a3a33495ed&geocode=82.9231752,55.031466599999995
+Россия, Новосибирск, улица Орджоникидзе, 31
+
+Ответ геокодера
+
+Ответ в формате JSONP
+
+Чтобы получить ответ в формате JSONP, необходимо задать параметру format значение json, и параметру callback название функции, которая будет обрабатывать результаты. При использовании JSONP результат возвращается в качестве параметра функции с указанным именем.
+Рассмотрим запрос из примера выше, но с добавленным параметром callback:
+
+https://geocode-maps.yandex.ru/1.x/?format=json&callback=my_function&geocode=Москва, улица Новый Арбат, дом 24
+
+В ответе будет JSON-объект из предыдущего примера, но в виде аргумента функции my_function:
+
+my_function({
+  "response": {
+    "GeoObjectCollection": {
+      "metaDataProperty": {
+        "GeocoderResponseMetaData": {
+          "request": "Москва, улица Новый Арбат, дом 24",
+          "found": "1",
+          "results": "10"
+
+    ...
+
+});
+
