@@ -7,8 +7,8 @@
 		_vars = {
 			"logMsg" : "",
 			"ya_apiKey" : "6868d08d-fea9-41c7-8f32-f3a3a33495ed",
-			"ya_templateUrl" : "https://geocode-maps.yandex.ru/1.x/?apikey={{apiKey}}&geocode={{lng}},{{lat}}",
-			//"ya_templateUrl" : "https://geocode-maps.yandex.ru/1.x/?apikey={{apiKey}}&format=json&geocode={{lng}},{{lat}}",
+			//"ya_templateUrl" : "https://geocode-maps.yandex.ru/1.x/?apikey={{apiKey}}&geocode={{lng}},{{lat}}",
+"ya_templateUrl" : "https://geocode-maps.yandex.ru/1.x/?apikey={{apiKey}}&format=json&geocode={{lng}},{{lat}}&kind=district",
 			"google_apiKey" : "AIzaSyDit1piuzGn-N0JVzirMUcERxxWZ4DK4OI"
 		};//end _vars
 
@@ -238,20 +238,23 @@ console.log( "myMap:", myMap );
 			func.runAjaxCorrect( dataUrl, __postFunc );
 			
 			function __postFunc( data, runtime, xhr ) {
-//console.log( typeof data );
-//console.log( data.length );
-//console.log( data );
-
 _vars["logMsg"] = "ajax load url: <b>" + dataUrl + "</b>, runtime: " + runtime +" sec";
 console.log( _vars["logMsg"] );
-//console.log( xhr.getAllResponseHeaders() );
-console.log( "xhr.responseXML: ", xhr.responseXML );
 
+//console.log( xhr.getAllResponseHeaders() );
 				_vars["requestFormat"] = xhr.getResponseHeader("content-type");
-				
-				if( data && data.length > 0){
-					_parseAjax( data );
+				if( _vars["requestFormat"].indexOf("application/xml")  !== -1 || 
+						_vars["requestFormat"].indexOf("text/xml") !== -1){
+//console.log( "xhr.responseXML: ", xhr.responseXML );
+					data = xhr.responseXML;
 				}
+				
+//console.log( data );
+//console.log( typeof data );
+//console.log( data.length );
+				//if( data && data.length > 0){
+					_parseAjax( data );
+				//}
 				
 			}//end __postFunc()
 
