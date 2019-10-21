@@ -7,8 +7,8 @@
 		_vars = {
 			"logMsg" : "",
 			"ya_apiKey" : "6868d08d-fea9-41c7-8f32-f3a3a33495ed",
-			//"ya_templateUrl" : "https://geocode-maps.yandex.ru/1.x/?apikey={{apiKey}}&geocode={{lng}},{{lat}}",
-			"ya_templateUrl" : "https://geocode-maps.yandex.ru/1.x/?apikey={{apiKey}}&format=json&geocode={{lng}},{{lat}}",
+			"ya_templateUrl" : "https://geocode-maps.yandex.ru/1.x/?apikey={{apiKey}}&geocode={{lng}},{{lat}}",
+			//"ya_templateUrl" : "https://geocode-maps.yandex.ru/1.x/?apikey={{apiKey}}&format=json&geocode={{lng}},{{lat}}",
 			"google_apiKey" : "AIzaSyDit1piuzGn-N0JVzirMUcERxxWZ4DK4OI"
 		};//end _vars
 
@@ -64,7 +64,9 @@
 		
 		var _handleCoordinateBtn = function(){
 
-			var success_fn = function(posObj){
+			_getCoordinates( success_fn, fail_fn );
+
+			function success_fn( posObj ){
 console.log( "async navigator.geolocation.getCurrentPosition ");
 //console.log( posObj);
 // for(var item in posObj.coords){
@@ -93,7 +95,7 @@ console.log( "async navigator.geolocation.getCurrentPosition ");
 				_vars["waitOverlay"].style.display="none";
 			}//end success_fn()
 			
-			var fail_fn = function(error){
+			function fail_fn( error ){
 				var errorTypes = {
 					1: "Permission denied",
 					2: "Position is not available",
@@ -103,21 +105,25 @@ console.log( "async navigator.geolocation.getCurrentPosition ");
 console.log(error);
 				func.logAlert(_vars["logMsg"], "error");
 			}//end fail_fn()
+
 			
-			_getCoordinate( success_fn, fail_fn );			
 		};//_handleCoordinateBtn()
 		
 
 		var _handleMapBtn = function(opt){
 
-//--------------------------------- yandex map API
-console.log("ymaps: ", ymaps);
-
 			if( !_vars["position"] ){
 				_vars["waitOverlay"].classList.remove("open");
 				_vars["waitOverlay"].style.display="none";
+				
+				_vars["logMsg"] = "Error, get coordinates first...";
+				func.logAlert(_vars["logMsg"], "error");
+				
 				return false;
 			}
+
+//--------------------------------- yandex map API
+console.log("ymaps: ", ymaps);
 			
 			var lat = _vars["position"]["coords"].latitude.toFixed(5);// 55.03146
 			var lng = _vars["position"]["coords"].longitude.toFixed(5);// 82.92317
@@ -187,8 +193,9 @@ console.log( "myMap:", myMap );
 		};//_handleMapBtn()
 
 
-		var  _getCoordinate = function(success_fn, fail_fn){
-			
+		var  _getCoordinates = function(success_fn, fail_fn){
+//console.log(arguments);
+
 			var opts = {
 				enableHighAccuracy: true,  // high accuracy
 				maximumAge: 0,  // no cache
@@ -198,7 +205,7 @@ console.log( "myMap:", myMap );
 				success_fn,
 				fail_fn,
 				opts);
-		};//end _getCoordinate()
+		};//end _getCoordinates()
 		
 		var _getAdress = function(opt){
 //console.log(opt);
@@ -228,105 +235,122 @@ console.log( "myMap:", myMap );
 			.replace( "{{lat}}", p["lat"] );
 //console.log( dataUrl );		
 			
-			_runAjaxRequest( dataUrl, __postFunc );
+			func.runAjaxCorrect( dataUrl, __postFunc );
 			
 			function __postFunc( data, runtime, xhr ) {
-console.log( typeof data );
-console.log( data.length );
-console.log( data );
+//console.log( typeof data );
+//console.log( data.length );
+//console.log( data );
 
 _vars["logMsg"] = "ajax load url: <b>" + dataUrl + "</b>, runtime: " + runtime +" sec";
 console.log( _vars["logMsg"] );
 //console.log( xhr.getAllResponseHeaders() );
+console.log( "xhr.responseXML: ", xhr.responseXML );
+
 				_vars["requestFormat"] = xhr.getResponseHeader("content-type");
 				
 				if( data && data.length > 0){
-					//_parseAjax( data );
+					_parseAjax( data );
 				}
 				
 			}//end __postFunc()
+
+			function _parseAjax( data ){
+				
+				if( _vars["requestFormat"].indexOf("application/xml") !== -1){
+					_parseXML( data );
+				}
+				if( _vars["requestFormat"].indexOf("text/xml") !== -1){
+					_parseXML( data );
+				}
+				
+				if( _vars["requestFormat"].indexOf("application/json") !== -1){
+					_parseJSON( data );
+				}
+				
+			}//_parseAjax()
+
+
+			function _parseXML(xml){
+console.log("function _parseXML()");
+
+_vars["xml"] = xml;
+
+		var timeStart = new Date();
+
+				try{
+					xmlObj = func.convertXmlToObj( xml );
+console.log(xmlObj);
+		delete xml;
+/*		
+					webApp.vars["DB"]["nodes"] = _data_formNodesObj(xmlObj);
+		//delete xmlObj;
+					
+					//_vars["hierarchyList"] = __formHierarchyList();
+					//webApp.vars["loadDataRes"] = true;
+		var timeEnd = new Date();
+		var runTime = (timeEnd.getTime() - timeStart.getTime()) / 1000;
+		webApp.vars["logMsg"] = "- convertXmlToObj(), runtime: <b>" + runTime  + "</b> sec";
+		_message( webApp.vars["logMsg"], "info");
+		console.log( webApp.vars["logMsg"] );
+*/
+				} catch(error) {
+console.log( error );
+_vars["logMsg"] = "convertXmlToObj(), error parse XML..." ;
+func.logAlert( _vars["logMsg"], "error");
+				}//end catch
+
+			}//end _parseXML()
+
+			
+			function _parseJSON( jsonStr ){
+				try{
+					var jsonObj = JSON.parse( jsonStr, function(key, value) {
+			//console.log( key, value );
+						return value;
+					});
+console.log( jsonObj );
+/*
+					//correct departure, duration, arrival
+					for( var n = 0; n < jsonObj["segments"].length; n++){
+						var record = jsonObj["segments"][n];
+						record["duration"] = Math.round( record["duration"] / 60);
+						// if( record["duration"] > 60){
+							// record["duration"] = record["duration"] / 60;
+						// }
+						var _d = new Date( record["departure"] );
+						record["departure_day"] = _d.getDate() +" "+ func.getMonthByNameNum( _d.getMonth(), "ru" );
+						var _min = _d.getMinutes();
+						if( _min < 10){
+							_min = "0" + _min;
+						}
+						record["departure_time"] = _d.getHours() +":"+_min;
+						delete record["departure"];
+						
+						var _d = new Date( record["arrival"] );
+						record["arrival_day"] = _d.getDate() +" "+ func.getMonthByNameNum( _d.getMonth(), "ru" );
+						var _min = _d.getMinutes();
+						if( _min < 10){
+							_min = "0" + _min;
+						}
+						record["arrival_time"] = _d.getHours() +":"+_min;
+						delete record["arrival"];
+					}//next
+					
+					webApp.vars["DB"]["data"] = jsonObj;
+*/
+				} catch(error) {
+_vars["logMsg"] = "error, error JSON.parse server response data...." ;
+console.log( error );
+func.logAlert(_vars["logMsg"],"error");
+					return;
+				}//end catch
+
+			}//end _parseJSON()
 			
 		};//end _getAdress()
 		
-
-		var _runAjaxRequest = function( url, callback ){
-			
-			var xhr = new XMLHttpRequest();
-			
-			var timeStart = new Date();
-			
-			xhr.open("GET", url, true);
-			
-			xhr.onreadystatechange = function(){
-//console.log("state:", xhr.readyState);
-				if( xhr.readyState === 4){
-console.log("end request, state ", xhr.readystate, ", status: ", xhr.status);
-//console.log( "xhr.responseText: ", xhr.responseText );
-//console.log( "xhr.responseXML: ", xhr.responseXML );
-
-					if( xhr.status === 200){
-						//ajax_content.innerHTML += xhr.responseText;
-//console.log( xhr.responseText );
-
-						//if browser not define callback "onloadend"
-						var test = "onloadend" in xhr;
-						if( !test ){
-							_loadEnd();
-						}
-
-					}
-					
-					if( xhr.status !== 200){
-console.log("Ajax load error, url: " + xhr.responseURL);
-console.log("status: " + xhr.status);
-console.log("statusText:" + xhr.statusText);
-
-						//if browser not define callback "onloadend"
-						var test = "onloadend" in xhr;
-						if( !test ){
-							_loadEnd();
-						}
-						
-					}
-					
-				}
-			};
-			
-			if( "onerror" in xhr ){
-//console.log( "xhr.onerror = ", xhr.onerror  );
-				xhr.onerror = function(e){
-//console.log(arguments);
-console.log("event type:" + e.type);
-console.log("time: " + e.timeStamp);
-console.log("total: " + e.total);
-console.log("loaded: " + e.loaded);
-				}
-			};
-			
-			if( "onloadend" in xhr ){
-				xhr.onloadend = function(e){
-		//console.log(arguments);
-//console.log("event type:" + e.type);
-		// console.log("time: " + e.timeStamp);
-		// console.log("total: " + e.total);
-		// console.log("loaded: " + e.loaded);
-					_loadEnd();
-				}//end event callback
-			};
-			
-			function _loadEnd(){
-				var timeEnd = new Date();
-				var runtime = (timeEnd.getTime() - timeStart.getTime()) / 1000;
-				
-				if( typeof callback === "function"){
-					var data = xhr.responseText;
-					callback( data, runtime, xhr );
-				}
-			}//end _loadEnd()
-			
-			xhr.send();
-			
-		};//_runAjaxRequest
+		
 
 		// public interfaces
 		return {
@@ -341,4 +365,3 @@ console.log("loaded: " + e.loaded);
 	
 //window.App = App;
 //})();
-
