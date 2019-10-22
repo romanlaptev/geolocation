@@ -9,6 +9,7 @@
 			"ya_apiKey" : "6868d08d-fea9-41c7-8f32-f3a3a33495ed",
 			//"ya_templateUrl" : "https://geocode-maps.yandex.ru/1.x/?apikey={{apiKey}}&geocode={{lng}},{{lat}}",
 "ya_templateUrl" : "https://geocode-maps.yandex.ru/1.x/?apikey={{apiKey}}&format=json&geocode={{lng}},{{lat}}&kind=district",
+//"ya_templateUrl" : "https://geocode-maps.yandex.ru/1.x/?apikey={{apiKey}}&format=json&geocode={{lng}},{{lat}}&kind=street",
 			"google_apiKey" : "AIzaSyDit1piuzGn-N0JVzirMUcERxxWZ4DK4OI"
 		};//end _vars
 
@@ -26,28 +27,34 @@
 				"altitudeAccuracy" : document.querySelector("#altitude-accuracy"),
 				"heading" : document.querySelector("#heading"),
 				"speed" : document.querySelector("#speed"),
-				"addresText": document.querySelector("#adrtext")
+				"addresTitle": document.querySelector("#addr-title"),
+				"addresText": document.querySelector("#addr-text"),
+				"appModal": document.querySelector("#app-modal"),
+				"map": document.querySelector("#show-map"),
+				
+				"waitOverlay": document.querySelector("#wait"),
+				"btnGetCoord": document.querySelector("#btn-get-coords"),
+				"btnShowMap": document.querySelector("#btn-show-map")
 			};
-
-			_vars["waitOverlay"] = document.querySelector("#wait");
-			_vars["waitOverlay"].style.display="none";
+			
+			_vars["htmlObj"]["addresTitle"].style.display="none";
+			_vars["htmlObj"]["waitOverlay"].style.display="none";
 
 //-----------------------------------------
-			_vars["btnGetCoord"] = document.querySelector("#get-coords");
-			_vars["btnGetCoord"].onclick = function(e){
+			_vars["htmlObj"]["btnGetCoord"].onclick = function(e){
 //console.log(e);
-				_vars["waitOverlay"].style.display="";
-				//_vars["waitOverlay"].classList.remove("close");
-				_vars["waitOverlay"].classList.add("open");
+				_vars["htmlObj"]["waitOverlay"].style.display="";
+				//_vars["htmlObj"]["waitOverlay"].classList.remove("close");
+				_vars["htmlObj"]["waitOverlay"].classList.add("open");
 				_handleCoordinateBtn();
 			}//end event
+			
 //-----------------------------------------
-			_vars["btnShowMap"] = document.querySelector("#show-map");
-			_vars["btnShowMap"].onclick = function(e){
+			_vars["htmlObj"]["btnShowMap"].onclick = function(e){
 //console.log(e);
-				_vars["waitOverlay"].style.display="";
-				//_vars["waitOverlay"].classList.remove("close");
-				_vars["waitOverlay"].classList.add("open");
+				_vars["htmlObj"]["waitOverlay"].style.display="";
+				//_vars["htmlObj"]["waitOverlay"].classList.remove("close");
+				_vars["htmlObj"]["waitOverlay"].classList.add("open");
 				_handleMapBtn();
 			}//end event
 //-----------------------------------------
@@ -90,9 +97,9 @@ console.log( "async navigator.geolocation.getCurrentPosition ");
 					lat: posObj.coords.latitude
 				});
 
-				_vars["waitOverlay"].classList.remove("open");
-				//_vars["waitOverlay"].classList.add("close");
-				_vars["waitOverlay"].style.display="none";
+				_vars["htmlObj"]["waitOverlay"].classList.remove("open");
+				//_vars["htmlObj"]["waitOverlay"].classList.add("close");
+				_vars["htmlObj"]["waitOverlay"].style.display="none";
 			}//end success_fn()
 			
 			function fail_fn( error ){
@@ -113,8 +120,8 @@ console.log(error);
 		var _handleMapBtn = function(opt){
 
 			if( !_vars["position"] ){
-				_vars["waitOverlay"].classList.remove("open");
-				_vars["waitOverlay"].style.display="none";
+				_vars["htmlObj"]["waitOverlay"].classList.remove("open");
+				_vars["htmlObj"]["waitOverlay"].style.display="none";
 				
 				_vars["logMsg"] = "Error, get coordinates first...";
 				func.logAlert(_vars["logMsg"], "error");
@@ -131,12 +138,13 @@ console.log( lat, lng );
 			
 			ymaps.ready(init);
 			function init(){ 
-				var myMap = new ymaps.Map("map", {
+				var myMap = new ymaps.Map( _vars["htmlObj"]["map"], {
 					//center: [55.76, 37.64],
 					center: [ lat, lng],
 					zoom: 15
 				}); 
 console.log( "myMap:", myMap );
+				_vars["htmlObj"]["appModal"].classList.add("active");
 			}
 
 			// ymaps.geolocation.get({
@@ -188,8 +196,8 @@ console.log( "myMap:", myMap );
 				// myMap.geoObjects.add(result.geoObjects);
 			// });
 	
-			_vars["waitOverlay"].classList.remove("open");
-			_vars["waitOverlay"].style.display="none";
+			_vars["htmlObj"]["waitOverlay"].classList.remove("open");
+			_vars["htmlObj"]["waitOverlay"].style.display="none";
 		};//_handleMapBtn()
 
 
@@ -313,35 +321,19 @@ func.logAlert( _vars["logMsg"], "error");
 						return value;
 					});
 console.log( jsonObj );
-/*
-					//correct departure, duration, arrival
-					for( var n = 0; n < jsonObj["segments"].length; n++){
-						var record = jsonObj["segments"][n];
-						record["duration"] = Math.round( record["duration"] / 60);
-						// if( record["duration"] > 60){
-							// record["duration"] = record["duration"] / 60;
-						// }
-						var _d = new Date( record["departure"] );
-						record["departure_day"] = _d.getDate() +" "+ func.getMonthByNameNum( _d.getMonth(), "ru" );
-						var _min = _d.getMinutes();
-						if( _min < 10){
-							_min = "0" + _min;
-						}
-						record["departure_time"] = _d.getHours() +":"+_min;
-						delete record["departure"];
-						
-						var _d = new Date( record["arrival"] );
-						record["arrival_day"] = _d.getDate() +" "+ func.getMonthByNameNum( _d.getMonth(), "ru" );
-						var _min = _d.getMinutes();
-						if( _min < 10){
-							_min = "0" + _min;
-						}
-						record["arrival_time"] = _d.getHours() +":"+_min;
-						delete record["arrival"];
+
+					var _result = jsonObj.response.GeoObjectCollection.featureMember;
+					var addrText = "";
+					for( var n = 0; n < _result.length; n++){
+						var _geoObj = _result[n]["GeoObject"];
+//console.log(_geoObj.name, _geoObj.description);
+						addrText += "<p>" +_geoObj.metaDataProperty.GeocoderMetaData.text + "</p>\r\n";
 					}//next
+//console.log( addrText );
+
+				_vars["htmlObj"]["addresTitle"].style.display = "block";
+				_vars["htmlObj"]["addresText"].innerHTML = addrText;
 					
-					webApp.vars["DB"]["data"] = jsonObj;
-*/
 				} catch(error) {
 _vars["logMsg"] = "error, error JSON.parse server response data...." ;
 console.log( error );

@@ -56,35 +56,82 @@
 		
 <!-- <div class="control-content">			 -->
 <div class="block-gps">
-			<div class="geo-title"><b>GPS coordinates:</b></div>
-			<ul class="">
-<p><b>Latitude: <span id="latitude" title="Широта" class="geo-accuracy-inaccurate"></span> (deg.)</b></p> 
-<p><b>Longitude: <span id="longitude" title="Долгота" class="geo-accuracy-inaccurate"></span> (deg.)</b></p>
-<p><b>Accuracy: <span id="accuracy" title="Погрешность в метрах" class="geo-accuracy-inaccurate"></span> (meters)</b></p>
-<p><b>altitude: <span id="altitude" title="Высота в метрах над уровнем моря" class="geo-accuracy-inaccurate"></span> (meters)</b></p>
-<p><b>altitudeAccuracy: <span id="altitude-accuracy" class="geo-accuracy-inaccurate"></span> (meters)</b></p>
-<p><b>Heading: <span id="heading" title="Направление устройства по отношению к северу" class="geo-accuracy-inaccurate"></span> ()</b></p>
-<p><b>Speed: <span id="speed" title="Скорость в метрах в секунду" class="geo-accuracy-inaccurate"></span> (m/sec.)</b></p>
+			<div class=""><b>Coordinates:</b></div>
+			<ul class="table-view">
+<p>
+	<b>Latitude, (deg.):
+		<sub><mark>(широта)</mark></sub> 
+		<span id="latitude" title="" class="geo-accuracy-inaccurate"></span>
+	</b>
+</p> 
+
+<p>
+	<b>Longitude, (deg.):
+		<sub><mark>(долгота)</sub></mark>
+		<span id="longitude" title="" class="geo-accuracy-inaccurate"></span>
+	</b>
+</p>
+
+<p>
+	<b>Accuracy, (meters):
+		<sub><mark>(погрешность)</sub></mark> 
+		<span id="accuracy" title="" class="geo-accuracy-inaccurate"></span>
+	</b>
+</p>
+
+<p>
+	<b>altitude, (meters):
+		<sub><mark>(высота над уровнем моря)</sub></mark> 
+		<span id="altitude" title="" class="geo-accuracy-inaccurate"></span>
+	</b>
+</p>
+
+<p>
+	<b>altitudeAccuracy, (meters): 
+		<span id="altitude-accuracy" class="geo-accuracy-inaccurate"></span>
+	</b>
+</p>
+
+<p>
+	<b>Heading:
+		<sub><mark>(направление устройства по отношению к северу)</sub></mark>
+		<span id="heading" title="" class="geo-accuracy-inaccurate"></span>
+	</b>
+</p>
+
+<p>
+	<b>Speed, (m/sec.):
+		<sub><mark>(скорость)</sub></mark>
+		<span id="speed" title="" class="geo-accuracy-inaccurate"></span>
+	</b>
+</p>
 					
-					<p><b>datetime: <span id="datetime" class="geo-accuracy-inaccurate"></span></b></p>
+<p>
+	<b>datetime: 
+		<sub><mark>(дата, время)</sub></mark>	
+		<span id="datetime" class="geo-accuracy-inaccurate"></span>
+	</b>
+</p>
 			</ul>
 			
-			<div class="geo-title"><b>Address:</b></div>
-			<div id="adrtext"></div>
+			
+			<div id="addr-title"><b>Address:</b></div>
+			<div>
+				<span id="addr-text" class="geo-accuracy-inaccurate"></span>
+			</div>
+			
 </div>			
 		</div>		
 
 		<div class="pull-right col-2">
 			<ul class="table-view">
-				<li class=""><button id="get-coords" class="btn btn-block green">Get coordinates</button></li>
-				<li class=""><button id="show-map" class="btn btn-block blue">Show map</button></li>
+				<li class=""><button id="btn-get-coords" class="btn btn-block green">Get coordinates</button></li>
+				<li class=""><button id="btn-show-map" class="btn btn-block blue">Show map</button></li>
 			</ul>
 		</div>
 		
 	</div>
 	
-	<div id="map" style="width: 600px; height: 400px"></div>
-
 </div><!-- end content -->
 
 
@@ -97,6 +144,26 @@
 				<div id="waitText">wait, please...</div>
 			</div>
 		</div>
+	</div>
+
+
+<div id="app-modal" class="modal">
+
+	<header class="bar bar-nav" style="padding-right: 0">
+		<span class="icon return pull-right"></span>
+		<h1 class="title">appModal</h1>
+	</header>
+		
+	<div class="content">
+		<div class="content-modal">
+			<div id="show-map" style="height: 400px;"></div>
+		</div>
+		
+		<div class="buttons desktop-only">
+			<button id="btn-modal-back" class="btn btn-block blue">back</button>
+		</div>
+	</div>
+		
 	</div>
 
 </body>

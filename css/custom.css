@@ -18,8 +18,8 @@
 }
 
 .container {
-  padding-right: 15px;
-  padding-left: 15px;
+  /* padding-right: 15px; */
+  /* padding-left: 15px; */
   margin-right: auto;
   margin-left: auto;
 }
@@ -42,11 +42,11 @@
 
 
 .col-1{
-	width:50%;
+	width:65%;
 }
 
 .col-2{
-	width:40%;
+	width:35%;
 }
 
 
@@ -108,6 +108,10 @@ padding: 5px 10px 5px 10px;
 	border-color: #4fcb4f;
 }
 
+.modal .buttons > button {
+	width: calc(30% - 0.5px);
+color: #fff;	
+}
 
 
 
@@ -265,4 +269,13 @@ margin: 0;
 
 .geo-accuracy-inaccurate {
 	color: red;
+}
+
+span.icon.return {
+	background: url(../img/icon-return-50.svg ) no-repeat;
+}
+
+#show-map{
+ /* width: 600px;  */
+ /* height: 400px; */
 }
