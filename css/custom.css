@@ -271,9 +271,18 @@ margin: 0;
 	color: red;
 }
 
-span.icon.return {
+
+.modal header span.icon {
+	width: 35px;
+	height: 35px;
+	margin-right: 11px;
+	margin-top: 8px;
+	cursor: pointer;
+}
+.modal header span.icon.return {
 	background: url(../img/icon-return-50.svg ) no-repeat;
 }
+
 
 #show-map{
  /* width: 600px;  */
