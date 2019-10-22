@@ -272,13 +272,14 @@ margin: 0;
 }
 
 
-.modal header span.icon {
+.modal header .icon {
 	width: 35px;
 	height: 35px;
-	margin-right: 11px;
-	margin-top: 8px;
+	/* margin-right: 11px; */
+	/* margin-top: 8px; */
 	cursor: pointer;
 }
+
 .modal header span.icon.return {
 	background: url(../img/icon-return-50.svg ) no-repeat;
 }

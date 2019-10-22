@@ -29,8 +29,10 @@
 				"speed" : document.querySelector("#speed"),
 				"addresTitle": document.querySelector("#addr-title"),
 				"addresText": document.querySelector("#addr-text"),
+
 				"appModal": document.querySelector("#app-modal"),
 				"map": document.querySelector("#show-map"),
+				"iconModalClose": document.querySelector("#icon-modal-close"),
 				
 				"waitOverlay": document.querySelector("#wait"),
 				"btnGetCoord": document.querySelector("#btn-get-coords"),
@@ -57,7 +59,12 @@
 				_vars["htmlObj"]["waitOverlay"].classList.add("open");
 				_handleMapBtn();
 			}//end event
+			
 //-----------------------------------------
+			_vars["htmlObj"]["iconModalClose"].onclick = function(e){
+				_vars["htmlObj"]["appModal"].classList.remove("active");
+			}//end event
+
 			
 		};// end _init
 
