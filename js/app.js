@@ -63,6 +63,9 @@
 //-----------------------------------------
 			_vars["htmlObj"]["iconModalClose"].onclick = function(e){
 				_vars["htmlObj"]["appModal"].classList.remove("active");
+				 if( _vars.myMap ){
+					_vars.myMap.destroy();
+				 }
 			}//end event
 
 			
@@ -125,87 +128,11 @@ console.log(error);
 		
 
 		var _handleMapBtn = function(opt){
-
-			if( !_vars["position"] ){
-				_vars["htmlObj"]["waitOverlay"].classList.remove("open");
-				_vars["htmlObj"]["waitOverlay"].style.display="none";
-				
-				_vars["logMsg"] = "Error, get coordinates first...";
-				func.logAlert(_vars["logMsg"], "error");
-				
-				return false;
-			}
-
-//--------------------------------- yandex map API
-console.log("ymaps: ", ymaps);
-			
-			var lat = _vars["position"]["coords"].latitude.toFixed(5);// 55.03146
-			var lng = _vars["position"]["coords"].longitude.toFixed(5);// 82.92317
-console.log( lat, lng );
-			
-			ymaps.ready(init);
-			function init(){ 
-				var myMap = new ymaps.Map( _vars["htmlObj"]["map"], {
-					//center: [55.76, 37.64],
-					center: [ lat, lng],
-					zoom: 15
-				}); 
-console.log( "myMap:", myMap );
-				_vars["htmlObj"]["appModal"].classList.add("active");
-			}
-
-			// ymaps.geolocation.get({
-					// // Зададим способ определения геолокации    
-					// // на основе ip пользователя.
-					// provider: 'yandex',
-					// // Включим автоматическое геокодирование результата.
-					// autoReverseGeocode: true
-				// })
-				// .then(function (result) {
-					// // Выведем результат геокодирования.
-					// console.log(result.geoObjects.get(0)
-						// .properties.get('metaDataProperty'));
-				// });
-	
-			// var geolocation = ymaps.geolocation, myMap = new ymaps.Map("map", {
-					// center: [ lat, lng ],
-					// zoom: 15
-				// }, {
-					// searchControlProvider: 'yandex#search'
-				// });
-			
-			// // Сравним положение, вычисленное по ip пользователя и
-			// // положение, вычисленное средствами браузера.
-			// geolocation.get({
-				// provider: 'yandex',
-				// mapStateAutoApply: true
-			// }).then(function (result) {
-				// // Красным цветом пометим положение, вычисленное через ip.
-				// result.geoObjects.options.set('preset', 'islands#redCircleIcon');
-				// result.geoObjects.get(0).properties.set({
-					// balloonContentBody: "you location by IP"
-				// });
-				// myMap.geoObjects.add(result.geoObjects);
-			// });
-
-			// geolocation.get({
-				// provider: 'browser',
-				// mapStateAutoApply: true
-			// }).then(function (result) {
-				// // Синим цветом пометим положение, полученное через браузер.
-				// // Если браузер не поддерживает эту функциональность, метка не будет добавлена на карту.
-				// result.geoObjects.options.set('preset', 'islands#blueCircleIcon');
-				
-				// result.geoObjects.get(0).properties.set({
-					// balloonContentBody: "you location from browser data"
-				// });
-
-				// myMap.geoObjects.add(result.geoObjects);
-			// });
-	
+			ymaps.ready( initYandexMap );
 			_vars["htmlObj"]["waitOverlay"].classList.remove("open");
 			_vars["htmlObj"]["waitOverlay"].style.display="none";
 		};//_handleMapBtn()
+
 
 
 		var  _getCoordinates = function(success_fn, fail_fn){
@@ -352,6 +279,102 @@ func.logAlert(_vars["logMsg"],"error");
 			
 		};//end _getAdress()
 		
+		
+//--------------------------------- yandex map API
+//console.log("ymaps: ", ymaps);
+		function initYandexMap(){ 
+		
+			if( !_vars["position"] ){
+				_vars["htmlObj"]["waitOverlay"].classList.remove("open");
+				_vars["htmlObj"]["waitOverlay"].style.display="none";
+				
+				_vars["logMsg"] = "Error, get coordinates first...";
+				func.logAlert(_vars["logMsg"], "error");
+				
+				return false;
+			}
+
+			var lat = _vars["position"]["coords"].latitude.toFixed(5);// 55.03146
+			var lng = _vars["position"]["coords"].longitude.toFixed(5);// 82.92317
+//console.log( lat, lng );
+		
+			_vars.myMap = new ymaps.Map( _vars["htmlObj"]["map"], {
+				//center: [55.76, 37.64],
+				center: [ lat, lng],
+				zoom: 15
+			}, {
+					searchControlProvider: 'yandex#search'
+			}),
+			
+			myGeoObject = new ymaps.GeoObject({
+				geometry: {
+					type: "Point",
+					coordinates: [ lat, lng ]
+				},
+				properties: {
+					iconContent: "Your location...",
+					hintContent: "hintContent..."
+				}
+			}, {
+				preset: "islands#redCircleIcon", 
+				draggable: false
+			});
+			
+			_vars.myMap.geoObjects.add( myGeoObject );
+			
+//console.log( "myMap:", _vars.myMap );
+			_vars["htmlObj"]["appModal"].classList.add("active");
+		}//end initYandexMap()
+
+			// ymaps.geolocation.get({
+					// // Зададим способ определения геолокации    
+					// // на основе ip пользователя.
+					// provider: 'yandex',
+					// // Включим автоматическое геокодирование результата.
+					// autoReverseGeocode: true
+				// })
+				// .then(function (result) {
+					// // Выведем результат геокодирования.
+					// console.log(result.geoObjects.get(0)
+						// .properties.get('metaDataProperty'));
+				// });
+	
+			// var geolocation = ymaps.geolocation, myMap = new ymaps.Map("map", {
+					// center: [ lat, lng ],
+					// zoom: 15
+				// }, {
+					// searchControlProvider: 'yandex#search'
+				// });
+			
+			// // Сравним положение, вычисленное по ip пользователя и
+			// // положение, вычисленное средствами браузера.
+			// geolocation.get({
+				// provider: 'yandex',
+				// mapStateAutoApply: true
+			// }).then(function (result) {
+				// // Красным цветом пометим положение, вычисленное через ip.
+				// result.geoObjects.options.set('preset', 'islands#redCircleIcon');
+				// result.geoObjects.get(0).properties.set({
+					// balloonContentBody: "you location by IP"
+				// });
+				// myMap.geoObjects.add(result.geoObjects);
+			// });
+
+			// geolocation.get({
+				// provider: 'browser',
+				// mapStateAutoApply: true
+			// }).then(function (result) {
+				// // Синим цветом пометим положение, полученное через браузер.
+				// // Если браузер не поддерживает эту функциональность, метка не будет добавлена на карту.
+				// result.geoObjects.options.set('preset', 'islands#blueCircleIcon');
+				
+				// result.geoObjects.get(0).properties.set({
+					// balloonContentBody: "you location from browser data"
+				// });
+
+				// myMap.geoObjects.add(result.geoObjects);
+			// });
+//--------------------------------------------------
 		
 
 		// public interfaces
