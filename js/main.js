@@ -1,6 +1,6 @@
 //console.log("module sharedFunc:", typeof sharedFunc, sharedFunc);
 var func = sharedFunc();
-console.log("func:", func);
+//console.log("func:", func);
 
 	var support = false;
 	var logMsg;
@@ -11,12 +11,12 @@ window.onload = function(){
 	func.logAlert(logMsg, "info");
 
 	//left menu
-	var snapper = new Snap({
-		element: document.getElementById("appContainer")
-	});
-	addEvent( document.getElementById("open-left"), "click", function(){
-		snapper.open("left");
-	});
+	// var snapper = new Snap({
+		// element: document.getElementById("appContainer")
+	// });
+	// addEvent( document.getElementById("open-left"), "click", function(){
+		// snapper.open("left");
+	// });
 
 	defineEvents();
 
@@ -74,10 +74,10 @@ function defineEvents(){
 
 }//end defineEvents()
 
-var addEvent = function addEvent(element, eventName, func) {
-	if (element.addEventListener) {
-		return element.addEventListener(eventName, func, false);
-	} else if (element.attachEvent) {
-		return element.attachEvent("on" + eventName, func);
-	}
-};
+// var addEvent = function addEvent(element, eventName, func) {
+	// if (element.addEventListener) {
+		// return element.addEventListener(eventName, func, false);
+	// } else if (element.attachEvent) {
+		// return element.attachEvent("on" + eventName, func);
+	// }
+// };
