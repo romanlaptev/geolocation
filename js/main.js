@@ -10,6 +10,14 @@ window.onload = function(){
 	logMsg = navigator.userAgent;
 	func.logAlert(logMsg, "info");
 
+	//left menu
+	var snapper = new Snap({
+		element: document.getElementById("appContainer");
+	});
+	addEvent( document.getElementById("open-left"), "click", function(){
+		snapper.open("left");
+	});
+
 	defineEvents();
 
 	//--------------------------
@@ -64,26 +72,12 @@ function defineEvents(){
 		log.innerHTML = "";
 	};//end event
 
-/*
-//------------------------------------------------------------------
-	$("#btn-toggle-log").on("click", function(event){
-//console.log("click...", e);			
-		event = event || window.event;
-		//var target = event.target || event.srcElement;
-		if (event.preventDefault) { 
-			event.preventDefault();
-		} else {
-			event.returnValue = false;				
-		}
-		
-		if( webApp.vars["log"].style.display==="none"){
-			webApp.vars["log"].style.display="block";
-			webApp.vars["btnToggle"].innerHTML="-";
-		} else {
-			webApp.vars["log"].style.display="none";
-			webApp.vars["btnToggle"].innerHTML="+";
-		}
-	});//end event
-*/
-
 }//end defineEvents()
+
+var addEvent = function addEvent(element, eventName, func) {
+	if (element.addEventListener) {
+		return element.addEventListener(eventName, func, false);
+	} else if (element.attachEvent) {
+		return element.attachEvent("on" + eventName, func);
+	}
+};
