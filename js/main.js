@@ -12,7 +12,7 @@ window.onload = function(){
 
 	//left menu
 	var snapper = new Snap({
-		element: document.getElementById("appContainer");
+		element: document.getElementById("appContainer")
 	});
 	addEvent( document.getElementById("open-left"), "click", function(){
 		snapper.open("left");
