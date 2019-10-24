@@ -84,7 +84,7 @@
 			_getCoordinates( success_fn, fail_fn );
 
 			function success_fn( posObj ){
-console.log( "async navigator.geolocation.getCurrentPosition ");
+//console.log( "async navigator.geolocation.getCurrentPosition ");
 //console.log( posObj);
 // for(var item in posObj.coords){
 	// console.log( item, posObj.coords[item] );
@@ -100,6 +100,9 @@ console.log( "async navigator.geolocation.getCurrentPosition ");
 				_vars["htmlObj"]["speed"].innerHTML = posObj.coords.speed;
 				
 				_vars["position"] = posObj;
+				
+				_vars["logMsg"] = "Your coordinates were determined successfully.";
+				func.logAlert(_vars["logMsg"], "success");
 				
 				//get address
 				_getAdress({
@@ -202,6 +205,10 @@ console.log( _vars["logMsg"] );
 
 			function _parseAjax( data ){
 				
+				_vars["logMsg"] = "Your address was received.";
+				func.logAlert(_vars["logMsg"], "success");
+				_vars["htmlObj"]["btnShowMap"].classList.remove("disabled");
+				
 				if( _vars["requestFormat"].indexOf("application/xml") !== -1){
 					_parseXML( data );
 				}
@@ -288,12 +295,20 @@ func.logAlert(_vars["logMsg"],"error");
 				_vars["htmlObj"]["waitOverlay"].classList.remove("open");
 				_vars["htmlObj"]["waitOverlay"].style.display="none";
 				
-				_vars["logMsg"] = "Error, get coordinates first...";
+				_vars["logMsg"] = "Error, first you need to get the coordinates.";
 				func.logAlert(_vars["logMsg"], "error");
 				
 				return false;
 			}
 
+//------------------------------- resize map wrapper (95%)
+			var _w = (window.innerWidth / 100) * 95;
+console.log( window.innerWidth, _w);
+_vars["logMsg"] = "window.innerWidth = " + window.innerWidth+"px, map width = "+ _w+"px (95%)";
+func.logAlert(_vars["logMsg"],"info");
+			_vars["htmlObj"]["map"].style.width = _w+"px";
+//----------------------------
+			
 			var lat = _vars["position"]["coords"].latitude.toFixed(5);// 55.03146
 			var lng = _vars["position"]["coords"].longitude.toFixed(5);// 82.92317
 //console.log( lat, lng );
