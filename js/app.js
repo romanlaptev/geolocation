@@ -6,6 +6,8 @@
 
 		_vars = {
 			"logMsg" : "",
+			"apiType": "yandexMaps",
+			"ya_apiLink": "https://api-maps.yandex.ru/2.1/?apikey={{apiKey}}&lang=ru_RU",
 			"ya_apiKey" : "6868d08d-fea9-41c7-8f32-f3a3a33495ed",
 			//"ya_templateUrl" : "https://geocode-maps.yandex.ru/1.x/?apikey={{apiKey}}&geocode={{lng}},{{lat}}",
 "ya_templateUrl" : "https://geocode-maps.yandex.ru/1.x/?apikey={{apiKey}}&format=json&geocode={{lng}},{{lat}}&kind=district",
@@ -32,6 +34,7 @@
 
 				"appModal": document.querySelector("#app-modal"),
 				"map": document.querySelector("#show-map"),
+				"modalTitle": document.querySelector("#modal-title"),
 				"iconModalClose": document.querySelector("#icon-modal-close"),
 				
 				"waitOverlay": document.querySelector("#wait"),
@@ -41,6 +44,30 @@
 			
 			_vars["htmlObj"]["addresTitle"].style.display="none";
 			_vars["htmlObj"]["waitOverlay"].style.display="none";
+
+//----------------------------------------- load map API
+			var script = document.createElement('script');
+			switch ( _vars["apiType"]){
+				
+				case "yandexMaps":
+					script.src = _vars["ya_apiLink"].replace("{{apiLey}}", _vars["ya_apiKey"]);
+					document.body.appendChild(script);
+					//document.getElementsByTagName('head')[0].appendChild(script);
+
+					script.onload = function() {
+						alert( "onload " + this.src);
+					  }
+					script.onerror = function() {
+						alert( "onerror " + this.src );
+					};
+				break;
+				
+				default:
+_vars["logMsg"] = "error load map API, not defined or incorrect map API url..." ;
+func.logAlert(_vars["logMsg"],"error");
+				break;
+			};//end switch
+			
 
 //-----------------------------------------
 			_vars["htmlObj"]["btnGetCoord"].onclick = function(e){
@@ -103,6 +130,7 @@
 				
 				_vars["logMsg"] = "Your coordinates were determined successfully.";
 				func.logAlert(_vars["logMsg"], "success");
+				_vars["htmlObj"]["btnShowMap"].classList.remove("disabled");
 				
 				//get address
 				_getAdress({
@@ -131,7 +159,19 @@ console.log(error);
 		
 
 		var _handleMapBtn = function(opt){
-			ymaps.ready( initYandexMap );
+			
+			switch ( _vars["apiType"]){
+				
+				case "yandexMaps":
+					ymaps.ready( initYandexMap );
+				break;
+				
+				default:
+_vars["logMsg"] = "error create map, not defined or incorrect map API..." ;
+func.logAlert(_vars["logMsg"],"error");
+				break;
+			};//end switch
+			
 			_vars["htmlObj"]["waitOverlay"].classList.remove("open");
 			_vars["htmlObj"]["waitOverlay"].style.display="none";
 		};//_handleMapBtn()
@@ -151,6 +191,7 @@ console.log(error);
 				fail_fn,
 				opts);
 		};//end _getCoordinates()
+		
 		
 		var _getAdress = function(opt){
 //console.log(opt);
@@ -174,13 +215,24 @@ console.log(error);
 				// }
 			// );
 			
-			var dataUrl = _vars["ya_templateUrl"]
-			.replace( "{{apiKey}}", _vars["ya_apiKey"] )
-			.replace( "{{lng}}", p["lng"] )
-			.replace( "{{lat}}", p["lat"] );
-//console.log( dataUrl );		
+			switch ( _vars["apiType"]){
+				
+				case "yandexMaps":
+					var dataUrl = _vars["ya_templateUrl"]
+					.replace( "{{apiKey}}", _vars["ya_apiKey"] )
+					.replace( "{{lng}}", p["lng"] )
+					.replace( "{{lat}}", p["lat"] );
+		//console.log( dataUrl );		
+					
+					func.runAjaxCorrect( dataUrl, __postFunc );
+				break;
+				
+				default:
+_vars["logMsg"] = "error getting address, not defined or incorrect map API..." ;
+func.logAlert(_vars["logMsg"],"error");
+				break;
+			};//end switch
 			
-			func.runAjaxCorrect( dataUrl, __postFunc );
 			
 			function __postFunc( data, runtime, xhr ) {
 _vars["logMsg"] = "ajax load url: <b>" + dataUrl + "</b>, runtime: " + runtime +" sec";
@@ -207,7 +259,6 @@ console.log( _vars["logMsg"] );
 				
 				_vars["logMsg"] = "Your address was received.";
 				func.logAlert(_vars["logMsg"], "success");
-				_vars["htmlObj"]["btnShowMap"].classList.remove("disabled");
 				
 				if( _vars["requestFormat"].indexOf("application/xml") !== -1){
 					_parseXML( data );
@@ -301,13 +352,14 @@ func.logAlert(_vars["logMsg"],"error");
 				return false;
 			}
 
-//------------------------------- resize map wrapper (95%)
+//------------------------------- resize map wrapper (95% screen size)
 			var _w = (window.innerWidth / 100) * 95;
-console.log( window.innerWidth, _w);
-_vars["logMsg"] = "window.innerWidth = " + window.innerWidth+"px, map width = "+ _w+"px (95%)";
+//console.log( window.innerWidth, _w);
+_vars["logMsg"] = "window.innerWidth = " + window.innerWidth+"px, map width = "+ _w+"px (95% screen size)";
 func.logAlert(_vars["logMsg"],"info");
 			_vars["htmlObj"]["map"].style.width = _w+"px";
 //----------------------------
+			_vars["htmlObj"]["modalTitle"].innerHTML = "Yandex Maps";
 			
 			var lat = _vars["position"]["coords"].latitude.toFixed(5);// 55.03146
 			var lng = _vars["position"]["coords"].longitude.toFixed(5);// 82.92317

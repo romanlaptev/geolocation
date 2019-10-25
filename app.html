@@ -2,17 +2,35 @@
 <html>
 <head>
 	<title>Test map API</title>
+	<meta name="description" content="test map API"/>
+	
 	<meta charset="utf8">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<!-- <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"> -->
 	
 	<meta http-equiv="x-ua-compatible" content="IE=edge" />
+	
 	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="green" />
+	<meta name="apple-mobile-web-app-title" content="test map API" />
+	
 	<meta name="apple-touch-fullscreen" content="yes">
+	
+	<!-- <meta name="mobile-web-app-capable" content="yes"> --> <!-- Tell the browser it's a PWA ???? -->
+	<!-- <meta name="theme-color" content="#536878"> --><!-- Make sure theme-color is defined -->
+
+	<link rel="shortcut icon" href="img/maps.ico" type="image/x-icon">
+	<link rel="apple-touch-icon" href="img/maps.png" />
+	<link rel="apple-touch-icon" sizes="48x48" href="img/maps48.png"/>
+	<link rel="apple-touch-icon" sizes="64x64" href="img/maps64.png"/>
+	<link rel="apple-touch-icon" sizes="72x72" href="img/maps72.png"/>
+	<link rel="apple-touch-icon" sizes="96x96" href="img/maps96.png"/>
+	<link rel="apple-touch-icon" sizes="128x128" href="img/maps128.png"/>
+	<link rel="apple-touch-icon" sizes="256x256" href="img/maps256.png"/>
+	
 <!--	
-	<link rel="apple-touch-icon" href="favicon.ico"/>
-	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+	<link rel="manifest" href="manifest.json">
 -->
 	<link rel="stylesheet" href="css/ratchet.min.css">
 	<link rel="stylesheet" href="css/custom.css">
@@ -25,9 +43,9 @@
 	<script src="js/app.js"></script>
 	<script src="js/main.js"></script>
 	
-<script src="https://api-maps.yandex.ru/2.1/?apikey=6868d08d-fea9-41c7-8f32-f3a3a33495ed&lang=ru_RU" type="text/javascript"></script>
-	
 <!--
+<script src="https://api-maps.yandex.ru/2.1/?apikey=6868d08d-fea9-41c7-8f32-f3a3a33495ed&lang=ru_RU" type="text/javascript"></script>
+
 <script type="text/javascript" src="//maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=AIzaSyDit1piuzGn-N0JVzirMUcERxxWZ4DK4OI&ver=3.exp"></script>	
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDit1piuzGn-N0JVzirMUcERxxWZ4DK4OI" type="text/javascript"></script>
 -->  
@@ -185,7 +203,7 @@
 
 	<header class="bar bar-nav" style="padding-right: 0">
 		<span id="icon-modal-close" class="icon icon-close pull-right"></span>
-		<h1 class="title">appModal</h1>
+		<h1 id="modal-title" class="title"></h1>
 	</header>
 		
 	<div class="content">
