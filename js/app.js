@@ -6,12 +6,15 @@
 
 		_vars = {
 			"logMsg" : "",
-			"apiType": "yandexMaps",
+			//"apiType": "yandexMaps",
+			"apiType": "googleMaps",
 			"ya_apiLink": "https://api-maps.yandex.ru/2.1/?apikey={{apiKey}}&lang=ru_RU",
 			"ya_apiKey" : "6868d08d-fea9-41c7-8f32-f3a3a33495ed",
 			//"ya_templateUrl" : "https://geocode-maps.yandex.ru/1.x/?apikey={{apiKey}}&geocode={{lng}},{{lat}}",
 "ya_templateUrl" : "https://geocode-maps.yandex.ru/1.x/?apikey={{apiKey}}&format=json&geocode={{lng}},{{lat}}&kind=district",
 //"ya_templateUrl" : "https://geocode-maps.yandex.ru/1.x/?apikey={{apiKey}}&format=json&geocode={{lng}},{{lat}}&kind=street",
+
+			"google_apiLink": "https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key={{apiKey}}&ver=3.exp",
 			"google_apiKey" : "AIzaSyDit1piuzGn-N0JVzirMUcERxxWZ4DK4OI"
 		};//end _vars
 
@@ -50,16 +53,14 @@
 			switch ( _vars["apiType"]){
 				
 				case "yandexMaps":
-					script.src = _vars["ya_apiLink"].replace("{{apiLey}}", _vars["ya_apiKey"]);
+					script.src = _vars["ya_apiLink"].replace("{{apiKey}}", _vars["ya_apiKey"]);
 					document.body.appendChild(script);
 					//document.getElementsByTagName('head')[0].appendChild(script);
-
-					script.onload = function() {
-						alert( "onload " + this.src);
-					  }
-					script.onerror = function() {
-						alert( "onerror " + this.src );
-					};
+				break;
+				
+				case "googleMaps":
+					script.src = _vars["google_apiLink"].replace("{{apiKey}}", _vars["google_apiKey"]);
+					document.body.appendChild(script);
 				break;
 				
 				default:
@@ -68,6 +69,14 @@ func.logAlert(_vars["logMsg"],"error");
 				break;
 			};//end switch
 			
+			script.onload = function() {
+				//alert( "onload " + this.src);
+_vars["logMsg"] = "load map API, url: " +this.src ;
+func.logAlert(_vars["logMsg"],"success");
+			  }
+			script.onerror = function() {
+				alert( "onerror " + this.src );
+			};
 
 //-----------------------------------------
 			_vars["htmlObj"]["btnGetCoord"].onclick = function(e){
@@ -166,6 +175,9 @@ console.log(error);
 					ymaps.ready( initYandexMap );
 				break;
 				
+				case "googleMaps":
+				break;
+
 				default:
 _vars["logMsg"] = "error create map, not defined or incorrect map API..." ;
 func.logAlert(_vars["logMsg"],"error");
@@ -205,16 +217,6 @@ func.logAlert(_vars["logMsg"],"error");
 			}
 //console.log(p);
 
-			// var google_map_pos = new google.maps.LatLng( p.lat, p.lng );
-// console.log( google_map_pos );
-
-			// var google_maps_geocoder = new google.maps.Geocoder();
-			// google_maps_geocoder.geocode({ "latLng": google_map_pos },
-				// function( results, status ) {
-// console.log( results );
-				// }
-			// );
-			
 			switch ( _vars["apiType"]){
 				
 				case "yandexMaps":
@@ -225,6 +227,18 @@ func.logAlert(_vars["logMsg"],"error");
 		//console.log( dataUrl );		
 					
 					func.runAjaxCorrect( dataUrl, __postFunc );
+				break;
+
+				case "googleMaps":
+					var google_map_pos = new google.maps.LatLng( p.lat, p.lng );
+console.log( google_map_pos );
+
+					//var google_maps_geocoder = new google.maps.Geocoder();
+					//google_maps_geocoder.geocode({ "latLng": google_map_pos },
+						//function( results, status ) {
+//console.log( results );
+						//}
+					//);
 				break;
 				
 				default:
