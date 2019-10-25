@@ -1,4 +1,4 @@
-//(function(){
+п»ї//(function(){
 	
 	var App =  App || function(){
 	
@@ -6,8 +6,11 @@
 
 		_vars = {
 			"logMsg" : "",
-			//"apiType": "yandexMaps",
-			"apiType": "googleMaps",
+			
+			"apiType": "yandexMaps",
+			//"apiType": "googleMaps",
+			//"apiType": "2GIS",
+			
 			"ya_apiLink": "https://api-maps.yandex.ru/2.1/?apikey={{apiKey}}&lang=ru_RU",
 			"ya_apiKey" : "6868d08d-fea9-41c7-8f32-f3a3a33495ed",
 			//"ya_templateUrl" : "https://geocode-maps.yandex.ru/1.x/?apikey={{apiKey}}&geocode={{lng}},{{lat}}",
@@ -15,7 +18,12 @@
 //"ya_templateUrl" : "https://geocode-maps.yandex.ru/1.x/?apikey={{apiKey}}&format=json&geocode={{lng}},{{lat}}&kind=street",
 
 			"google_apiLink": "https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key={{apiKey}}&ver=3.exp",
-			"google_apiKey" : "AIzaSyDit1piuzGn-N0JVzirMUcERxxWZ4DK4OI"
+//http://maps.google.com/maps/api/js?sensor=false			
+			"google_apiKey" : "AIzaSyDit1piuzGn-N0JVzirMUcERxxWZ4DK4OI",
+			
+			//https://api.2gis.ru/doc/maps/ru/quickstart/
+			"gis_apiLink": "https://maps.api.2gis.ru/2.0/loader.js?pkg=full"
+			
 		};//end _vars
 
 		const GPS_TIMEOUT_POSITION = 300; //(sec) time that is allowed to end finding position		
@@ -60,6 +68,11 @@
 				
 				case "googleMaps":
 					script.src = _vars["google_apiLink"].replace("{{apiKey}}", _vars["google_apiKey"]);
+					document.body.appendChild(script);
+				break;
+
+				case "2GIS":
+					script.src = _vars["gis_apiLink"];
 					document.body.appendChild(script);
 				break;
 				
@@ -176,6 +189,56 @@ console.log(error);
 				break;
 				
 				case "googleMaps":
+console.log( google );
+console.log( "API version: " + google.maps.version );
+				
+//------------------------------- resize map wrapper (95% screen size)
+					var _w = (window.innerWidth / 100) * 95;
+//console.log( window.innerWidth, _w);
+_vars["logMsg"] = "window.innerWidth = " + window.innerWidth+"px, map width = "+ _w+"px (95% screen size)";
+func.logAlert(_vars["logMsg"],"info");
+					_vars["htmlObj"]["map"].style.width = _w+"px";
+//----------------------------
+					_vars["htmlObj"]["modalTitle"].innerHTML = "Google Maps";
+					
+					var lat = _vars["position"]["coords"].latitude.toFixed(5);// 55.03146
+					var lng = _vars["position"]["coords"].longitude.toFixed(5);// 82.92317
+					
+					var map = new google.maps.Map( _vars["htmlObj"]["map"] , {
+						zoom: 16,
+						//center: new google.maps.LatLng(-34.397, 150.644),
+						center: new google.maps.LatLng(lat, lng),
+						mapTypeId: google.maps.MapTypeId.ROADMAP
+						//mapTypeId: google.maps.MapTypeId.TERRAIN
+					}); 
+					
+				_vars["htmlObj"]["appModal"].classList.add("active");
+				break;
+
+				case "2GIS":
+console.log("API version: " + DG.version);
+
+//------------------------------- resize map wrapper (95% screen size)
+					var _w = (window.innerWidth / 100) * 95;
+//console.log( window.innerWidth, _w);
+_vars["logMsg"] = "window.innerWidth = " + window.innerWidth+"px, map width = "+ _w+"px (95% screen size)";
+func.logAlert(_vars["logMsg"],"info");
+					_vars["htmlObj"]["map"].style.width = _w+"px";
+//----------------------------
+					_vars["htmlObj"]["modalTitle"].innerHTML = "2GIS API Maps";
+
+					var lat = _vars["position"]["coords"].latitude.toFixed(5);// 55.03146
+					var lng = _vars["position"]["coords"].longitude.toFixed(5);// 82.92317
+					DG.then(function () {
+						var map = DG.map( _vars["htmlObj"]["map"], {
+							//center: [54.98, 82.89],
+							center: [lat, lng],
+							zoom: 16
+						});
+						DG.marker([lat, lng]).addTo(map).bindPopup("You are here...");
+					});
+				_vars["htmlObj"]["appModal"].classList.add("active");
+					
 				break;
 
 				default:
@@ -230,8 +293,8 @@ func.logAlert(_vars["logMsg"],"error");
 				break;
 
 				case "googleMaps":
-					var google_map_pos = new google.maps.LatLng( p.lat, p.lng );
-console.log( google_map_pos );
+					//var google_map_pos = new google.maps.LatLng( p.lat, p.lng );
+//console.log( google_map_pos );
 
 					//var google_maps_geocoder = new google.maps.Geocoder();
 					//google_maps_geocoder.geocode({ "latLng": google_map_pos },
@@ -239,6 +302,9 @@ console.log( google_map_pos );
 //console.log( results );
 						//}
 					//);
+				break;
+				
+				case "2GIS":
 				break;
 				
 				default:
@@ -408,14 +474,14 @@ func.logAlert(_vars["logMsg"],"info");
 		}//end initYandexMap()
 
 			// ymaps.geolocation.get({
-					// // Зададим способ определения геолокации    
-					// // на основе ip пользователя.
+					// // Р—Р°РґР°РґРёРј СЃРїРѕСЃРѕР± РѕРїСЂРµРґРµР»РµРЅРёСЏ РіРµРѕР»РѕРєР°С†РёРё    
+					// // РЅР° РѕСЃРЅРѕРІРµ ip РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ.
 					// provider: 'yandex',
-					// // Включим автоматическое геокодирование результата.
+					// // Р’РєР»СЋС‡РёРј Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРѕРµ РіРµРѕРєРѕРґРёСЂРѕРІР°РЅРёРµ СЂРµР·СѓР»СЊС‚Р°С‚Р°.
 					// autoReverseGeocode: true
 				// })
 				// .then(function (result) {
-					// // Выведем результат геокодирования.
+					// // Р’С‹РІРµРґРµРј СЂРµР·СѓР»СЊС‚Р°С‚ РіРµРѕРєРѕРґРёСЂРѕРІР°РЅРёСЏ.
 					// console.log(result.geoObjects.get(0)
 						// .properties.get('metaDataProperty'));
 				// });
@@ -427,13 +493,13 @@ func.logAlert(_vars["logMsg"],"info");
 					// searchControlProvider: 'yandex#search'
 				// });
 			
-			// // Сравним положение, вычисленное по ip пользователя и
-			// // положение, вычисленное средствами браузера.
+			// // РЎСЂР°РІРЅРёРј РїРѕР»РѕР¶РµРЅРёРµ, РІС‹С‡РёСЃР»РµРЅРЅРѕРµ РїРѕ ip РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ Рё
+			// // РїРѕР»РѕР¶РµРЅРёРµ, РІС‹С‡РёСЃР»РµРЅРЅРѕРµ СЃСЂРµРґСЃС‚РІР°РјРё Р±СЂР°СѓР·РµСЂР°.
 			// geolocation.get({
 				// provider: 'yandex',
 				// mapStateAutoApply: true
 			// }).then(function (result) {
-				// // Красным цветом пометим положение, вычисленное через ip.
+				// // РљСЂР°СЃРЅС‹Рј С†РІРµС‚РѕРј РїРѕРјРµС‚РёРј РїРѕР»РѕР¶РµРЅРёРµ, РІС‹С‡РёСЃР»РµРЅРЅРѕРµ С‡РµСЂРµР· ip.
 				// result.geoObjects.options.set('preset', 'islands#redCircleIcon');
 				// result.geoObjects.get(0).properties.set({
 					// balloonContentBody: "you location by IP"
@@ -445,8 +511,8 @@ func.logAlert(_vars["logMsg"],"info");
 				// provider: 'browser',
 				// mapStateAutoApply: true
 			// }).then(function (result) {
-				// // Синим цветом пометим положение, полученное через браузер.
-				// // Если браузер не поддерживает эту функциональность, метка не будет добавлена на карту.
+				// // РЎРёРЅРёРј С†РІРµС‚РѕРј РїРѕРјРµС‚РёРј РїРѕР»РѕР¶РµРЅРёРµ, РїРѕР»СѓС‡РµРЅРЅРѕРµ С‡РµСЂРµР· Р±СЂР°СѓР·РµСЂ.
+				// // Р•СЃР»Рё Р±СЂР°СѓР·РµСЂ РЅРµ РїРѕРґРґРµСЂР¶РёРІР°РµС‚ СЌС‚Сѓ С„СѓРЅРєС†РёРѕРЅР°Р»СЊРЅРѕСЃС‚СЊ, РјРµС‚РєР° РЅРµ Р±СѓРґРµС‚ РґРѕР±Р°РІР»РµРЅР° РЅР° РєР°СЂС‚Сѓ.
 				// result.geoObjects.options.set('preset', 'islands#blueCircleIcon');
 				
 				// result.geoObjects.get(0).properties.set({
