@@ -11,6 +11,7 @@ window.onload = function(){
 	func.logAlert(logMsg, "info");
 
 //------------------ left menu, SNAP-BOX
+/*  
 	var snapper = new Snap({
 		element: document.getElementById("appContainer")
 	});
@@ -24,7 +25,7 @@ window.onload = function(){
 	addEvent(document.getElementById("btn-close-drawer-left"), 'click', function(){
 		snapper.close();
 	});
-  
+*/  
 //	addEvent(document.getElementById('or'), 'click', function(){
 		//snapper.open('right');
 //console.log( snapper.state().state );
