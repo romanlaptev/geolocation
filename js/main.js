@@ -11,21 +11,34 @@ window.onload = function(){
 	func.logAlert(logMsg, "info");
 
 //------------------ left menu, SNAP-BOX
-/*  
-	var snapper = new Snap({
-		element: document.getElementById("appContainer")
-	});
+
+	//var snapper = new Snap({
+		//element: document.getElementById("appContainer")
+	//});
   
-	addEvent(document.getElementById('open-left'), 'click', function(){
+	addEvent(document.querySelector("#open-left"), 'click', function(){
 		//snapper.open('left');
 //console.log( snapper.state().state );
-		( snapper.state().state == "closed")? snapper.open("left"): snapper.close();
+		//( snapper.state().state == "closed")? snapper.open("left"): snapper.close();
+    var appContainer = document.querySelector("#app-container");
+    var sideMenu = document.querySelector("#side-menu");
+//console.log( "transform: ", appContainer.style.transform, appContainer.style.transform.length );
+    
+    if( appContainer.style.transform === ""){
+      sideMenu.style.display = "block";
+      appContainer.style.transform = "translate3d(232px, 0px, 0px)";
+    } else {
+      sideMenu.style.display = "none";
+      appContainer.style.transform = "";
+    }
+    
 	});
-  
-	addEvent(document.getElementById("btn-close-drawer-left"), 'click', function(){
-		snapper.close();
-	});
-*/  
+
+
+	//addEvent(document.getElementById("btn-close-drawer-left"), 'click', function(){
+		//snapper.close();
+	//});
+
 //	addEvent(document.getElementById('or'), 'click', function(){
 		//snapper.open('right');
 //console.log( snapper.state().state );

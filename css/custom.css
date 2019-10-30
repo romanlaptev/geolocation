@@ -5,7 +5,7 @@ body {
 	position: static;
 }
 
-#appContainer{
+#app-container{
 	/* width: 100%; */
 	/* min-width: 750px; */
 	/* max-width: 990px; */
@@ -58,22 +58,22 @@ body {
 
 
 
-#appContainer .btn {
+#app-container .btn {
 	color: #fff;
 }
 
-#appHeader{
+#app-header{
 position: static;
 /* width: 100%; */
 padding: 5px 10px 5px 10px;
 }
 
-#appContainer .icon {
+#app-container .icon {
 	padding-top: 5px;
 	cursor: pointer;
 }
 
-#appContainer h1 {
+#app-container h1 {
 	font-size: 30px;
 	font-weight: 500;
 	/* line-height: 44px; */
@@ -82,7 +82,7 @@ padding: 5px 10px 5px 10px;
 	white-space: nowrap;
 }
 
-#appContainer .panel {
+#app-container .panel {
 	margin: 15px;
 	padding: 15px;
 }
@@ -299,13 +299,59 @@ margin: 0;
 }
 
 /* LEFT MENU*/
+#side-menu{
+  display: none;
+}
+
+snap-drawers {
+	width: 100%;
+	min-width: 750px;
+	max-width: 990px;
+	padding-right: 15px;
+	padding-left: 15px;
+	margin-right: auto;
+	margin-left: auto;
+}
+
 .snap-drawers {
-  background: #323949;
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	width: auto;
+	height: auto;
+}
+
+.snap-drawers {
+  /*! background: #323949; */
 }
 
 .snap-drawer {
 	background: #323949;
 	color: #eee;
+}
+
+.snap-drawer-left {
+	left: 0;
+	z-index: 1;
+}
+
+.snap-drawer {
+	position: absolute;
+	top: 0;
+	right: auto;
+	bottom: 0;
+	left: auto;
+	width: 265px;
+	height: auto;
+	overflow: auto;
+	-webkit-overflow-scrolling: touch;
+	-webkit-transition: width 0.3s ease;
+	-moz-transition: width 0.3s ease;
+	-ms-transition: width 0.3s ease;
+	-o-transition: width 0.3s ease;
+	transition: width 0.3s ease;
 }
 
 .snap-drawer h3 {
@@ -326,6 +372,11 @@ margin: 0;
   list-style-type: none;
 }
 
+.snap-drawer ul li {
+	background: #323949;
+	border-bottom: 0;
+}
+
 .snap-drawer li > a {
   display: block;
   border-bottom: 1px solid rgba(0,0,0, 0.1);
@@ -344,11 +395,13 @@ margin: 0;
   font-size: 12px;
 }
 
+/*
 #btn-close-drawer-left {
 	padding: 1px 4px 2px 4px;
 	top: 10px;
 	left: -10px;
 }
+*/
 
 /*
 .bar-title {
