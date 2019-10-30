@@ -97,7 +97,7 @@
 
 <div class="container snap-content" id="app-container">
 
-	<header id="appHeader" class="bar bar-nav boxShadow">
+	<header id="app-header" class="bar bar-nav boxShadow">
 			<span id="open-left" class="icon icon-bars pull-left" title="show menu"></span>
 			<!-- <button class="btn blue pull-left" id="open-left">Left panel</button> -->
 <!--			<button class="btn blue pull-right" id="or">Right panel</button> -->
@@ -108,10 +108,11 @@
 				<a class="control-item">Three</a>
 			</div>	
 -->	
-			<div class="page-header pull-right">
-				<h1>Test map API</h1>
-			</div>
-	</header>
+      <div class="page-header pull-right">
+        <h1>Test map API</h1>
+     </div>
+  
+  </header>
 	
 	<div class="card panel">
 
@@ -190,12 +191,30 @@
 			<ul class="table-view">
 				<li class=""><button id="btn-get-coords" class="btn btn-block green">Get coordinates</button></li>
 				<li class=""><button id="btn-show-map" class="btn btn-block blue disabled">Show map</button></li>
+<!--        
+				<li class=""><button id="btn-change-api" class="btn btn-block blue">change API</button></li>
+-->
 			</ul>
 		</div>
 		
-	</div>
+	</div><!-- end panel -->
   
-</div><!-- end appContainer -->
+  <div id="block-settings" class="card panel">
+  	<h3>maps API</h3>
+    <ul class="table-view">
+      <li class="table-view-cell">
+         <input type="radio" name="maps_api" value="yandex">Yandex Maps API
+      </li>
+      <li class="table-view-cell">
+        <input type="radio" name="maps_api" value="google">Google Maps API
+      </li>
+      <li class="table-view-cell">
+        <input type="radio" name="maps_api" value="2GIS">2GIS Maps API
+      </li>
+    </ul>
+  </div><!-- end panel -->
+  
+</div><!-- end app-container -->
 
 
 
