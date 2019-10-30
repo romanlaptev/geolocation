@@ -24,12 +24,13 @@ window.onload = function(){
     var sideMenu = document.querySelector("#side-menu");
 //console.log( "transform: ", appContainer.style.transform, appContainer.style.transform.length );
     
-    if( appContainer.style.transform === ""){
-      sideMenu.style.display = "block";
-      appContainer.style.transform = "translate3d(232px, 0px, 0px)";
-    } else {
+    //if( appContainer.style.transform === ""){
+    if( sideMenu.style.display === "block"){
       sideMenu.style.display = "none";
       appContainer.style.transform = "";
+    } else {
+      sideMenu.style.display = "block";
+      appContainer.style.transform = "translate3d(202px, 0px, 0px)";
     }
     
 	});
