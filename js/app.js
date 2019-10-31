@@ -59,39 +59,7 @@
 			_vars["htmlObj"]["waitOverlay"].style.display="none";
 
 //----------------------------------------- load map API
-			var script = document.createElement('script');
-			switch ( _vars["apiType"]){
-				
-				case "yandexMaps":
-					script.src = _vars["ya_apiLink"].replace("{{apiKey}}", _vars["ya_apiKey"]);
-					document.body.appendChild(script);
-					//document.getElementsByTagName('head')[0].appendChild(script);
-				break;
-				
-				case "googleMaps":
-					script.src = _vars["google_apiLink"].replace("{{apiKey}}", _vars["google_apiKey"]);
-					document.body.appendChild(script);
-				break;
-
-				case "2GIS":
-					script.src = _vars["gis_apiLink"];
-					document.body.appendChild(script);
-				break;
-				
-				default:
-_vars["logMsg"] = "error load map API, not defined or incorrect map API url..." ;
-func.logAlert(_vars["logMsg"],"error");
-				break;
-			};//end switch
-			
-			script.onload = function() {
-				//alert( "onload " + this.src);
-_vars["logMsg"] = "load map API, url: " +this.src ;
-func.logAlert(_vars["logMsg"],"success");
-			  }
-			script.onerror = function() {
-				alert( "onerror " + this.src );
-			};
+			_loadApi();
 
 //-----------------------------------------
 			_vars["htmlObj"]["btnGetCoord"].onclick = function(e){
@@ -121,11 +89,79 @@ func.logAlert(_vars["logMsg"],"success");
 
 //-----------------------------------------
 			func.addEvent( _vars["htmlObj"]["blockApiType"], "click", function(e){
-console.log( e );
+				if( e.target.nodeName ===  "INPUT"){
+//console.log( e.target.checked, e.target.value );
+					_vars["apiType"] = e.target.value;
+					_loadApi();
+				}
 			});//end event
 
 			
 		};// end _init
+
+
+		function _loadApi(){
+			var script = document.createElement('script');
+			switch ( _vars["apiType"]){
+				
+				case "yandexMaps":
+					if( typeof ymaps === "undefined"){
+						script.src = _vars["ya_apiLink"].replace("{{apiKey}}", _vars["ya_apiKey"]);
+						_vars["apiUrl"] = _vars["ya_apiLink"].replace("{{apiKey}}", "***");
+						document.body.appendChild(script);
+						//document.getElementsByTagName('head')[0].appendChild(script);
+						
+						script.onload = function() {
+							//alert( "onload " + this.src);
+_vars["logMsg"] = "load map API, url: " + _vars["apiUrl"];
+func.logAlert(_vars["logMsg"],"success");
+						 }
+						 
+					}
+				break;
+				
+				case "googleMaps":
+					if( typeof google === "undefined" ){
+						script.src = _vars["google_apiLink"].replace("{{apiKey}}", _vars["google_apiKey"]);
+						_vars["apiUrl"] = _vars["google_apiLink"].replace("{{apiKey}}", "***");
+						document.body.appendChild(script);
+						
+						script.onload = function() {
+							//alert( "onload " + this.src);
+_vars["logMsg"] = "load map API, url: " + _vars["apiUrl"];
+func.logAlert(_vars["logMsg"],"success");
+						 }
+						
+					}
+				break;
+
+				case "2GIS":
+					if( typeof DG === "undefined" ){
+						script.src = _vars["gis_apiLink"];
+						_vars["apiUrl"] = _vars["gis_apiLink"];
+						document.body.appendChild(script);
+						
+						script.onload = function() {
+							//alert( "onload " + this.src);
+_vars["logMsg"] = "load map API, url: " + _vars["apiUrl"];
+func.logAlert(_vars["logMsg"],"success");
+						 }
+						
+					}
+				break;
+				
+				default:
+_vars["logMsg"] = "error load map API, not defined or incorrect map API url..." ;
+func.logAlert(_vars["logMsg"],"error");
+				break;
+			};//end switch
+			
+			  
+			script.onerror = function() {
+				alert( "onerror " + this.src );
+			};
+		}//end _loadApi()
+		
 
 		_getDateTime = function( timestamp ){
 			var now = new Date( timestamp );
@@ -192,13 +228,14 @@ console.log(error);
 			switch ( _vars["apiType"]){
 				
 				case "yandexMaps":
+console.log( ymaps );
+console.log( "yandexMaps API version: " + ymaps.meta.version );
 					ymaps.ready( initYandexMap );
 				break;
 				
 				case "googleMaps":
 console.log( google );
-console.log( "API version: " + google.maps.version );
-				
+console.log( "googleMaps API version: " + google.maps.version );
 //------------------------------- resize map wrapper (95% screen size)
 					var _w = (window.innerWidth / 100) * 95;
 //console.log( window.innerWidth, _w);
@@ -206,7 +243,7 @@ _vars["logMsg"] = "window.innerWidth = " + window.innerWidth+"px, map width = "+
 func.logAlert(_vars["logMsg"],"info");
 					_vars["htmlObj"]["map"].style.width = _w+"px";
 //----------------------------
-					_vars["htmlObj"]["modalTitle"].innerHTML = "Google Maps";
+					_vars["htmlObj"]["modalTitle"].innerHTML = "googleMaps API version: " + google.maps.version;
 					
 					var lat = _vars["position"]["coords"].latitude.toFixed(5);// 55.03146
 					var lng = _vars["position"]["coords"].longitude.toFixed(5);// 82.92317
@@ -223,7 +260,7 @@ func.logAlert(_vars["logMsg"],"info");
 				break;
 
 				case "2GIS":
-console.log("API version: " + DG.version);
+console.log("2GIS API version: " + DG.version);
 
 //------------------------------- resize map wrapper (95% screen size)
 					var _w = (window.innerWidth / 100) * 95;
@@ -232,7 +269,7 @@ _vars["logMsg"] = "window.innerWidth = " + window.innerWidth+"px, map width = "+
 func.logAlert(_vars["logMsg"],"info");
 					_vars["htmlObj"]["map"].style.width = _w+"px";
 //----------------------------
-					_vars["htmlObj"]["modalTitle"].innerHTML = "2GIS API Maps";
+					_vars["htmlObj"]["modalTitle"].innerHTML = "2GIS Maps API version: " + DG.version;
 
 					var lat = _vars["position"]["coords"].latitude.toFixed(5);// 55.03146
 					var lng = _vars["position"]["coords"].longitude.toFixed(5);// 82.92317
@@ -446,7 +483,7 @@ _vars["logMsg"] = "window.innerWidth = " + window.innerWidth+"px, map width = "+
 func.logAlert(_vars["logMsg"],"info");
 			_vars["htmlObj"]["map"].style.width = _w+"px";
 //----------------------------
-			_vars["htmlObj"]["modalTitle"].innerHTML = "Yandex Maps";
+			_vars["htmlObj"]["modalTitle"].innerHTML = "yandexMaps API version: " + ymaps.meta.version;
 			
 			var lat = _vars["position"]["coords"].latitude.toFixed(5);// 55.03146
 			var lng = _vars["position"]["coords"].longitude.toFixed(5);// 82.92317
