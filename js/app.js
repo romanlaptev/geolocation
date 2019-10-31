@@ -7,10 +7,10 @@
 		_vars = {
 			"logMsg" : "",
 			
-			//"apiType": "yandexMaps",
+			"apiType": "yandexMaps",
 			//"apiType": "googleMaps",
 			//"apiType": "2GIS",
-			"apiType":  "OpenStreetMaps",
+			//"apiType":  "OpenStreetMaps",
 			
 			"ya_apiLink": "https://api-maps.yandex.ru/2.1/?apikey={{apiKey}}&lang=ru_RU",
 			"ya_apiKey" : "6868d08d-fea9-41c7-8f32-f3a3a33495ed",
@@ -132,7 +132,7 @@ func.logAlert(_vars["logMsg"],"success");
 						
 						script.onload = function() {
 							//alert( "onload " + this.src);
-_vars["logMsg"] = "load map API, url: " + _vars["apiUrl"];
+_vars["logMsg"] = "load map API, url: " + _vars["apiUrl"]+", version: "+ google.maps.version;
 func.logAlert(_vars["logMsg"],"success");
 						 }
 						
@@ -147,14 +147,14 @@ func.logAlert(_vars["logMsg"],"success");
 						
 						script.onload = function() {
 							//alert( "onload " + this.src);
-_vars["logMsg"] = "load map API, url: " + _vars["apiUrl"];
+_vars["logMsg"] = "load map API, url: " + _vars["apiUrl"]+", version: "+  DG.version;
 func.logAlert(_vars["logMsg"],"success");
 						 }
-						
 					}
 				break;
 
 				case "OpenStreetMaps":
+					if( typeof OpenLayers === "undefined" ){
 						_vars["apiUrl"] = _vars["os_apiLink"];
 						script.src = _vars["os_apiLink"];
 						document.body.appendChild(script);
@@ -164,7 +164,7 @@ console.log( OpenLayers );
 _vars["logMsg"] = "load map API, url: " + _vars["apiUrl"]+", version: "+OpenLayers.VERSION_NUMBER;
 func.logAlert(_vars["logMsg"],"success");
 						 }
-						 
+					}
 				break;
 
 				default:
@@ -256,8 +256,8 @@ console.log( "googleMaps API version: " + google.maps.version );
 //------------------------------- resize map wrapper (95% screen size)
 					var _w = (window.innerWidth / 100) * 95;
 //console.log( window.innerWidth, _w);
-_vars["logMsg"] = "window.innerWidth = " + window.innerWidth+"px, map width = "+ _w+"px (95% screen size)";
-func.logAlert(_vars["logMsg"],"info");
+//_vars["logMsg"] = "window.innerWidth = " + window.innerWidth+"px, map width = "+ _w+"px (95% screen size)";
+//func.logAlert(_vars["logMsg"],"info");
 					_vars["htmlObj"]["map"].style.width = _w+"px";
 //----------------------------
 					_vars["htmlObj"]["modalTitle"].innerHTML = "googleMaps API version: " + google.maps.version;
@@ -282,8 +282,8 @@ console.log("2GIS API version: " + DG.version);
 //------------------------------- resize map wrapper (95% screen size)
 					var _w = (window.innerWidth / 100) * 95;
 //console.log( window.innerWidth, _w);
-_vars["logMsg"] = "window.innerWidth = " + window.innerWidth+"px, map width = "+ _w+"px (95% screen size)";
-func.logAlert(_vars["logMsg"],"info");
+//_vars["logMsg"] = "window.innerWidth = " + window.innerWidth+"px, map width = "+ _w+"px (95% screen size)";
+//func.logAlert(_vars["logMsg"],"info");
 					_vars["htmlObj"]["map"].style.width = _w+"px";
 //----------------------------
 					_vars["htmlObj"]["modalTitle"].innerHTML = "2GIS Maps API version: " + DG.version;
@@ -300,6 +300,41 @@ func.logAlert(_vars["logMsg"],"info");
 					});
 				_vars["htmlObj"]["appModal"].classList.add("active");
 					
+				break;
+
+				case "OpenStreetMaps":
+				
+//------------------------------- resize map wrapper (95% screen size)
+					var _w = (window.innerWidth / 100) * 95;
+//console.log( window.innerWidth, _w);
+//_vars["logMsg"] = "window.innerWidth = " + window.innerWidth+"px, map width = "+ _w+"px (95% screen size)";
+//func.logAlert(_vars["logMsg"],"info");
+					_vars["htmlObj"]["map"].style.width = _w+"px";
+//----------------------------
+					_vars["htmlObj"]["modalTitle"].innerHTML = "OpenStreet Maps API version: " + OpenLayers.VERSION_NUMBER;
+				
+//http://uralbash.ru/articles/2012/osm_example/
+/*
+					var map = new OpenLayers.Map( _vars["htmlObj"]["map"] );
+					var mapLayer = new OpenLayers.Layer.OSM();
+					map.addLayer( mapLayer );
+					map.zoomToMaxExtent();
+					
+					var lat = _vars["position"]["coords"].latitude.toFixed(5);// 55.03146
+					var lng = _vars["position"]["coords"].longitude.toFixed(5);// 82.92317
+					var lonlat = new OpenLayers.LonLat( lng, lat );
+					map.setCenter( lonlat.transform(
+							new OpenLayers.Projection("EPSG:4326"), // переобразование в WGS 1984
+							new OpenLayers.Projection("EPSG:900913") // переобразование проекции
+							), 17 // scale
+					);
+*/
+				map = new OpenLayers.Map( _vars["htmlObj"]["map"] );
+				map.addLayer( new OpenLayers.Layer.OSM() );
+				map.zoomToMaxExtent();
+	
+				_vars["htmlObj"]["appModal"].classList.add("active");
+		
 				break;
 
 				default:

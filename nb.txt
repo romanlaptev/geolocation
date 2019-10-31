@@ -79,8 +79,13 @@ https://developers.google.com/maps/documentation/distancematrix/#DistanceMatrixR
 https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=AIzaSyDit1piuzGn-N0JVzirMUcERxxWZ4DK4OI
 
 https://art-lemon.com/google-maps-api-key
--------------------
 
+--------------------------------------------------------------- OpenStreetMap
+
+http://gis-lab.info/qa/openlayers-begin.html
+OpenLayers: начало работы
+
+https://wiki.openstreetmap.org/wiki/RU:OpenLayers
 
 http://uralbash.ru/articles/2012/osm_example/
 Пример карты OpenStreetMap на своем сайте
