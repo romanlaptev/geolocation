@@ -16,7 +16,7 @@ window.onload = function(){
 		//element: document.getElementById("appContainer")
 	//});
   
-	addEvent(document.querySelector("#open-left"), 'click', function(){
+	func.addEvent(document.querySelector("#open-left"), 'click', function(){
 		//snapper.open('left');
 //console.log( snapper.state().state );
 		//( snapper.state().state == "closed")? snapper.open("left"): snapper.close();
@@ -36,11 +36,11 @@ window.onload = function(){
 	});
 
 
-	//addEvent(document.getElementById("btn-close-drawer-left"), 'click', function(){
+	//func.addEvent(document.getElementById("btn-close-drawer-left"), 'click', function(){
 		//snapper.close();
 	//});
 
-//	addEvent(document.getElementById('or'), 'click', function(){
+//	func.addEvent(document.getElementById('or'), 'click', function(){
 		//snapper.open('right');
 //console.log( snapper.state().state );
 		//( snapper.state().state == "closed")? snapper.open("right"): snapper.close();
@@ -100,14 +100,6 @@ console.log("_app:", _app);
   
 };//end window.load
 
-
-function addEvent(element, eventName, func) {
-	if (element.addEventListener) {
-    	return element.addEventListener(eventName, func, false);
-    } else if (element.attachEvent) {
-        return element.attachEvent("on" + eventName, func);
-    }
-};
 
 
 function defineEvents(){

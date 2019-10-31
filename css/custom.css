@@ -403,6 +403,12 @@ margin: 0;
 }
 */
 
+
+
+#api-type label {
+	margin-left: 10px;
+}
+
 /*
 .bar-title {
 	top: 0;

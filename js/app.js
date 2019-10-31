@@ -50,7 +50,9 @@
 				
 				"waitOverlay": document.querySelector("#wait"),
 				"btnGetCoord": document.querySelector("#btn-get-coords"),
-				"btnShowMap": document.querySelector("#btn-show-map")
+				"btnShowMap": document.querySelector("#btn-show-map"),
+				
+				"blockApiType": document.querySelector("#api-type")
 			};
 			
 			_vars["htmlObj"]["addresTitle"].style.display="none";
@@ -116,6 +118,11 @@ func.logAlert(_vars["logMsg"],"success");
 					_vars.myMap.destroy();
 				 }
 			}//end event
+
+//-----------------------------------------
+			func.addEvent( _vars["htmlObj"]["blockApiType"], "click", function(e){
+console.log( e );
+			});//end event
 
 			
 		};// end _init
