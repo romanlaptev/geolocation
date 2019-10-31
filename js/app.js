@@ -7,9 +7,10 @@
 		_vars = {
 			"logMsg" : "",
 			
-			"apiType": "yandexMaps",
+			//"apiType": "yandexMaps",
 			//"apiType": "googleMaps",
 			//"apiType": "2GIS",
+			"apiType":  "OpenStreetMaps",
 			
 			"ya_apiLink": "https://api-maps.yandex.ru/2.1/?apikey={{apiKey}}&lang=ru_RU",
 			"ya_apiKey" : "6868d08d-fea9-41c7-8f32-f3a3a33495ed",
@@ -22,7 +23,10 @@
 			"google_apiKey" : "AIzaSyDit1piuzGn-N0JVzirMUcERxxWZ4DK4OI",
 			
 			//https://api.2gis.ru/doc/maps/ru/quickstart/
-			"gis_apiLink": "https://maps.api.2gis.ru/2.0/loader.js?pkg=full"
+			"gis_apiLink": "https://maps.api.2gis.ru/2.0/loader.js?pkg=full",
+			
+			//"os_apiLink": "https://openlayers.org/api/OpenLayers.js"
+			"os_apiLink": "js/api/OpenLayers.js"
 			
 		};//end _vars
 
@@ -149,7 +153,20 @@ func.logAlert(_vars["logMsg"],"success");
 						
 					}
 				break;
-				
+
+				case "OpenStreetMaps":
+						_vars["apiUrl"] = _vars["os_apiLink"];
+						script.src = _vars["os_apiLink"];
+						document.body.appendChild(script);
+						
+						script.onload = function() {
+console.log( OpenLayers );
+_vars["logMsg"] = "load map API, url: " + _vars["apiUrl"]+", version: "+OpenLayers.VERSION_NUMBER;
+func.logAlert(_vars["logMsg"],"success");
+						 }
+						 
+				break;
+
 				default:
 _vars["logMsg"] = "error load map API, not defined or incorrect map API url..." ;
 func.logAlert(_vars["logMsg"],"error");
