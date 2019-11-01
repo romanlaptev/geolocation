@@ -25,8 +25,8 @@
 			//https://api.2gis.ru/doc/maps/ru/quickstart/
 			"gis_apiLink": "https://maps.api.2gis.ru/2.0/loader.js?pkg=full",
 			
-			//"os_apiLink": "https://openlayers.org/api/OpenLayers.js"
-			"os_apiLink": "js/api/OpenLayers.js"
+			"os_apiLink": "https://openlayers.org/api/OpenLayers.js"
+			//"os_apiLink": "js/api/OpenLayers.js"
 			
 		};//end _vars
 
@@ -57,6 +57,7 @@
 				
 				"waitOverlay": document.querySelector("#wait"),
 				"btnGetCoord": document.querySelector("#btn-get-coords"),
+				"btnGetAddr": document.querySelector("#btn-get-address"),
 				"btnShowMap": document.querySelector("#btn-show-map"),
 				
 				"blockApiType": document.querySelector("#api-type")
@@ -76,8 +77,30 @@
 			}//end event
 			
 //-----------------------------------------
+			func.addEvent( _vars["htmlObj"]["btnGetAddr"], "click", function(){
+				
+				if( !_vars["position"] ){
+					_vars["logMsg"] = "Error, first you need to get the coordinates.";
+					func.logAlert(_vars["logMsg"], "error");
+					return false;
+				}
+				
+				_waitWindow( "open" );
+				_getAdress({
+					lng: _vars["position"]["coords"].longitude,
+					lat: _vars["position"]["coords"].latitude
+				});
+			
+			});//end event
+			
+//-----------------------------------------
 			_vars["htmlObj"]["btnShowMap"].onclick = function(e){
 //console.log(e);
+				if( !_vars["position"] ){
+					_vars["logMsg"] = "Error, first you need to get the coordinates.";
+					func.logAlert(_vars["logMsg"], "error");
+					return false;
+				}
 				_waitWindow( "open" );
 				_handleMapBtn();
 			}//end event
@@ -85,9 +108,7 @@
 //-----------------------------------------
 			_vars["htmlObj"]["iconModalClose"].onclick = function(e){
 				_vars["htmlObj"]["appModal"].classList.remove("active");
-				 if( _vars.myMap ){
-					_vars.myMap.destroy();
-				 }
+				_destroyMap( _vars["apiType"] );
 			}//end event
 
 //-----------------------------------------
@@ -222,11 +243,10 @@ func.logAlert(_vars["logMsg"],"error");
 				func.logAlert(_vars["logMsg"], "success");
 				_vars["htmlObj"]["btnShowMap"].classList.remove("disabled");
 				
-				//get address
-				_getAdress({
-					lng: posObj.coords.longitude,
-					lat: posObj.coords.latitude
-				});
+				// _getAdress({
+					// lng: posObj.coords.longitude,
+					// lat: posObj.coords.latitude
+				// });
 
 				_waitWindow( "close" );
 				
@@ -272,7 +292,7 @@ console.log( "googleMaps API version: " + google.maps.version );
 					var lat = _vars["position"]["coords"].latitude.toFixed(5);// 55.03146
 					var lng = _vars["position"]["coords"].longitude.toFixed(5);// 82.92317
 					
-					var map = new google.maps.Map( _vars["htmlObj"]["map"] , {
+					_vars.mapObj = new google.maps.Map( _vars["htmlObj"]["map"] , {
 						zoom: 16,
 						//center: new google.maps.LatLng(-34.397, 150.644),
 						center: new google.maps.LatLng(lat, lng),
@@ -298,12 +318,12 @@ console.log("2GIS API version: " + DG.version);
 					var lat = _vars["position"]["coords"].latitude.toFixed(5);// 55.03146
 					var lng = _vars["position"]["coords"].longitude.toFixed(5);// 82.92317
 					DG.then(function () {
-						var map = DG.map( _vars["htmlObj"]["map"], {
+						_vars.mapObj = DG.map( _vars["htmlObj"]["map"], {
 							//center: [54.98, 82.89],
 							center: [lat, lng],
 							zoom: 16
 						});
-						DG.marker([lat, lng]).addTo(map).bindPopup("You are here...");
+						DG.marker([lat, lng]).addTo( _vars.mapObj ).bindPopup("You are here...");
 					});
 				_vars["htmlObj"]["appModal"].classList.add("active");
 					
@@ -322,7 +342,7 @@ console.log("2GIS API version: " + DG.version);
 				
 //http://uralbash.ru/articles/2012/osm_example/
 //https://wiki.openstreetmap.org/wiki/OpenLayers_Simple_Example
-					var map = new OpenLayers.Map( _vars["htmlObj"]["mapID"] );
+					_vars.mapObj = new OpenLayers.Map( _vars["htmlObj"]["mapID"] );
 					var mapLayer = new OpenLayers.Layer.OSM();
 					var fromProjection = new OpenLayers.Projection("EPSG:4326");   // Transform from WGS 1984
 					var toProjection   = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
@@ -331,11 +351,11 @@ console.log("2GIS API version: " + DG.version);
 					var lng = _vars["position"]["coords"].longitude.toFixed(5);// 82.92317
 					var position = new OpenLayers.LonLat( lng, lat ).transform( fromProjection, toProjection);
 					
-					map.addLayer( mapLayer );
-					//map.zoomToMaxExtent();
+					_vars.mapObj.addLayer( mapLayer );
+					//_vars.mapObj.zoomToMaxExtent();
 					
 					var zoom = 17; 
-					map.setCenter( position, zoom);
+					_vars.mapObj.setCenter( position, zoom);
 
 					_vars["htmlObj"]["appModal"].classList.add("active");
 				break;
@@ -400,14 +420,11 @@ func.logAlert(_vars["logMsg"],"error");
 //console.log( results );
 						//}
 					//);
-				break;
-				
 				case "2GIS":
-				break;
-				
 				default:
 _vars["logMsg"] = "error getting address, not defined or incorrect map API..." ;
 func.logAlert(_vars["logMsg"],"error");
+					_waitWindow( "close" );
 				break;
 			};//end switch
 			
@@ -448,6 +465,7 @@ console.log( _vars["logMsg"] );
 				if( _vars["requestFormat"].indexOf("application/json") !== -1){
 					_parseJSON( data );
 				}
+				_waitWindow( "close" );
 				
 			}//_parseAjax()
 
@@ -520,16 +538,6 @@ func.logAlert(_vars["logMsg"],"error");
 //console.log("ymaps: ", ymaps);
 		function initYandexMap(){ 
 		
-			if( !_vars["position"] ){
-				_vars["htmlObj"]["waitOverlay"].classList.remove("open");
-				_vars["htmlObj"]["waitOverlay"].style.display="none";
-				
-				_vars["logMsg"] = "Error, first you need to get the coordinates.";
-				func.logAlert(_vars["logMsg"], "error");
-				
-				return false;
-			}
-
 //------------------------------- resize map wrapper (95% screen size)
 			var _w = (window.innerWidth / 100) * 95;
 //console.log( window.innerWidth, _w);
@@ -543,7 +551,7 @@ func.logAlert(_vars["logMsg"],"info");
 			var lng = _vars["position"]["coords"].longitude.toFixed(5);// 82.92317
 //console.log( lat, lng );
 		
-			_vars.myMap = new ymaps.Map( _vars["htmlObj"]["map"], {
+			_vars.mapObj = new ymaps.Map( _vars["htmlObj"]["map"], {
 				//center: [55.76, 37.64],
 				center: [ lat, lng],
 				zoom: 15
@@ -565,9 +573,9 @@ func.logAlert(_vars["logMsg"],"info");
 				draggable: false
 			});
 			
-			_vars.myMap.geoObjects.add( myGeoObject );
+			_vars.mapObj.geoObjects.add( myGeoObject );
 			
-//console.log( "myMap:", _vars.myMap );
+//console.log( "mapObj:", _vars.mapObj );
 			_vars["htmlObj"]["appModal"].classList.add("active");
 		}//end initYandexMap()
 
@@ -584,7 +592,7 @@ func.logAlert(_vars["logMsg"],"info");
 						// .properties.get('metaDataProperty'));
 				// });
 	
-			// var geolocation = ymaps.geolocation, myMap = new ymaps.Map("map", {
+			// var geolocation = ymaps.geolocation, mapObj = new ymaps.Map("map", {
 					// center: [ lat, lng ],
 					// zoom: 15
 				// }, {
@@ -602,7 +610,7 @@ func.logAlert(_vars["logMsg"],"info");
 				// result.geoObjects.get(0).properties.set({
 					// balloonContentBody: "you location by IP"
 				// });
-				// myMap.geoObjects.add(result.geoObjects);
+				// mapObj.geoObjects.add(result.geoObjects);
 			// });
 
 			// geolocation.get({
@@ -617,10 +625,35 @@ func.logAlert(_vars["logMsg"],"info");
 					// balloonContentBody: "you location from browser data"
 				// });
 
-				// myMap.geoObjects.add(result.geoObjects);
+				// mapObj.geoObjects.add(result.geoObjects);
 			// });
 //--------------------------------------------------
-		
+		function _destroyMap( apiType){
+			switch( apiType){
+				case "yandexMaps":
+					_vars.mapObj.destroy();
+				break;
+				
+				case "googleMaps":
+				break;
+				
+				case "2GIS":
+					_vars.mapObj.remove();
+				break;
+				
+				case "OpenStreetMaps":
+					_vars.mapObj.destroy();
+				break;
+				
+				default:
+		_vars["logMsg"] = "error, not defined or incorrect map API type" ;
+		func.logAlert(_vars["logMsg"],"error");
+				break;
+				
+			}//end switch
+		}//end _destroyMap()
+
+
 		function _waitWindow( state){
 			
 			switch (state){
