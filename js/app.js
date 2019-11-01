@@ -11,6 +11,7 @@
 			//"apiType": "googleMaps",
 			//"apiType": "2GIS",
 			//"apiType":  "OpenStreetMaps",
+			//"apiType":  "ArcGIS",
 			
 			"ya_apiLink": "https://api-maps.yandex.ru/2.1/?apikey={{apiKey}}&lang=ru_RU",
 			"ya_apiKey" : "6868d08d-fea9-41c7-8f32-f3a3a33495ed",
@@ -25,8 +26,11 @@
 			//https://api.2gis.ru/doc/maps/ru/quickstart/
 			"gis_apiLink": "https://maps.api.2gis.ru/2.0/loader.js?pkg=full",
 			
-			"os_apiLink": "https://openlayers.org/api/OpenLayers.js"
-			//"os_apiLink": "js/api/OpenLayers.js"
+			"os_apiLink": "https://openlayers.org/api/OpenLayers.js",
+			//"os_apiLink": "js/api/OpenLayers.js",
+			
+			"arcgis_apiLink": "https://js.arcgis.com/3.25/",
+			"arcgis_cssLink": "https://js.arcgis.com/3.25/esri/css/esri.css"
 			
 		};//end _vars
 
@@ -196,6 +200,9 @@ func.logAlert(_vars["logMsg"],"success");
 					}
 				break;
 
+				case "ArcGIS":
+				break;
+				
 				default:
 _vars["logMsg"] = "error load map API, not defined or incorrect map API url..." ;
 func.logAlert(_vars["logMsg"],"error");
@@ -360,6 +367,9 @@ console.log("2GIS API version: " + DG.version);
 					_vars["htmlObj"]["appModal"].classList.add("active");
 				break;
 
+				case "ArcGIS":
+				break;
+
 				default:
 _vars["logMsg"] = "error create map, not defined or incorrect map API..." ;
 func.logAlert(_vars["logMsg"],"error");
@@ -421,6 +431,7 @@ func.logAlert(_vars["logMsg"],"error");
 						//}
 					//);
 				case "2GIS":
+				case "ArcGIS":
 				default:
 _vars["logMsg"] = "error getting address, not defined or incorrect map API..." ;
 func.logAlert(_vars["logMsg"],"error");
@@ -643,6 +654,9 @@ func.logAlert(_vars["logMsg"],"info");
 				
 				case "OpenStreetMaps":
 					_vars.mapObj.destroy();
+				break;
+				
+				case "ArcGIS":
 				break;
 				
 				default:
