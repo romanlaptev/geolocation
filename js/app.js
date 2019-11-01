@@ -48,7 +48,10 @@
 				"addresText": document.querySelector("#addr-text"),
 
 				"appModal": document.querySelector("#app-modal"),
+				
 				"map": document.querySelector("#show-map"),
+				"mapID": "show-map",
+				
 				"modalTitle": document.querySelector("#modal-title"),
 				"iconModalClose": document.querySelector("#icon-modal-close"),
 				
@@ -68,18 +71,14 @@
 //-----------------------------------------
 			_vars["htmlObj"]["btnGetCoord"].onclick = function(e){
 //console.log(e);
-				_vars["htmlObj"]["waitOverlay"].style.display="";
-				//_vars["htmlObj"]["waitOverlay"].classList.remove("close");
-				_vars["htmlObj"]["waitOverlay"].classList.add("open");
+				_waitWindow( "open" );
 				_handleCoordinateBtn();
 			}//end event
 			
 //-----------------------------------------
 			_vars["htmlObj"]["btnShowMap"].onclick = function(e){
 //console.log(e);
-				_vars["htmlObj"]["waitOverlay"].style.display="";
-				//_vars["htmlObj"]["waitOverlay"].classList.remove("close");
-				_vars["htmlObj"]["waitOverlay"].classList.add("open");
+				_waitWindow( "open" );
 				_handleMapBtn();
 			}//end event
 			
@@ -112,11 +111,13 @@
 					if( typeof ymaps === "undefined"){
 						script.src = _vars["ya_apiLink"].replace("{{apiKey}}", _vars["ya_apiKey"]);
 						_vars["apiUrl"] = _vars["ya_apiLink"].replace("{{apiKey}}", "***");
+						_waitWindow( "open" );
 						document.body.appendChild(script);
 						//document.getElementsByTagName('head')[0].appendChild(script);
 						
 						script.onload = function() {
 							//alert( "onload " + this.src);
+							_waitWindow( "close" );
 _vars["logMsg"] = "load map API, url: " + _vars["apiUrl"];
 func.logAlert(_vars["logMsg"],"success");
 						 }
@@ -128,10 +129,12 @@ func.logAlert(_vars["logMsg"],"success");
 					if( typeof google === "undefined" ){
 						script.src = _vars["google_apiLink"].replace("{{apiKey}}", _vars["google_apiKey"]);
 						_vars["apiUrl"] = _vars["google_apiLink"].replace("{{apiKey}}", "***");
+						_waitWindow( "open" );
 						document.body.appendChild(script);
 						
 						script.onload = function() {
 							//alert( "onload " + this.src);
+							_waitWindow( "close" );
 _vars["logMsg"] = "load map API, url: " + _vars["apiUrl"]+", version: "+ google.maps.version;
 func.logAlert(_vars["logMsg"],"success");
 						 }
@@ -143,10 +146,12 @@ func.logAlert(_vars["logMsg"],"success");
 					if( typeof DG === "undefined" ){
 						script.src = _vars["gis_apiLink"];
 						_vars["apiUrl"] = _vars["gis_apiLink"];
+						_waitWindow( "open" );
 						document.body.appendChild(script);
 						
 						script.onload = function() {
 							//alert( "onload " + this.src);
+							_waitWindow( "close" );
 _vars["logMsg"] = "load map API, url: " + _vars["apiUrl"]+", version: "+  DG.version;
 func.logAlert(_vars["logMsg"],"success");
 						 }
@@ -157,10 +162,13 @@ func.logAlert(_vars["logMsg"],"success");
 					if( typeof OpenLayers === "undefined" ){
 						_vars["apiUrl"] = _vars["os_apiLink"];
 						script.src = _vars["os_apiLink"];
+						
+						_waitWindow( "open" );
 						document.body.appendChild(script);
 						
 						script.onload = function() {
 console.log( OpenLayers );
+						_waitWindow( "close" );
 _vars["logMsg"] = "load map API, url: " + _vars["apiUrl"]+", version: "+OpenLayers.VERSION_NUMBER;
 func.logAlert(_vars["logMsg"],"success");
 						 }
@@ -220,9 +228,8 @@ func.logAlert(_vars["logMsg"],"error");
 					lat: posObj.coords.latitude
 				});
 
-				_vars["htmlObj"]["waitOverlay"].classList.remove("open");
-				//_vars["htmlObj"]["waitOverlay"].classList.add("close");
-				_vars["htmlObj"]["waitOverlay"].style.display="none";
+				_waitWindow( "close" );
+				
 			}//end success_fn()
 			
 			function fail_fn( error ){
@@ -314,27 +321,23 @@ console.log("2GIS API version: " + DG.version);
 					_vars["htmlObj"]["modalTitle"].innerHTML = "OpenStreet Maps API version: " + OpenLayers.VERSION_NUMBER;
 				
 //http://uralbash.ru/articles/2012/osm_example/
-/*
-					var map = new OpenLayers.Map( _vars["htmlObj"]["map"] );
+//https://wiki.openstreetmap.org/wiki/OpenLayers_Simple_Example
+					var map = new OpenLayers.Map( _vars["htmlObj"]["mapID"] );
 					var mapLayer = new OpenLayers.Layer.OSM();
-					map.addLayer( mapLayer );
-					map.zoomToMaxExtent();
+					var fromProjection = new OpenLayers.Projection("EPSG:4326");   // Transform from WGS 1984
+					var toProjection   = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
 					
 					var lat = _vars["position"]["coords"].latitude.toFixed(5);// 55.03146
 					var lng = _vars["position"]["coords"].longitude.toFixed(5);// 82.92317
-					var lonlat = new OpenLayers.LonLat( lng, lat );
-					map.setCenter( lonlat.transform(
-							new OpenLayers.Projection("EPSG:4326"), // переобразование в WGS 1984
-							new OpenLayers.Projection("EPSG:900913") // переобразование проекции
-							), 17 // scale
-					);
-*/
-				map = new OpenLayers.Map( _vars["htmlObj"]["map"] );
-				map.addLayer( new OpenLayers.Layer.OSM() );
-				map.zoomToMaxExtent();
-	
-				_vars["htmlObj"]["appModal"].classList.add("active");
-		
+					var position = new OpenLayers.LonLat( lng, lat ).transform( fromProjection, toProjection);
+					
+					map.addLayer( mapLayer );
+					//map.zoomToMaxExtent();
+					
+					var zoom = 17; 
+					map.setCenter( position, zoom);
+
+					_vars["htmlObj"]["appModal"].classList.add("active");
 				break;
 
 				default:
@@ -343,8 +346,7 @@ func.logAlert(_vars["logMsg"],"error");
 				break;
 			};//end switch
 			
-			_vars["htmlObj"]["waitOverlay"].classList.remove("open");
-			_vars["htmlObj"]["waitOverlay"].style.display="none";
+			_waitWindow( "close" );
 		};//_handleMapBtn()
 
 
@@ -619,7 +621,25 @@ func.logAlert(_vars["logMsg"],"info");
 			// });
 //--------------------------------------------------
 		
-
+		function _waitWindow( state){
+			
+			switch (state){
+				
+				case "open":
+					_vars["htmlObj"]["waitOverlay"].style.display="";
+					_vars["htmlObj"]["waitOverlay"].classList.add("open");
+				break;
+				
+				case "close":
+				default:
+					_vars["htmlObj"]["waitOverlay"].classList.remove("open");
+					_vars["htmlObj"]["waitOverlay"].style.display="none";
+				break;
+				
+			}//end switch
+			
+		}//end _waitWindow()
+		
 		// public interfaces
 		return {
 			vars:	_vars,
