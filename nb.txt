@@ -94,7 +94,7 @@ http://uralbash.ru/articles/2012/osm_example/
 https://ruseller.com/lessons.php?id=2723
 
 
-=============================
+============================= Yandex API
 https://tech.yandex.ru/maps/geocoder/doc/desc/reference/response_structure-docpage/
 https://geocode-maps.yandex.ru/1.x/?apikey=6868d08d-fea9-41c7-8f32-f3a3a33495ed&geocode=82.9231752,55.031466599999995
 Россия, Новосибирск, улица Орджоникидзе, 31
