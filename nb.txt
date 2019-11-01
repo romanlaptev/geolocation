@@ -95,6 +95,7 @@ https://ruseller.com/lessons.php?id=2723
 
 ============================= ArcGIS API
 https://developers.arcgis.com/javascript/
+https://pkk5.rosreestr.ru/arcgis_js_api/sdk/
 
 ============================= Yandex API
 https://tech.yandex.ru/maps/geocoder/doc/desc/reference/response_structure-docpage/

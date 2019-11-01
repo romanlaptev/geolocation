@@ -26,11 +26,15 @@ html, body, #basicMap {
 			basemap: "topo-vector"
 		  });
 
+		var lat = 55.03146;
+		var lng = 82.92317;
+
 		  var view = new MapView({
 			container: "basicMap",
 			map: map,
-			center: [-118.71511,34.09042],
-			zoom: 11
+			//center: [-118.71511,34.09042],
+			center: [lng, lat],
+			zoom: 15
 		  });
 
 		});
