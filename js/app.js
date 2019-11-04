@@ -34,7 +34,7 @@
 			
 		};//end _vars
 
-		const GPS_TIMEOUT_POSITION = 300; //(sec) time that is allowed to end finding position		
+		var GPS_TIMEOUT_POSITION = 300; //(sec) time that is allowed to end finding position		
 		
 		var _init = function(){
 //console.log("App initialize...");
