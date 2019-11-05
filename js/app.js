@@ -29,8 +29,10 @@
 			"os_apiLink": "https://openlayers.org/api/OpenLayers.js",
 			//"os_apiLink": "js/api/OpenLayers.js",
 			
-			"arcgis_apiLink": "https://js.arcgis.com/3.25/",
-			"arcgis_cssLink": "https://js.arcgis.com/3.25/esri/css/esri.css"
+			//"arcgis_apiLink": "https://js.arcgis.com/3.25/",
+			//"arcgis_cssLink": "https://js.arcgis.com/3.25/esri/css/esri.css"
+			"arcgis_apiLink": "https://js.arcgis.com/4.13/",
+			"arcgis_cssLink": "https://js.arcgis.com/4.13/esri/css/main.css"
 			
 		};//end _vars
 
@@ -129,11 +131,12 @@
 
 
 		function _loadApi(){
-			var script = document.createElement('script');
 			switch ( _vars["apiType"]){
 				
 				case "yandexMaps":
 					if( typeof ymaps === "undefined"){
+/*						
+						//var script = document.createElement('script');
 						script.src = _vars["ya_apiLink"].replace("{{apiKey}}", _vars["ya_apiKey"]);
 						_vars["apiUrl"] = _vars["ya_apiLink"].replace("{{apiKey}}", "***");
 						_waitWindow( "open" );
@@ -146,12 +149,24 @@
 _vars["logMsg"] = "load map API, url: " + _vars["apiUrl"];
 func.logAlert(_vars["logMsg"],"success");
 						 }
-						 
+*/
+						var _url = _vars["ya_apiLink"].replace("{{apiKey}}", _vars["ya_apiKey"]);
+						_vars["apiUrl"] = _vars["ya_apiLink"].replace("{{apiKey}}", "***");
+						
+						_waitWindow( "open" );
+						script = _loadScript(_url);
+						script.onload = function() {
+//alert( "onload " + this.src);
+							_waitWindow( "close" );
+_vars["logMsg"] = "load map API, url: " + _vars["apiUrl"];
+func.logAlert(_vars["logMsg"],"success");
+						 }
 					}
 				break;
 				
 				case "googleMaps":
 					if( typeof google === "undefined" ){
+/*						
 						script.src = _vars["google_apiLink"].replace("{{apiKey}}", _vars["google_apiKey"]);
 						_vars["apiUrl"] = _vars["google_apiLink"].replace("{{apiKey}}", "***");
 						_waitWindow( "open" );
@@ -163,12 +178,25 @@ func.logAlert(_vars["logMsg"],"success");
 _vars["logMsg"] = "load map API, url: " + _vars["apiUrl"]+", version: "+ google.maps.version;
 func.logAlert(_vars["logMsg"],"success");
 						 }
+*/
+						var _url = _vars["google_apiLink"].replace("{{apiKey}}", _vars["google_apiKey"]);
+						_vars["apiUrl"] = _vars["google_apiLink"].replace("{{apiKey}}", "***");
 						
+						_waitWindow( "open" );
+						script = _loadScript(_url);
+						script.onload = function() {
+//alert( "onload " + this.src);
+							_waitWindow( "close" );
+_vars["logMsg"] = "load map API, url: " + _vars["apiUrl"]+", version: "+ google.maps.version;
+func.logAlert(_vars["logMsg"],"success");
+						 }
+
 					}
 				break;
 
 				case "2GIS":
 					if( typeof DG === "undefined" ){
+/*						
 						script.src = _vars["gis_apiLink"];
 						_vars["apiUrl"] = _vars["gis_apiLink"];
 						_waitWindow( "open" );
@@ -180,11 +208,28 @@ func.logAlert(_vars["logMsg"],"success");
 _vars["logMsg"] = "load map API, url: " + _vars["apiUrl"]+", version: "+  DG.version;
 func.logAlert(_vars["logMsg"],"success");
 						 }
+*/						
+						var _url = _vars["gis_apiLink"];
+						_vars["apiUrl"] = _vars["gis_apiLink"];
+						
+						_waitWindow( "open" );
+						script = _loadScript(_url);
+						script.onload = function() {
+//alert( "onload " + this.src);
+							_waitWindow( "close" );
+							DG.then(function () {
+console.log(DG);
+//_vars["logMsg"] = "load 2GIS map API, url: " + _vars["apiUrl"]+", version: "+  DG.version;
+_vars["logMsg"] = "load 2GIS map API, version: "+  DG.version;
+func.logAlert(_vars["logMsg"],"success");
+							});
+						 }
 					}
 				break;
 
 				case "OpenStreetMaps":
 					if( typeof OpenLayers === "undefined" ){
+/*						
 						_vars["apiUrl"] = _vars["os_apiLink"];
 						script.src = _vars["os_apiLink"];
 						
@@ -197,6 +242,18 @@ console.log( OpenLayers );
 _vars["logMsg"] = "load map API, url: " + _vars["apiUrl"]+", version: "+OpenLayers.VERSION_NUMBER;
 func.logAlert(_vars["logMsg"],"success");
 						 }
+*/
+						var _url = _vars["os_apiLink"];
+						_vars["apiUrl"] = _vars["os_apiLink"];
+						_waitWindow( "open" );
+						script = _loadScript(_url);
+						script.onload = function() {
+//alert( "onload " + this.src);
+							_waitWindow( "close" );
+_vars["logMsg"] = "load map API, url: " + _vars["apiUrl"]+", version: "+OpenLayers.VERSION_NUMBER;
+func.logAlert(_vars["logMsg"],"success");
+						 }
+						 
 					}
 				break;
 
@@ -209,10 +266,26 @@ func.logAlert(_vars["logMsg"],"error");
 				break;
 			};//end switch
 			
-			  
 			script.onerror = function() {
 				alert( "onerror " + this.src );
 			};
+			
+			function _loadCss(url) {
+				var link = document.createElement("link");
+				link.type = "text/css";
+				link.rel = "stylesheet";
+				link.href = url;
+				document.getElementsByTagName("head")[0].appendChild(link);
+			};//end _loadCss()
+			
+			function _loadScript(url) {
+				var script = document.createElement("script");
+				script.src = url;
+				script.type = "text/javascript";
+				document.getElementsByTagName("head")[0].appendChild( script );
+				return script;
+			};//end _loadCss()
+			
 		}//end _loadApi()
 		
 

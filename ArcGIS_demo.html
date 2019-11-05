@@ -17,27 +17,52 @@ html, body, #basicMap {
 	
 	<script src="https://js.arcgis.com/4.13/"></script>
 	<script type="text/javascript">
+	/*
+		dojoConfig = {
+			locale: "ru",
+			parseOnLoad: true
+		  };
+	*/
+	
 		require([
 		  "esri/Map",
 		  "esri/views/MapView"
 		], function(Map, MapView) {
 
-		  var map = new Map({
-			basemap: "topo-vector"
+		  window.map = new Map({
+			//basemap: "topo-vector"
+			basemap: "streets"
+			//basemap: "topo"
 		  });
+console.log(map);
 
 		var lat = 55.03146;
 		var lng = 82.92317;
 
-		  var view = new MapView({
+		  window.view = new MapView({
 			container: "basicMap",
 			map: map,
 			//center: [-118.71511,34.09042],
 			center: [lng, lat],
 			zoom: 15
 		  });
-
+//console.log(view);
+console.log(map.basemap.title);
+console.log(view.center.latitude);
 		});
+		
+
+/*
+var map;
+require(["esri/map"], function(Map) {
+  map = new Map("map", {
+    basemap: "topo",
+    center: [-122.45, 37.75],
+    zoom: 13
+  });
+});
+*/
+		
 	</script>
 	
 </head>

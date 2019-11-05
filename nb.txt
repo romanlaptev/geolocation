@@ -19,6 +19,9 @@ t7
 2GIS, Apple Maps, MapBox, TomTom
 Azure Maps	
 )
+
+https://glitch.com/edit/#!/romanlaptev-geolocation
+
 =============================== TO DO
 - измерение расстояния между заданными пунктами на карте
 - поиск по названию
@@ -26,7 +29,8 @@ Azure Maps
 - построение по введенному адресу маршрута
 для формы ввода адреса можно сделать проверку полей с помощью ЛУСов
 
-- приложение не работает в браузере Epiphany, зависание при определении координат
+- приложение не работает в браузере Epiphany (Alcatel), зависание при определении координат
+- Epiphany, планшет, зависание при использовании Google Maps
 - как сбросить запрет разрешения на доступ к координатам?
 ------------
 
@@ -95,7 +99,10 @@ https://ruseller.com/lessons.php?id=2723
 
 ============================= ArcGIS API
 https://developers.arcgis.com/javascript/
+https://developers.arcgis.com/javascript/3/jshelp/inside_dojo.html
 https://pkk5.rosreestr.ru/arcgis_js_api/sdk/
+
+console.debug("Using ArcGIS API for JavaScript "+h.version+" [Date: "+e.buildDate+", Revision: "+h.revision.slice(0,8)+"]");
 
 ============================= Yandex API
 https://tech.yandex.ru/maps/geocoder/doc/desc/reference/response_structure-docpage/
