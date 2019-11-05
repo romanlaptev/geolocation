@@ -107,7 +107,6 @@
 					func.logAlert(_vars["logMsg"], "error");
 					return false;
 				}
-				_waitWindow( "open" );
 				_handleMapBtn();
 			}//end event
 			
@@ -131,6 +130,7 @@
 
 
 		function _loadApi(){
+			var script;
 			switch ( _vars["apiType"]){
 				
 				case "yandexMaps":
@@ -150,17 +150,18 @@ _vars["logMsg"] = "load map API, url: " + _vars["apiUrl"];
 func.logAlert(_vars["logMsg"],"success");
 						 }
 */
-						var _url = _vars["ya_apiLink"].replace("{{apiKey}}", _vars["ya_apiKey"]);
-						_vars["apiUrl"] = _vars["ya_apiLink"].replace("{{apiKey}}", "***");
-						
 						_waitWindow( "open" );
+						var _url = _vars["ya_apiLink"].replace("{{apiKey}}", _vars["ya_apiKey"]);
 						script = _loadScript(_url);
 						script.onload = function() {
 //alert( "onload " + this.src);
 							_waitWindow( "close" );
-_vars["logMsg"] = "load map API, url: " + _vars["apiUrl"];
+_vars["logMsg"] = "load Yandex map API";
 func.logAlert(_vars["logMsg"],"success");
 						 }
+						script.onerror = function() {
+							alert( "onerror " + this.src );
+						};
 					}
 				break;
 				
@@ -179,17 +180,18 @@ _vars["logMsg"] = "load map API, url: " + _vars["apiUrl"]+", version: "+ google.
 func.logAlert(_vars["logMsg"],"success");
 						 }
 */
-						var _url = _vars["google_apiLink"].replace("{{apiKey}}", _vars["google_apiKey"]);
-						_vars["apiUrl"] = _vars["google_apiLink"].replace("{{apiKey}}", "***");
-						
 						_waitWindow( "open" );
+						var _url = _vars["google_apiLink"].replace("{{apiKey}}", _vars["google_apiKey"]);
 						script = _loadScript(_url);
 						script.onload = function() {
 //alert( "onload " + this.src);
 							_waitWindow( "close" );
-_vars["logMsg"] = "load map API, url: " + _vars["apiUrl"]+", version: "+ google.maps.version;
+_vars["logMsg"] = "load googleMaps API, version: "+ google.maps.version;
 func.logAlert(_vars["logMsg"],"success");
 						 }
+						script.onerror = function() {
+							alert( "onerror " + this.src );
+						};
 
 					}
 				break;
@@ -209,21 +211,21 @@ _vars["logMsg"] = "load map API, url: " + _vars["apiUrl"]+", version: "+  DG.ver
 func.logAlert(_vars["logMsg"],"success");
 						 }
 */						
-						var _url = _vars["gis_apiLink"];
-						_vars["apiUrl"] = _vars["gis_apiLink"];
-						
 						_waitWindow( "open" );
-						script = _loadScript(_url);
+						script = _loadScript( _vars["gis_apiLink"] );
 						script.onload = function() {
 //alert( "onload " + this.src);
 							_waitWindow( "close" );
 							DG.then(function () {
-console.log(DG);
-//_vars["logMsg"] = "load 2GIS map API, url: " + _vars["apiUrl"]+", version: "+  DG.version;
+//console.log(DG);
 _vars["logMsg"] = "load 2GIS map API, version: "+  DG.version;
 func.logAlert(_vars["logMsg"],"success");
 							});
 						 }
+						script.onerror = function() {
+							alert( "onerror " + this.src );
+						};
+						 
 					}
 				break;
 
@@ -243,21 +245,43 @@ _vars["logMsg"] = "load map API, url: " + _vars["apiUrl"]+", version: "+OpenLaye
 func.logAlert(_vars["logMsg"],"success");
 						 }
 */
-						var _url = _vars["os_apiLink"];
-						_vars["apiUrl"] = _vars["os_apiLink"];
 						_waitWindow( "open" );
-						script = _loadScript(_url);
+						script = _loadScript( _vars["os_apiLink"] );
 						script.onload = function() {
 //alert( "onload " + this.src);
 							_waitWindow( "close" );
-_vars["logMsg"] = "load map API, url: " + _vars["apiUrl"]+", version: "+OpenLayers.VERSION_NUMBER;
+_vars["logMsg"] = "load OpenStreetMaps API, version: "+OpenLayers.VERSION_NUMBER;
 func.logAlert(_vars["logMsg"],"success");
 						 }
+						script.onerror = function() {
+							alert( "onerror " + this.src );
+						};
 						 
 					}
 				break;
 
 				case "ArcGIS":
+					if( typeof dojo === "undefined" ){
+						
+						_waitWindow( "open" );
+						var css = _loadCss( _vars["arcgis_cssLink"] );
+						css.onload = function() {
+	//alert( "onload " + this.src);
+	_vars["logMsg"] = "load ArcGIS map API css";
+	func.logAlert(_vars["logMsg"],"success");
+						}
+						
+						script = _loadScript( _vars["arcgis_apiLink"] );
+						script.onload = function() {
+	//alert( "onload " + this.src);
+							_waitWindow( "close" );
+	_vars["logMsg"] = "load ArcGIS map API script, Dojo framework version: " + dojo.version.toString();
+	func.logAlert(_vars["logMsg"],"success");
+						}
+						script.onerror = function() {
+							alert( "onerror " + this.src );
+						};
+					}
 				break;
 				
 				default:
@@ -266,9 +290,6 @@ func.logAlert(_vars["logMsg"],"error");
 				break;
 			};//end switch
 			
-			script.onerror = function() {
-				alert( "onerror " + this.src );
-			};
 			
 			function _loadCss(url) {
 				var link = document.createElement("link");
@@ -276,6 +297,7 @@ func.logAlert(_vars["logMsg"],"error");
 				link.rel = "stylesheet";
 				link.href = url;
 				document.getElementsByTagName("head")[0].appendChild(link);
+				return link;
 			};//end _loadCss()
 			
 			function _loadScript(url) {
@@ -349,6 +371,7 @@ console.log(error);
 
 		var _handleMapBtn = function(opt){
 			
+			_waitWindow( "open" );
 			switch ( _vars["apiType"]){
 				
 				case "yandexMaps":
@@ -380,7 +403,8 @@ console.log( "googleMaps API version: " + google.maps.version );
 						//mapTypeId: google.maps.MapTypeId.TERRAIN
 					}); 
 					
-				_vars["htmlObj"]["appModal"].classList.add("active");
+					_waitWindow( "close" );
+					_vars["htmlObj"]["appModal"].classList.add("active");
 				break;
 
 				case "2GIS":
@@ -405,7 +429,9 @@ console.log("2GIS API version: " + DG.version);
 						});
 						DG.marker([lat, lng]).addTo( _vars.mapObj ).bindPopup("You are here...");
 					});
-				_vars["htmlObj"]["appModal"].classList.add("active");
+					
+					_waitWindow( "close" );
+					_vars["htmlObj"]["appModal"].classList.add("active");
 					
 				break;
 
@@ -437,10 +463,48 @@ console.log("2GIS API version: " + DG.version);
 					var zoom = 17; 
 					_vars.mapObj.setCenter( position, zoom);
 
+					_waitWindow( "close" );
 					_vars["htmlObj"]["appModal"].classList.add("active");
 				break;
 
 				case "ArcGIS":
+//------------------------------- resize map wrapper (95% screen size)
+					var _w = (window.innerWidth / 100) * 95;
+//console.log( window.innerWidth, _w);
+//_vars["logMsg"] = "window.innerWidth = " + window.innerWidth+"px, map width = "+ _w+"px (95% screen size)";
+//func.logAlert(_vars["logMsg"],"info");
+					_vars["htmlObj"]["map"].style.width = _w+"px";
+//----------------------------
+					_vars["htmlObj"]["modalTitle"].innerHTML = "ArcGIS Maps API, Dojo framework version: " + dojo.version.toString();
+				
+					require([
+					  "esri/Map",
+					  "esri/views/MapView"
+					], function(Map, MapView) {
+
+					_vars.mapObj = new Map({
+						//basemap: "topo-vector"
+						basemap: "streets"
+						//basemap: "topo"
+					  });
+
+					var lat = _vars["position"]["coords"].latitude.toFixed(5);// 55.03146
+					var lng = _vars["position"]["coords"].longitude.toFixed(5);// 82.92317
+
+					window.view = new MapView({
+						container: _vars["htmlObj"]["mapID"],
+						map: _vars.mapObj,
+						//center: [-118.71511,34.09042],
+						center: [lng, lat],
+						zoom: 15
+					  });
+//console.log(view);
+//console.log(map.basemap.title);
+//console.log(view.center.latitude);
+						_waitWindow( "close" );
+						_vars["htmlObj"]["appModal"].classList.add("active");
+					});
+				
 				break;
 
 				default:
@@ -449,7 +513,6 @@ func.logAlert(_vars["logMsg"],"error");
 				break;
 			};//end switch
 			
-			_waitWindow( "close" );
 		};//_handleMapBtn()
 
 
@@ -660,6 +723,7 @@ func.logAlert(_vars["logMsg"],"info");
 			_vars.mapObj.geoObjects.add( myGeoObject );
 			
 //console.log( "mapObj:", _vars.mapObj );
+			_waitWindow( "close" );
 			_vars["htmlObj"]["appModal"].classList.add("active");
 		}//end initYandexMap()
 
@@ -719,6 +783,8 @@ func.logAlert(_vars["logMsg"],"info");
 				break;
 				
 				case "googleMaps":
+					_vars.mapObj = null;
+					_vars["htmlObj"]["map"].innerHTML="";
 				break;
 				
 				case "2GIS":
@@ -730,6 +796,8 @@ func.logAlert(_vars["logMsg"],"info");
 				break;
 				
 				case "ArcGIS":
+					_vars.mapObj = null;
+					_vars["htmlObj"]["map"].innerHTML="";
 				break;
 				
 				default:
