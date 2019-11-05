@@ -491,7 +491,7 @@ console.log("2GIS API version: " + DG.version);
 					var lat = _vars["position"]["coords"].latitude.toFixed(5);// 55.03146
 					var lng = _vars["position"]["coords"].longitude.toFixed(5);// 82.92317
 
-					window.view = new MapView({
+					var view = new MapView({
 						container: _vars["htmlObj"]["mapID"],
 						map: _vars.mapObj,
 						//center: [-118.71511,34.09042],
@@ -501,7 +501,15 @@ console.log("2GIS API version: " + DG.version);
 //console.log(view);
 //console.log(map.basemap.title);
 //console.log(view.center.latitude);
-						_waitWindow( "close" );
+view.when(function( e ){// This function will execute once the promise is resolved
+console.log(e);			
+	_waitWindow( "close" );
+}, function( error ){// This function will execute if the promise is rejected due to an error
+console.log(error);
+	_vars["logMsg"] = "error creating ArcGIS map..." ;
+	func.logAlert(_vars["logMsg"],"error");
+});
+
 						_vars["htmlObj"]["appModal"].classList.add("active");
 					});
 				

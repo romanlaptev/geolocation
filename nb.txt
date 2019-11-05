@@ -99,6 +99,7 @@ https://ruseller.com/lessons.php?id=2723
 
 ============================= ArcGIS API
 https://developers.arcgis.com/javascript/
+https://developers.arcgis.com/javascript/latest/api-reference/
 https://developers.arcgis.com/javascript/3/jshelp/inside_dojo.html
 https://pkk5.rosreestr.ru/arcgis_js_api/sdk/
 
