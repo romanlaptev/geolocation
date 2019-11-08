@@ -52,6 +52,13 @@ margin: auto;
 - сделать левое меню
 
 - IE9, ошибка при использовании classList (найти полифил)
+https://developer.mozilla.org/ru/docs/Web/API/Element/classList
+https://github.com/eligrey/classList.js/blob/master/classList.js
+https://www.npmjs.com/package/classlist-polyfill
+
+- сделать сервис (PHP? или найти существующий) который по входящему IP отдает координаты
+для браузеров без поддержки navigator.geolocation или https
+
 ------------
 
 	latitude - Широта.
