@@ -35,6 +35,9 @@ https://glitch.com/edit/#!/romanlaptev-geolocation
 - как сбросить запрет разрешения на доступ к координатам?
 - OpenStreetMaps, поставить маркер на карту
 - сделать скрытие блокирующего слоя и окна ожидания по событию готовности карты
+- сложно выбирать радиокнопки на телефонах, планшетах
+проверить разметку радиокнопок, сделаннную с помощью бутстрапа
+- сделать левое меню
 ------------
 
 	latitude - Широта.
@@ -69,6 +72,8 @@ https://geo2tag.wordpress.com/review-free-geocoding-services-ru/
 https://geocode-maps.yandex.ru/1.x/?geocode=27.525773,53.89079
 https://tech.yandex.ru/maps/jsapi/doc/2.1/ref/reference/geocode-docpage/
 
+https://dadata.ru/api/detect_address_by_ip/
+https://codepen.io/dadata/pen/JBMMvW
 
 ------------------- 2GIS API
 https://api.2gis.ru/doc/maps/ru/quickstart/
