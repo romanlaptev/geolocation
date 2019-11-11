@@ -566,8 +566,13 @@ console.log(e);
 	_waitWindow( "close" );
 }, function( error ){// This function will execute if the promise is rejected due to an error
 console.log(error);
-	_vars["logMsg"] = "error creating ArcGIS map..." ;
+// for(var key in error){
+	// _vars["logMsg"] = key+ ":" + error[key] + ", type:" + typeof error[key];
+	// func.logAlert(_vars["logMsg"],"error");
+// }
+	_vars["logMsg"] = "error creating ArcGIS map, error.message:" + error.message;
 	func.logAlert(_vars["logMsg"],"error");
+	_waitWindow( "close" );
 });
 
 						_vars["htmlObj"]["appModal"].classList.add("active");
