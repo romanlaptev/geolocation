@@ -59,6 +59,8 @@ https://www.npmjs.com/package/classlist-polyfill
 - сделать сервис (PHP? или найти существующий) который по входящему IP отдает координаты
 для браузеров без поддержки navigator.geolocation или https
 
+- добавить все имеющиеся сервисы API
+
 ------------
 
 	latitude - Широта.
