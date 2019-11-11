@@ -1,0 +1,102 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="utf8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="/css/bootstrap335.min.css" rel="stylesheet">	
+	
+	<script>
+window.onload = function(){
+		if(document.querySelector){
+			var context = document.querySelector("#first-canvas").getContext("2d");
+			//var ctx = document.getElementById("ctx").getContext("2d");
+		} else {
+			var context = document.getElementById("first-canvas").getContext("2d");
+		}
+		
+		
+		// Толщина и цвет для всех линий
+		//context.lineWidth = 2;
+		//context.strokeStyle = "#000000";
+		
+		context.fillRect(0,0,10,10);
+		
+		//Рисуем  контурный  прямоугольник
+		context.strokeRect(20,30,100,50);		
+		
+		context.moveTo(20, 20);
+		context.lineTo(100, 120);
+		
+		context.strokeStyle = "red";
+		context.stroke();	
+
+		var my_gradient = context.createLinearGradient(0, 0, 300, 0);
+		my_gradient.addColorStop(0, "black");
+		my_gradient.addColorStop(1, "white");
+		context.fillStyle = my_gradient;
+		context.fillRect(150, 0, 300, 125);
+
+		//path
+/*		
+arc (х, у, радиус, начальный Угол, конечный Угол, против Часовой Стрелки) 
+- рисует дугу указанного радиуса с центром в точке (х, у ) между начальным 
+и конечньш углами (в радианах). Последним аргументом является логическое 
+значение, указывающее, следует ли отсчитывать углы против часовой стрелки или по ней. 		
+*/
+		context.fillStyle = 'red';
+		context.beginPath();
+		
+		context.moveTo(320, 240);
+		context.arc(320, 240, 150, 0, Math.PI * 2, false);
+		
+		context.moveTo(500, 100);
+		context.arc(500, 100, 50, 0, 4.5, false);
+
+		context.closePath();
+		context.fill();
+
+		context.fillStyle = 'blue';
+		
+		var x = 50;
+		var y = 400;
+		context.fillRect(x, y,5,5);
+		
+		//text
+		context.font = "bold 14рх Arial"; 
+		context.textAlign = "center"; 
+		context.textBaseline = "middle"; 
+		context.fillText("simple text line", 100, 20); 		
+		
+}		
+	</script>
+	
+<style>
+.w{
+		margin:auto;
+		width:1024px;
+}
+canvas{
+	border:1px solid;
+}
+</style>
+	
+</head>
+
+<body>
+
+<div class="container">
+<pre>
+http://htmlbook.ru/html5/canvas
+http://professorweb.ru/my/html/html5/level4/4_1.php
+http://www.w3schools.com/tags/ref_canvas.asp
+</pre>
+
+<div class="w">
+	<canvas id="first-canvas" width="640" height="480">
+Your browser doesn't appear to support the HTML5 <code>&lt;canvas&gt;</code> element.	
+	</canvas>
+</div>
+
+</div>
+</body>
+</html>
