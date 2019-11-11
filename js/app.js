@@ -451,9 +451,9 @@ console.log("2GIS API version: " + DG.version);
 							zoom: 16
 						});
 						DG.marker([lat, lng]).addTo( _vars.mapObj ).bindPopup("You are here...");
+						_waitWindow( "close" );
 					});
 					
-					_waitWindow( "close" );
 					_vars["htmlObj"]["appModal"].classList.add("active");
 					
 				break;
