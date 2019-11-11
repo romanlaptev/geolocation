@@ -163,10 +163,13 @@ http://nominatim.openstreetmap.org/reverse?format=json&lat=55.03146&lon=82.92317
 
 
 ============================= ArcGIS API
+https://www.esri-cis.ru/products/web-applications/detail/javascriptapi/
+https://developers.arcgis.com/
 https://developers.arcgis.com/javascript/
 https://developers.arcgis.com/javascript/latest/api-reference/
 https://developers.arcgis.com/javascript/3/jshelp/inside_dojo.html
 https://pkk5.rosreestr.ru/arcgis_js_api/sdk/
+https://desktop.arcgis.com/ru/arcmap/10.4/map/working-with-layers/list-of-marker-placement-styles.htm
 
 console.debug("Using ArcGIS API for JavaScript "+h.version+" [Date: "+e.buildDate+", Revision: "+h.revision.slice(0,8)+"]");
 
