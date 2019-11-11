@@ -27,7 +27,7 @@
 			"gis_apiLink": "https://maps.api.2gis.ru/2.0/loader.js?pkg=full",
 			
 			"os_apiLink": "https://openlayers.org/api/OpenLayers.js",
-			//"os_apiLink": "js/api/OpenLayers.js",
+			//"os_apiLink": "js/api/OpenLayers2.13.1.js",
 			"os_geocodeUrl" : "https://nominatim.openstreetmap.org/reverse?\
 format={{format}}\
 &lat={{lat}}&lon={{lon}}\
@@ -50,31 +50,31 @@ format={{format}}\
 //console.log("App initialize...");
 			
 			_vars["htmlObj"]={
-				"latitude" : document.querySelector("#latitude"),
-				"longitude" : document.querySelector("#longitude"),
-				"accuracy" : document.querySelector("#accuracy"),
-				"datetime" : document.querySelector("#datetime"),
-				"altitude" : document.querySelector("#altitude"),
-				"altitudeAccuracy" : document.querySelector("#altitude-accuracy"),
-				"heading" : document.querySelector("#heading"),
-				"speed" : document.querySelector("#speed"),
-				"addresTitle": document.querySelector("#addr-title"),
-				"addresText": document.querySelector("#addr-text"),
+				"latitude" : func.getById("latitude"),
+				"longitude" : func.getById("longitude"),
+				"accuracy" : func.getById("accuracy"),
+				"datetime" : func.getById("datetime"),
+				"altitude" : func.getById("altitude"),
+				"altitudeAccuracy" : func.getById("altitude-accuracy"),
+				"heading" : func.getById("heading"),
+				"speed" : func.getById("speed"),
+				"addresTitle": func.getById("addr-title"),
+				"addresText": func.getById("addr-text"),
 
-				"appModal": document.querySelector("#app-modal"),
+				"appModal": func.getById("app-modal"),
 				
-				"map": document.querySelector("#show-map"),
+				"map": func.getById("show-map"),
 				"mapID": "show-map",
 				
-				"modalTitle": document.querySelector("#modal-title"),
-				"iconModalClose": document.querySelector("#icon-modal-close"),
+				"modalTitle": func.getById("modal-title"),
+				"iconModalClose": func.getById("icon-modal-close"),
 				
-				"waitOverlay": document.querySelector("#wait"),
-				"btnGetCoord": document.querySelector("#btn-get-coords"),
-				"btnGetAddr": document.querySelector("#btn-get-address"),
-				"btnShowMap": document.querySelector("#btn-show-map"),
+				"waitOverlay": func.getById("wait"),
+				"btnGetCoord": func.getById("btn-get-coords"),
+				"btnGetAddr": func.getById("btn-get-address"),
+				"btnShowMap": func.getById("btn-show-map"),
 				
-				"blockApiType": document.querySelector("#api-type")
+				"blockApiType": func.getById("api-type")
 			};
 			
 			_vars["htmlObj"]["addresTitle"].style.display="none";
@@ -270,6 +270,7 @@ func.logAlert(_vars["logMsg"],"success");
 						_waitWindow( "open" );
 						script = _loadScript( _vars["os_apiLink"] );
 						script.onload = function() {
+console.log( OpenLayers );
 //alert( "onload " + this.src);
 							_waitWindow( "close" );
 _vars["logMsg"] = "load OpenStreetMaps API, version: "+OpenLayers.VERSION_NUMBER;
@@ -467,11 +468,25 @@ console.log("2GIS API version: " + DG.version);
 					_vars["htmlObj"]["map"].style.width = _w+"px";
 //----------------------------
 					_vars["htmlObj"]["modalTitle"].innerHTML = "OpenStreet Maps API version: " + OpenLayers.VERSION_NUMBER;
+					_vars["htmlObj"]["appModal"].classList.add("active");
 				
 //http://uralbash.ru/articles/2012/osm_example/
 //https://wiki.openstreetmap.org/wiki/OpenLayers_Simple_Example
-					_vars.mapObj = new OpenLayers.Map( _vars["htmlObj"]["mapID"] );
+
+//vlayer = new OpenLayers.Layer.Vector( "Editable" );
+					var options = {
+						controls: [
+							new OpenLayers.Control.Navigation(),
+							new OpenLayers.Control.PanZoomBar()//,
+							//new OpenLayers.Control.Attribution(),
+							//new OpenLayers.Control.EditingToolbar(vlayer),
+							//new OpenLayers.Control.Zoom()
+						]
+					};
+					_vars.mapObj = new OpenLayers.Map( _vars["htmlObj"]["mapID"], options );
+					
 					var mapLayer = new OpenLayers.Layer.OSM();
+//console.log("mapLayer: ", mapLayer);
 					var fromProjection = new OpenLayers.Projection("EPSG:4326");   // Transform from WGS 1984
 					var toProjection   = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
 					
@@ -479,14 +494,37 @@ console.log("2GIS API version: " + DG.version);
 					var lng = _vars["position"]["coords"].longitude.toFixed(5);// 82.92317
 					var position = new OpenLayers.LonLat( lng, lat ).transform( fromProjection, toProjection);
 					
+					mapLayer.events.register("loadend", mapLayer, function (e) {
+//console.log("loadend", e);
+						_waitWindow( "close" );
+						_vars["htmlObj"]["map"].classList.remove("olMap");//fix, remove class
+					});
 					_vars.mapObj.addLayer( mapLayer );
 					//_vars.mapObj.zoomToMaxExtent();
 					
+					var markers = new OpenLayers.Layer.Markers( "Markers" );
+					_vars.mapObj.addLayer( markers );
+					markers.addMarker( new OpenLayers.Marker(position) );
+					
 					var zoom = 17; 
 					_vars.mapObj.setCenter( position, zoom);
+					
+					_vars.mapObj.addControl(new OpenLayers.Control.LayerSwitcher());
+					//_vars.mapObj.addControl(new OpenLayers.Control.Permalink());
+					//_vars.mapObj.addControl(new OpenLayers.Control.Permalink("permalink"));
+// координаты текущего положения мыши
+//_vars.mapObj.addControl(new OpenLayers.Control.MousePosition());
 
-					_waitWindow( "close" );
-					_vars["htmlObj"]["appModal"].classList.add("active");
+// обзорная карта
+_vars.mapObj.addControl(new OpenLayers.Control.OverviewMap());
+
+// горячие клавиши
+_vars.mapObj.addControl(new OpenLayers.Control.KeyboardDefaults());
+	  
+//OpenLayers.Event.isLeftClick: function(event) {
+//console.log( event );
+//};
+					
 				break;
 
 				case "ArcGIS":

@@ -36,25 +36,27 @@ error creating ArcGIS map
 
 - как сбросить запрет разрешения на доступ к координатам?
 - OpenStreetMaps, поставить маркер на карту
-- после первого вывода карты  в модальном окне, следующие вызовы окна показывают 
+
+*- после первого вывода карты  в модальном окне, следующие вызовы окна показывают 
  карту сдвинутой влево
 https://openlayers.org/api/theme/default/style.css назначением class="olMap" перекрывает
 #show-map{
 margin: auto;
 }
-убрать class="olMap"
+*убрать class="olMap"
 
 - сделать скрытие блокирующего слоя и окна ожидания по событию готовности карты
 - android, планшет, блокирующий слой растянут по высоте не на весь экран
 
-- сложно выбирать радиокнопки на телефонах, планшетах
+*- сложно выбирать радиокнопки на телефонах, планшетах
 +проверить разметку радиокнопок, сделаннную с помощью бутстрапа
 - сделать левое меню
 
-- IE9, ошибка при использовании classList (найти полифил)
+- IE9, ошибка при использовании classList (*найти полифил)
 https://developer.mozilla.org/ru/docs/Web/API/Element/classList
 https://github.com/eligrey/classList.js/blob/master/classList.js
 https://www.npmjs.com/package/classlist-polyfill
+сделать замену classList на className если нет поддержки
 
 - сделать сервис (PHP? или найти существующий) который по входящему IP отдает координаты
 для браузеров без поддержки navigator.geolocation или https
@@ -131,9 +133,18 @@ http://gis-lab.info/qa/openlayers-begin.html
 OpenLayers: начало работы
 
 https://wiki.openstreetmap.org/wiki/RU:OpenLayers
+http://dev.openlayers.org/examples/
+http://dev.openlayers.org/docs/files/OpenLayers/Events-js.html
+https://openlayers.org/en/latest/examples/
+https://openlayers.org/en/latest/apidoc/
 
 http://uralbash.ru/articles/2012/osm_example/
 Пример карты OpenStreetMap на своем сайте
+
+https://devburn.ru/2016/01/31/%D0%BF%D1%80%D0%BE%D1%81%D1%82%D0%B5%D0%B9%D1%88%D0%B0%D1%8F-%D0%BA%D0%B0%D1%80%D1%82%D0%B0-%D0%BD%D0%B0-openlayers/
+Простейшая карта на OpenLayers
+
+
 ------
 https://nominatim.org/release-docs/develop/api/Overview/
 https://nominatim.org/release-docs/develop/api/Lookup/#examples
