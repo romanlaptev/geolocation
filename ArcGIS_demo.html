@@ -102,16 +102,16 @@ console.log(symbol);
 				var point = new Point( lng, lat);
 				_gLayer.remove(_graphic);
 				_point = new Point( point );
-/*				
+
 				var _markerSymbol = new PictureMarkerSymbol({
 					url: "https://static.arcgis.com/images/Symbols/Shapes/BlackStarLargeB.png",
 					width: 64,
 					height: 64,
 					yoffset: 12
 				});
-*/				
-//				var _graphic = new Graphic(_point, _markerSymbol);
-				var _graphic = new Graphic(_point, symbol);
+
+				var _graphic = new Graphic(_point, _markerSymbol);
+				//var _graphic = new Graphic(_point, symbol);
 				_gLayer.add(_graphic);
 				
 			});//end event

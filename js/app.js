@@ -37,10 +37,10 @@ format={{format}}\
 ",
 
 			
-			//"arcgis_apiLink": "https://js.arcgis.com/3.25/",
-			//"arcgis_cssLink": "https://js.arcgis.com/3.25/esri/css/esri.css"
-			"arcgis_apiLink": "https://js.arcgis.com/4.13/",
-			"arcgis_cssLink": "https://js.arcgis.com/4.13/esri/css/main.css"
+			"arcgis_apiLink": "https://js.arcgis.com/3.25/",
+			"arcgis_cssLink": "https://js.arcgis.com/3.25/esri/css/esri.css"
+			//"arcgis_apiLink": "https://js.arcgis.com/4.13/",
+			//"arcgis_cssLink": "https://js.arcgis.com/4.13/esri/css/main.css"
 			
 		};//end _vars
 
@@ -536,7 +536,99 @@ _vars.mapObj.addControl(new OpenLayers.Control.KeyboardDefaults());
 					_vars["htmlObj"]["map"].style.width = _w+"px";
 //----------------------------
 					_vars["htmlObj"]["modalTitle"].innerHTML = "ArcGIS Maps API, Dojo framework version: " + dojo.version.toString();
-				
+					var lat = _vars["position"]["coords"].latitude.toFixed(5);// 55.03146
+					var lng = _vars["position"]["coords"].longitude.toFixed(5);// 82.92317
+//API 3.25
+					require([
+"esri/map", 
+//"dojo/domReady!",
+//"esri/dijit/Legend",
+"esri/symbols/SimpleMarkerSymbol",
+"esri/symbols/SimpleLineSymbol",
+"esri/geometry/Point",
+"esri/Color",
+"esri/symbols/PictureMarkerSymbol",
+//"esri/arcgis/utils",
+"esri/graphic",
+"esri/layers/GraphicsLayer",
+//"esri/geometry/webMercatorUtils"
+						], function(
+Map,
+//Legend,
+SimpleMarkerSymbol,
+SimpleLineSymbol,
+Point,
+Color,
+PictureMarkerSymbol,
+//arcgisUtils,
+Graphic,
+GraphicsLayer,
+//webMercatorUtils
+					) {
+							_map = new Map( _vars["htmlObj"]["mapID"] , {
+								//A valid basemap name.
+								basemap: "streets",
+//"topo", "streets" | "satellite" | "hybrid" | "topo" | "gray" | "dark-gray" | "oceans" | 
+//"national-geographic" | "terrain" | "osm" | "dark-gray-vector" | "gray-vector" | 
+//"streets-vector" | "streets-night-vector" | 
+//"streets-relief-vector" | "streets-navigation-vector" | "topo-vector"
+								center: [lng, lat],
+								zoom: 15
+							});
+//console.log("Point:", Point);
+						
+							_map.on("load", function(e) {
+console.log("load _map ", e);
+/*					
+			var symbol = new SimpleMarkerSymbol({
+			  "color": [255,255,255,64],
+			  "size": 12,
+			  "angle": -30,
+			  "xoffset": 0,
+			  "yoffset": 0,
+			  "type": "esriSMS",
+			  //"style": "esriSMSCircle",
+			  //"style": "esriSMSCross",
+			  "style": "esriSMSDiamond",
+			  "outline": {
+				"color": [0,0,0,255],
+				"width": 1,
+				"type": "esriSLS",
+				"style": "esriSLSSolid"
+			  }
+			});        
+			console.log(symbol);
+*/
+								var _gLayer = new GraphicsLayer();
+								_map.addLayer(_gLayer);
+								
+								var point = new Point( lng, lat);
+								_gLayer.remove(_graphic);
+								_point = new Point( point );
+
+								var _markerSymbol = new PictureMarkerSymbol({
+									//url: "https://static.arcgis.com/images/Symbols/Shapes/BlackStarLargeB.png",
+									url: "../img/BlackStarLargeB.png",
+									width: 64,
+									height: 64,
+									yoffset: 12
+								});
+
+								var _graphic = new Graphic(_point, _markerSymbol);
+								//var _graphic = new Graphic(_point, symbol);
+								_gLayer.add(_graphic);
+								
+								_waitWindow( "close" );
+							});//end event
+					
+						_map.on("click", function(e){
+console.log("_map click", e);
+						});//end event
+
+					});//end require
+
+//API 4.13
+/*
 					require([
 					  "esri/Map",
 					  "esri/views/MapView"
@@ -548,8 +640,6 @@ _vars.mapObj.addControl(new OpenLayers.Control.KeyboardDefaults());
 						//basemap: "topo"
 					  });
 
-					var lat = _vars["position"]["coords"].latitude.toFixed(5);// 55.03146
-					var lng = _vars["position"]["coords"].longitude.toFixed(5);// 82.92317
 
 					var view = new MapView({
 						container: _vars["htmlObj"]["mapID"],
@@ -574,10 +664,9 @@ console.log(error);
 	func.logAlert(_vars["logMsg"],"error");
 	_waitWindow( "close" );
 });
-
-						_vars["htmlObj"]["appModal"].classList.add("active");
 					});
-				
+*/
+						_vars["htmlObj"]["appModal"].classList.add("active");
 				break;
 
 				default:
