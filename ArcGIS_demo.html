@@ -13,9 +13,12 @@ html, body, #basicMap {
 	padding: 0;
 }
 	</style>
-	<link rel="stylesheet" href="https://js.arcgis.com/4.13/esri/css/main.css">
 	
-	<script src="https://js.arcgis.com/4.13/"></script>
+	<link rel="stylesheet" href="https://js.arcgis.com/3.25/esri/css/esri.css">
+	<!-- <link rel="stylesheet" href="https://js.arcgis.com/4.13/esri/css/main.css"> -->
+	
+	<script src="https://js.arcgis.com/3.25/"></script>
+	<!-- <script src="https://js.arcgis.com/4.13/"></script> -->
 	<script type="text/javascript">
 	/*
 		dojoConfig = {
@@ -23,7 +26,120 @@ html, body, #basicMap {
 			parseOnLoad: true
 		  };
 	*/
-	
+
+		var lat = 55.03146;
+		var lng = 82.92317;
+		var mapContainerID = "basicMap";
+		var _map;
+		
+//API 3.25
+		require([
+			"esri/map", 
+//"dojo/domReady!",
+//"esri/dijit/Legend",
+"esri/symbols/SimpleMarkerSymbol",
+"esri/symbols/SimpleLineSymbol",
+"esri/geometry/Point",
+"esri/Color",
+"esri/symbols/PictureMarkerSymbol",
+//"esri/arcgis/utils",
+"esri/graphic",
+"esri/layers/GraphicsLayer",
+//"esri/geometry/webMercatorUtils"
+			], function(
+Map,
+//Legend,
+SimpleMarkerSymbol,
+SimpleLineSymbol,
+Point,
+Color,
+PictureMarkerSymbol,
+//arcgisUtils,
+Graphic,
+GraphicsLayer,
+//webMercatorUtils
+) {
+			
+			_map = new Map(mapContainerID, {
+				//A valid basemap name.
+				basemap: "streets",
+//"topo", "streets" | "satellite" | "hybrid" | "topo" | "gray" | "dark-gray" | "oceans" | 
+//"national-geographic" | "terrain" | "osm" | "dark-gray-vector" | "gray-vector" | 
+//"streets-vector" | "streets-night-vector" | 
+//"streets-relief-vector" | "streets-navigation-vector" | "topo-vector"
+				center: [lng, lat],
+				zoom: 15
+			});
+      
+console.log("Point:", Point);
+			
+			_map.on("load", function(e) {
+console.log("load _map ", e);
+        
+var symbol = new SimpleMarkerSymbol({
+  "color": [255,255,255,64],
+  "size": 12,
+  "angle": -30,
+  "xoffset": 0,
+  "yoffset": 0,
+  "type": "esriSMS",
+  //"style": "esriSMSCircle",
+  //"style": "esriSMSCross",
+  "style": "esriSMSDiamond",
+  "outline": {
+    "color": [0,0,0,255],
+    "width": 1,
+    "type": "esriSLS",
+    "style": "esriSLSSolid"
+  }
+});        
+console.log(symbol);
+
+        
+				var _gLayer = new GraphicsLayer();
+				_map.addLayer(_gLayer);
+				
+				var point = new Point( lng, lat);
+				_gLayer.remove(_graphic);
+				_point = new Point( point );
+/*				
+				var _markerSymbol = new PictureMarkerSymbol({
+					url: "https://static.arcgis.com/images/Symbols/Shapes/BlackStarLargeB.png",
+					width: 64,
+					height: 64,
+					yoffset: 12
+				});
+*/				
+//				var _graphic = new Graphic(_point, _markerSymbol);
+				var _graphic = new Graphic(_point, symbol);
+				_gLayer.add(_graphic);
+				
+			});//end event
+		
+			_map.on("click", function(e){
+console.log("_map click", e);
+	//var point = new Point(lng, lat);
+	/*
+				_map.graphics.clear(); //clear existing graphics
+				
+				//define the symbology used to display the results and input point
+				var pointSymbol = new SimpleMarkerSymbol(
+"diamond", 
+20, 
+new SimpleLineSymbol("solid",	new Color([88,116,152]), 2),
+new Color([88,116,152,0.45]) 
+				);
+				
+				var inPoint = new Point(e.mapPoint.x, e.mapPoint.y, _map.spatialReference);
+				var location = new Graphic(inPoint, pointSymbol);
+				_map.graphics.add(location);
+*/
+			});//end event
+
+		});//end require
+
+/*
+//API 4.13
 		require([
 		  "esri/Map",
 		  "esri/views/MapView"
@@ -36,8 +152,6 @@ html, body, #basicMap {
 		  });
 console.log(map);
 
-		var lat = 55.03146;
-		var lng = 82.92317;
 
 		  window.view = new MapView({
 			container: "basicMap",
@@ -52,22 +166,22 @@ console.log(view.center.latitude);
 
 			view.on("click", function(event) {
 console.log(event);			
-/*			
+
 			 // you must overwrite default click-for-popup
 			 // behavior to display your own popup
-			 view.popup.autoOpenEnabled = false;
+			 //view.popup.autoOpenEnabled = false;
 
 			 // Get the coordinates of the click on the view
-			 var lat = Math.round(event.mapPoint.latitude * 1000) / 1000;
-			 var lon = Math.round(event.mapPoint.longitude * 1000) / 1000;
+			 //var lat = Math.round(event.mapPoint.latitude * 1000) / 1000;
+			 //var lon = Math.round(event.mapPoint.longitude * 1000) / 1000;
 
-			 view.popup.open({
+			 //view.popup.open({
 			   // Set the popup's title to the coordinates of the location
-			   title: "Reverse geocode: [" + lon + ", " + lat + "]",
-			   location: event.mapPoint // Set the location of the popup to the clicked location
-			   content: "This is a point of interest"  // content displayed in the popup
-			 });
-*/			 
+			   //title: "Reverse geocode: [" + lon + ", " + lat + "]",
+			   //location: event.mapPoint // Set the location of the popup to the clicked location
+			   //content: "This is a point of interest"  // content displayed in the popup
+			 //});
+
 			});
 
 view.when(function(e){
@@ -78,7 +192,7 @@ console.log(e);
 });
 
 		});
-		
+*/		
 
 /*
 var map;
@@ -100,6 +214,7 @@ require(["esri/map"], function(Map) {
   
 <pre>
 https://developers.arcgis.com/javascript/latest/guide/quick-start/
+https://developers.arcgis.com/javascript/3/jssamples/
 </pre>
 		<div id="basicMap"></div>
 </body> 
