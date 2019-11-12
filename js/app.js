@@ -565,7 +565,7 @@ Graphic,
 GraphicsLayer,
 //webMercatorUtils
 					) {
-							_map = new Map( _vars["htmlObj"]["mapID"] , {
+							_vars.mapObj = new Map( _vars["htmlObj"]["mapID"] , {
 								//A valid basemap name.
 								basemap: "streets",
 //"topo", "streets" | "satellite" | "hybrid" | "topo" | "gray" | "dark-gray" | "oceans" | 
@@ -577,7 +577,7 @@ GraphicsLayer,
 							});
 //console.log("Point:", Point);
 						
-							_map.on("load", function(e) {
+							_vars.mapObj.on("load", function(e) {
 console.log("load _map ", e);
 /*					
 			var symbol = new SimpleMarkerSymbol({
@@ -600,7 +600,7 @@ console.log("load _map ", e);
 			console.log(symbol);
 */
 								var _gLayer = new GraphicsLayer();
-								_map.addLayer(_gLayer);
+								_vars.mapObj.addLayer(_gLayer);
 								
 								var point = new Point( lng, lat);
 								_gLayer.remove(_graphic);
@@ -621,7 +621,7 @@ console.log("load _map ", e);
 								_waitWindow( "close" );
 							});//end event
 					
-						_map.on("click", function(e){
+						_vars.mapObj.on("click", function(e){
 console.log("_map click", e);
 						});//end event
 
