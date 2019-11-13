@@ -417,8 +417,8 @@ console.log( "googleMaps API version: " + google.maps.version );
 					
 					var lat = _vars["position"]["coords"].latitude.toFixed(5);// 55.03146
 					var lng = _vars["position"]["coords"].longitude.toFixed(5);// 82.92317
-					
 					var latlng = new google.maps.LatLng(lat, lng);
+					
 					var _options = {
 						zoom: 16,
 						//center: new google.maps.LatLng(-34.397, 150.644),
@@ -436,16 +436,30 @@ console.log( "googleMaps API version: " + google.maps.version );
 
 					//var marker = new google.maps.Marker({position: latlng, map: _vars.mapObj});
 					var marker = new google.maps.Marker({
-						position: {lat: lat, lng: lng},
-						map: map,
-						title: "Legalizuem.ru",
+						position: latlng,
+						map: _vars.mapObj,
+						title: "you are here..",
 						icon: {
 							url: "../img/red-star.png",
 							scaledSize: new google.maps.Size(64, 64)
 						}
 					});
-
-					_waitWindow( "close" );
+					
+					var contentString = '<div class="location-balloon">Your location</div>';
+					var infowindow = new google.maps.InfoWindow({
+							content: contentString
+					});
+					google.maps.event.addListener( marker, "click", function(e) {
+//console.log(e);
+							infowindow.open( _vars.mapObj, marker);
+					});
+					
+					google.maps.event.addListener(_vars.mapObj, "idle", function() {//tilesloaded
+//console.log("idle,", arguments);
+						_waitWindow( "close" );
+					});
+					
+					
 					_vars["htmlObj"]["appModal"].classList.add("active");
 				break;
 

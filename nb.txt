@@ -159,6 +159,14 @@ https://console.cloud.google.com/billing/0123B1-37CE7B-04915C?project=testgeoloc
 http://blog.kogtev.com/customize-google-map-markers/
 Свой маркер на картах Google Maps
 
+https://html5css.ru/graphics/google_maps_events.php
+Google Maps Events
+
+http://googlewebcomponents.github.io/google-map/components/google-map/
+Documentation
+
+https://developers.google.com/maps/documentation/javascript/events
+
 
 ================================== OpenStreetMap
 
