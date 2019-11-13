@@ -408,9 +408,18 @@ margin: 0;
 #api-type label {
 	/*margin-left: 10px;*/
 	padding: 10px 5px 10px 5px;
+	float: left;
 }
 #api-type label input {
 	margin-right: 5px;
+}
+#api-type a {
+	float: right;
+	text-align: center;
+	width: 150px;
+}
+#api-type a img {
+	width: 100%;
 }
 
 /*

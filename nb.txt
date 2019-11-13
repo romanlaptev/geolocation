@@ -86,7 +86,7 @@ https://www.npmjs.com/package/classlist-polyfill
 		*OpenStreetMaps
 		*ArcGIS
 
-- разместить логотипы API в селекторе радиокнопок
+*- разместить логотипы API в селекторе радиокнопок
 ------------
 
 	latitude - Широта.
