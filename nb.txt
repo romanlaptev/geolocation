@@ -32,8 +32,12 @@ https://glitch.com/edit/#!/romanlaptev-geolocation
 - приложение не работает в браузере Epiphany (Alcatel), зависание при определении координат
 - Epiphany, планшет, зависание при использовании Google Maps
 
-- Safari, FF, iphone, ipad, *android, зависание при использовании ArcGIS
-error creating ArcGIS map
+*- Safari, FF, iphone, ipad, *android, зависание при использовании ArcGIS
+error creating ArcGIS map (смена версии API 4.13 -> 3.25)
+
+- Safari, iphone, ipad, 
+*не нажимаются кнопки
+ArcGIS, почему-то не отображается маркер и нет кнопки закрытия модального окна
 
 - как сбросить запрет разрешения на доступ к координатам?
 

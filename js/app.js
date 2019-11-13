@@ -550,7 +550,7 @@ _vars.mapObj.addControl(new OpenLayers.Control.KeyboardDefaults());
 "esri/symbols/PictureMarkerSymbol",
 //"esri/arcgis/utils",
 "esri/graphic",
-"esri/layers/GraphicsLayer",
+"esri/layers/GraphicsLayer"//,
 //"esri/geometry/webMercatorUtils"
 						], function(
 Map,
@@ -562,7 +562,7 @@ Color,
 PictureMarkerSymbol,
 //arcgisUtils,
 Graphic,
-GraphicsLayer,
+GraphicsLayer//,
 //webMercatorUtils
 					) {
 							_vars.mapObj = new Map( _vars["htmlObj"]["mapID"] , {
