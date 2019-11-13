@@ -51,10 +51,6 @@ margin: auto;
 }
 *убрать class="olMap"
 
-- поставить маркер на карту
-googleMaps
-*OpenStreetMaps
-*ArcGIS
 
 - android, планшет, блокирующий слой растянут по высоте не на весь экран
 
@@ -85,7 +81,12 @@ https://www.npmjs.com/package/classlist-polyfill
 для браузеров без поддержки navigator.geolocation или https
 
 - добавить все имеющиеся сервисы API
+	- поставить маркер на карту
+		*googleMaps
+		*OpenStreetMaps
+		*ArcGIS
 
+- разместить логотипы API в селекторе радиокнопок
 ------------
 
 	latitude - Широта.
