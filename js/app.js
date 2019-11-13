@@ -418,14 +418,33 @@ console.log( "googleMaps API version: " + google.maps.version );
 					var lat = _vars["position"]["coords"].latitude.toFixed(5);// 55.03146
 					var lng = _vars["position"]["coords"].longitude.toFixed(5);// 82.92317
 					
-					_vars.mapObj = new google.maps.Map( _vars["htmlObj"]["map"] , {
+					var latlng = new google.maps.LatLng(lat, lng);
+					var _options = {
 						zoom: 16,
 						//center: new google.maps.LatLng(-34.397, 150.644),
-						center: new google.maps.LatLng(lat, lng),
+						center: latlng,
+						navigationControlOptions: {
+							style: google.maps.NavigationControlStyle.SMALL
+						},
 						mapTypeId: google.maps.MapTypeId.ROADMAP
 						//mapTypeId: google.maps.MapTypeId.TERRAIN
-					}); 
-					
+					};
+ 
+					_vars.mapObj = new google.maps.Map( _vars["htmlObj"]["map"] , _options); 
+//_vars.mapObj.scrollwheel=true;
+//_vars.mapObj.setOptions({ mapTypeControl:true});
+
+					//var marker = new google.maps.Marker({position: latlng, map: _vars.mapObj});
+					var marker = new google.maps.Marker({
+						position: {lat: lat, lng: lng},
+						map: map,
+						title: "Legalizuem.ru",
+						icon: {
+							url: "../img/red-star.png",
+							scaledSize: new google.maps.Size(64, 64)
+						}
+					});
+
 					_waitWindow( "close" );
 					_vars["htmlObj"]["appModal"].classList.add("active");
 				break;

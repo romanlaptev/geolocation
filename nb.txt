@@ -37,7 +37,10 @@ error creating ArcGIS map (смена версии API 4.13 -> 3.25)
 
 - Safari, iphone, ipad, 
 *не нажимаются кнопки
-ArcGIS, почему-то не отображается маркер и нет кнопки закрытия модального окна
+
+ArcGIS,  ipad,
+почему-то не отображается маркер и нет кнопки закрытия модального окна
+ iphone ok
 
 - как сбросить запрет разрешения на доступ к координатам?
 
@@ -49,16 +52,24 @@ margin: auto;
 }
 *убрать class="olMap"
 
-- сделать скрытие блокирующего слоя и окна ожидания по событию готовности карты
-*OpenLayers
-*ArcGIS
-
 - поставить маркер на карту
 googleMaps
 *OpenStreetMaps
 *ArcGIS
 
 - android, планшет, блокирующий слой растянут по высоте не на весь экран
+
+- сделать скрытие блокирующего слоя и окна ожидания по событию готовности карты
+*OpenLayers
+*ArcGIS
+
+- окно ожидания при загрузке API, 
+код добавлен
+yandexMaps
+googleMaps
+OpenStreetMaps
+ArcGIS
+
 
 *- сложно выбирать радиокнопки на телефонах, планшетах
 +проверить разметку радиокнопок, сделаннную с помощью бутстрапа
@@ -120,7 +131,7 @@ https://habr.com/ru/company/2gis/blog/229097/
 2GIS API 2.0
 https://github.com/2gis/mapsapi
 
------------------------ GOOGLE API
+====================================================== GOOGLE API
 https://console.developers.google.com/
 https://console.cloud.google.com/freetrial/signup/billing/RU
 
@@ -138,6 +149,16 @@ https://developers.google.com/maps/documentation/distancematrix/#DistanceMatrixR
 https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=AIzaSyDit1piuzGn-N0JVzirMUcERxxWZ4DK4OI
 
 https://art-lemon.com/google-maps-api-key
+
+You must enable Billing on the Google Cloud Project at 
+https://console.cloud.google.com/project/_/billing/enable 
+Learn more at https://developers.google.com/maps/gmp-get-started
+
+https://console.cloud.google.com/billing/0123B1-37CE7B-04915C?project=testgeolocation-253803
+-----
+http://blog.kogtev.com/customize-google-map-markers/
+Свой маркер на картах Google Maps
+
 
 ================================== OpenStreetMap
 
