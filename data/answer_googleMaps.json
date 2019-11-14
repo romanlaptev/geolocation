@@ -1,0 +1,567 @@
+{
+   "plus_code" : {
+      "compound_code" : "2WJF+H7 Новосибирск, Новосибирская область, Россия",
+      "global_code" : "9M742WJF+H7"
+   },
+   "results" : [
+      {
+         "address_components" : [
+            {
+               "long_name" : "27",
+               "short_name" : "27",
+               "types" : [ "street_number" ]
+            },
+            {
+               "long_name" : "улица Орджоникидзе",
+               "short_name" : "ул. Орджоникидзе",
+               "types" : [ "route" ]
+            },
+            {
+               "long_name" : "Новосибирск",
+               "short_name" : "Новосибирск",
+               "types" : [ "locality", "political" ]
+            },
+            {
+               "long_name" : "город Новосибирск",
+               "short_name" : "г. Новосибирск",
+               "types" : [ "administrative_area_level_2", "political" ]
+            },
+            {
+               "long_name" : "Новосибирская область",
+               "short_name" : "Новосибирская обл.",
+               "types" : [ "administrative_area_level_1", "political" ]
+            },
+            {
+               "long_name" : "Россия",
+               "short_name" : "RU",
+               "types" : [ "country", "political" ]
+            },
+            {
+               "long_name" : "630099",
+               "short_name" : "630099",
+               "types" : [ "postal_code" ]
+            }
+         ],
+         "formatted_address" : "ул. Орджоникидзе, 27, Новосибирск, Новосибирская обл., Россия, 630099",
+         "geometry" : {
+            "location" : {
+               "lat" : 55.0313692,
+               "lng" : 82.9230749
+            },
+            "location_type" : "ROOFTOP",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 55.0327181802915,
+                  "lng" : 82.92442388029151
+               },
+               "southwest" : {
+                  "lat" : 55.0300202197085,
+                  "lng" : 82.92172591970851
+               }
+            }
+         },
+         "place_id" : "ChIJe1e7cH7l30IRir3sHEw-RwE",
+         "plus_code" : {
+            "compound_code" : "2WJF+G6 Новосибирск, Новосибирская область, Россия",
+            "global_code" : "9M742WJF+G6"
+         },
+         "types" : [ "establishment", "point_of_interest", "store" ]
+      },
+      {
+         "address_components" : [
+            {
+               "long_name" : "27",
+               "short_name" : "27",
+               "types" : [ "street_number" ]
+            },
+            {
+               "long_name" : "улица Орджоникидзе",
+               "short_name" : "ул. Орджоникидзе",
+               "types" : [ "route" ]
+            },
+            {
+               "long_name" : "Новосибирск",
+               "short_name" : "Новосибирск",
+               "types" : [ "locality", "political" ]
+            },
+            {
+               "long_name" : "город Новосибирск",
+               "short_name" : "г. Новосибирск",
+               "types" : [ "administrative_area_level_2", "political" ]
+            },
+            {
+               "long_name" : "Новосибирская область",
+               "short_name" : "Новосибирская обл.",
+               "types" : [ "administrative_area_level_1", "political" ]
+            },
+            {
+               "long_name" : "Россия",
+               "short_name" : "RU",
+               "types" : [ "country", "political" ]
+            },
+            {
+               "long_name" : "630099",
+               "short_name" : "630099",
+               "types" : [ "postal_code" ]
+            }
+         ],
+         "formatted_address" : "ул. Орджоникидзе, 27, Новосибирск, Новосибирская обл., Россия, 630099",
+         "geometry" : {
+            "location" : {
+               "lat" : 55.0313692,
+               "lng" : 82.9230749
+            },
+            "location_type" : "ROOFTOP",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 55.0327181802915,
+                  "lng" : 82.92442388029151
+               },
+               "southwest" : {
+                  "lat" : 55.0300202197085,
+                  "lng" : 82.92172591970851
+               }
+            }
+         },
+         "place_id" : "ChIJzRxaHdDl30IR-an5AoT-lU0",
+         "plus_code" : {
+            "compound_code" : "2WJF+G6 Новосибирск, Новосибирская область, Россия",
+            "global_code" : "9M742WJF+G6"
+         },
+         "types" : [ "street_address" ]
+      },
+      {
+         "address_components" : [
+            {
+               "long_name" : "29",
+               "short_name" : "29",
+               "types" : [ "street_number" ]
+            },
+            {
+               "long_name" : "улица Орджоникидзе",
+               "short_name" : "ул. Орджоникидзе",
+               "types" : [ "route" ]
+            },
+            {
+               "long_name" : "Новосибирск",
+               "short_name" : "Новосибирск",
+               "types" : [ "locality", "political" ]
+            },
+            {
+               "long_name" : "город Новосибирск",
+               "short_name" : "г. Новосибирск",
+               "types" : [ "administrative_area_level_2", "political" ]
+            },
+            {
+               "long_name" : "Новосибирская область",
+               "short_name" : "Новосибирская обл.",
+               "types" : [ "administrative_area_level_1", "political" ]
+            },
+            {
+               "long_name" : "Россия",
+               "short_name" : "RU",
+               "types" : [ "country", "political" ]
+            },
+            {
+               "long_name" : "630099",
+               "short_name" : "630099",
+               "types" : [ "postal_code" ]
+            }
+         ],
+         "formatted_address" : "ул. Орджоникидзе, 29, Новосибирск, Новосибирская обл., Россия, 630099",
+         "geometry" : {
+            "location" : {
+               "lat" : 55.0312668,
+               "lng" : 82.92315909999999
+            },
+            "location_type" : "RANGE_INTERPOLATED",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 55.0326157802915,
+                  "lng" : 82.92450808029149
+               },
+               "southwest" : {
+                  "lat" : 55.0299178197085,
+                  "lng" : 82.92181011970848
+               }
+            }
+         },
+         "place_id" : "Ek1VbGl0c2EgT3JkemhvbmlraWR6ZSwgMjksIE5vdm9zaWJpcnNrLCBOb3Zvc2liaXJza2F5YSBvYmxhc3QnLCBSdXNzaWEsIDYzMDA5OSIaEhgKFAoSCZu2HQHQ5d9CEYCj3Fmka1U_EB0",
+         "types" : [ "street_address" ]
+      },
+      {
+         "address_components" : [
+            {
+               "long_name" : "29",
+               "short_name" : "29",
+               "types" : [ "street_number" ]
+            },
+            {
+               "long_name" : "улица Орджоникидзе",
+               "short_name" : "ул. Орджоникидзе",
+               "types" : [ "route" ]
+            },
+            {
+               "long_name" : "Новосибирск",
+               "short_name" : "Новосибирск",
+               "types" : [ "locality", "political" ]
+            },
+            {
+               "long_name" : "город Новосибирск",
+               "short_name" : "г. Новосибирск",
+               "types" : [ "administrative_area_level_2", "political" ]
+            },
+            {
+               "long_name" : "Новосибирская область",
+               "short_name" : "Новосибирская обл.",
+               "types" : [ "administrative_area_level_1", "political" ]
+            },
+            {
+               "long_name" : "Россия",
+               "short_name" : "RU",
+               "types" : [ "country", "political" ]
+            },
+            {
+               "long_name" : "630099",
+               "short_name" : "630099",
+               "types" : [ "postal_code" ]
+            }
+         ],
+         "formatted_address" : "ул. Орджоникидзе, 29, Новосибирск, Новосибирская обл., Россия, 630099",
+         "geometry" : {
+            "bounds" : {
+               "northeast" : {
+                  "lat" : 55.0313209,
+                  "lng" : 82.92363739999999
+               },
+               "southwest" : {
+                  "lat" : 55.0312668,
+                  "lng" : 82.92315909999999
+               }
+            },
+            "location" : {
+               "lat" : 55.03129389999999,
+               "lng" : 82.92339819999999
+            },
+            "location_type" : "GEOMETRIC_CENTER",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 55.0326428302915,
+                  "lng" : 82.9247472302915
+               },
+               "southwest" : {
+                  "lat" : 55.0299448697085,
+                  "lng" : 82.92204926970848
+               }
+            }
+         },
+         "place_id" : "ChIJwZxSqtrl30IR-Mkqe4s9TD0",
+         "types" : [ "route" ]
+      },
+      {
+         "address_components" : [
+            {
+               "long_name" : "630099",
+               "short_name" : "630099",
+               "types" : [ "postal_code" ]
+            },
+            {
+               "long_name" : "Новосибирск",
+               "short_name" : "Новосибирск",
+               "types" : [ "locality", "political" ]
+            },
+            {
+               "long_name" : "город Новосибирск",
+               "short_name" : "г. Новосибирск",
+               "types" : [ "administrative_area_level_2", "political" ]
+            },
+            {
+               "long_name" : "Новосибирская область",
+               "short_name" : "Новосибирская обл.",
+               "types" : [ "administrative_area_level_1", "political" ]
+            },
+            {
+               "long_name" : "Россия",
+               "short_name" : "RU",
+               "types" : [ "country", "political" ]
+            }
+         ],
+         "formatted_address" : "Новосибирск, Новосибирская обл., Россия, 630099",
+         "geometry" : {
+            "bounds" : {
+               "northeast" : {
+                  "lat" : 55.03838099999999,
+                  "lng" : 82.9399351
+               },
+               "southwest" : {
+                  "lat" : 55.01683509999999,
+                  "lng" : 82.902202
+               }
+            },
+            "location" : {
+               "lat" : 55.0285129,
+               "lng" : 82.92020269999999
+            },
+            "location_type" : "APPROXIMATE",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 55.03838099999999,
+                  "lng" : 82.9399351
+               },
+               "southwest" : {
+                  "lat" : 55.01683509999999,
+                  "lng" : 82.902202
+               }
+            }
+         },
+         "place_id" : "ChIJD83zQCvk30IRJePVYcY43u4",
+         "types" : [ "postal_code" ]
+      },
+      {
+         "address_components" : [
+            {
+               "long_name" : "Центральный район",
+               "short_name" : "Центральный р-н",
+               "types" : [ "political", "sublocality", "sublocality_level_2" ]
+            },
+            {
+               "long_name" : "Новосибирск",
+               "short_name" : "Новосибирск",
+               "types" : [ "locality", "political" ]
+            },
+            {
+               "long_name" : "город Новосибирск",
+               "short_name" : "г. Новосибирск",
+               "types" : [ "administrative_area_level_2", "political" ]
+            },
+            {
+               "long_name" : "Новосибирская область",
+               "short_name" : "Новосибирская обл.",
+               "types" : [ "administrative_area_level_1", "political" ]
+            },
+            {
+               "long_name" : "Россия",
+               "short_name" : "RU",
+               "types" : [ "country", "political" ]
+            }
+         ],
+         "formatted_address" : "Центральный р-н, Новосибирск, Новосибирская обл., Россия",
+         "geometry" : {
+            "bounds" : {
+               "northeast" : {
+                  "lat" : 55.0542352,
+                  "lng" : 82.9492637
+               },
+               "southwest" : {
+                  "lat" : 55.00925549999999,
+                  "lng" : 82.91054819999999
+               }
+            },
+            "location" : {
+               "lat" : 55.0373449,
+               "lng" : 82.92917360000001
+            },
+            "location_type" : "APPROXIMATE",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 55.0542352,
+                  "lng" : 82.9492637
+               },
+               "southwest" : {
+                  "lat" : 55.00925549999999,
+                  "lng" : 82.91054819999999
+               }
+            }
+         },
+         "place_id" : "ChIJP4UfmcTl30IRPDion3Xg080",
+         "types" : [ "political", "sublocality", "sublocality_level_2" ]
+      },
+      {
+         "address_components" : [
+            {
+               "long_name" : "Новосибирск",
+               "short_name" : "Новосибирск",
+               "types" : [ "locality", "political" ]
+            },
+            {
+               "long_name" : "город Новосибирск",
+               "short_name" : "г. Новосибирск",
+               "types" : [ "administrative_area_level_2", "political" ]
+            },
+            {
+               "long_name" : "Новосибирская область",
+               "short_name" : "Новосибирская обл.",
+               "types" : [ "administrative_area_level_1", "political" ]
+            },
+            {
+               "long_name" : "Россия",
+               "short_name" : "RU",
+               "types" : [ "country", "political" ]
+            }
+         ],
+         "formatted_address" : "Новосибирск, Новосибирская обл., Россия",
+         "geometry" : {
+            "bounds" : {
+               "northeast" : {
+                  "lat" : 55.139807,
+                  "lng" : 83.15829389999999
+               },
+               "southwest" : {
+                  "lat" : 54.800147,
+                  "lng" : 82.740516
+               }
+            },
+            "location" : {
+               "lat" : 55.00835259999999,
+               "lng" : 82.9357327
+            },
+            "location_type" : "APPROXIMATE",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 55.139807,
+                  "lng" : 83.15829389999999
+               },
+               "southwest" : {
+                  "lat" : 54.800147,
+                  "lng" : 82.740516
+               }
+            }
+         },
+         "place_id" : "ChIJl03MkOHl30IRhenT4XMGOps",
+         "types" : [ "locality", "political" ]
+      },
+      {
+         "address_components" : [
+            {
+               "long_name" : "город Новосибирск",
+               "short_name" : "г. Новосибирск",
+               "types" : [ "administrative_area_level_2", "political" ]
+            },
+            {
+               "long_name" : "Новосибирская область",
+               "short_name" : "Новосибирская обл.",
+               "types" : [ "administrative_area_level_1", "political" ]
+            },
+            {
+               "long_name" : "Россия",
+               "short_name" : "RU",
+               "types" : [ "country", "political" ]
+            }
+         ],
+         "formatted_address" : "г. Новосибирск, Новосибирская обл., Россия",
+         "geometry" : {
+            "bounds" : {
+               "northeast" : {
+                  "lat" : 55.197978,
+                  "lng" : 83.15829389999999
+               },
+               "southwest" : {
+                  "lat" : 54.800147,
+                  "lng" : 82.740516
+               }
+            },
+            "location" : {
+               "lat" : 55.0633395,
+               "lng" : 82.8996636
+            },
+            "location_type" : "APPROXIMATE",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 55.197978,
+                  "lng" : 83.15829389999999
+               },
+               "southwest" : {
+                  "lat" : 54.800147,
+                  "lng" : 82.740516
+               }
+            }
+         },
+         "place_id" : "ChIJO8noRRbm30IR9NE4ZXHBV5Y",
+         "types" : [ "administrative_area_level_2", "political" ]
+      },
+      {
+         "address_components" : [
+            {
+               "long_name" : "Новосибирская область",
+               "short_name" : "Новосибирская обл.",
+               "types" : [ "administrative_area_level_1", "political" ]
+            },
+            {
+               "long_name" : "Россия",
+               "short_name" : "RU",
+               "types" : [ "country", "political" ]
+            }
+         ],
+         "formatted_address" : "Новосибирская обл., Россия",
+         "geometry" : {
+            "bounds" : {
+               "northeast" : {
+                  "lat" : 57.236193,
+                  "lng" : 85.11756299999999
+               },
+               "southwest" : {
+                  "lat" : 53.2909191,
+                  "lng" : 75.08785499999999
+               }
+            },
+            "location" : {
+               "lat" : 55.4467133,
+               "lng" : 80.1043923
+            },
+            "location_type" : "APPROXIMATE",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 57.236193,
+                  "lng" : 85.11756299999999
+               },
+               "southwest" : {
+                  "lat" : 53.2909191,
+                  "lng" : 75.08785499999999
+               }
+            }
+         },
+         "place_id" : "ChIJc_dpU4GNHUMRPFMGiXZtmN8",
+         "types" : [ "administrative_area_level_1", "political" ]
+      },
+      {
+         "address_components" : [
+            {
+               "long_name" : "Россия",
+               "short_name" : "RU",
+               "types" : [ "country", "political" ]
+            }
+         ],
+         "formatted_address" : "Россия",
+         "geometry" : {
+            "bounds" : {
+               "northeast" : {
+                  "lat" : 82.1673907,
+                  "lng" : -168.97788
+               },
+               "southwest" : {
+                  "lat" : 41.185353,
+                  "lng" : 19.6160999
+               }
+            },
+            "location" : {
+               "lat" : 61.52401,
+               "lng" : 105.318756
+            },
+            "location_type" : "APPROXIMATE",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 82.1673907,
+                  "lng" : -168.97788
+               },
+               "southwest" : {
+                  "lat" : 41.185353,
+                  "lng" : 19.6160999
+               }
+            }
+         },
+         "place_id" : "ChIJ-yRniZpWPEURE_YRZvj9CRQ",
+         "types" : [ "country", "political" ]
+      }
+   ],
+   "status" : "OK"
+}
