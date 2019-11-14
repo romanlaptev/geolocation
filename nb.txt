@@ -29,8 +29,8 @@ https://glitch.com/edit/#!/romanlaptev-geolocation
 - построение по введенному адресу маршрута
 для формы ввода адреса можно сделать проверку полей с помощью ЛУСов
 
-- приложение не работает в браузере Epiphany (Alcatel), зависание при определении координат
-- Epiphany, планшет, зависание при использовании Google Maps
+*- приложение не работает в браузере Epiphany (Alcatel), зависание при определении координат
+*- Epiphany, планшет, зависание при использовании Google Maps
 
 *- Safari, FF, iphone, ipad, *android, зависание при использовании ArcGIS
 error creating ArcGIS map (смена версии API 4.13 -> 3.25)
@@ -79,6 +79,12 @@ https://www.npmjs.com/package/classlist-polyfill
 
 - сделать сервис (PHP? или найти существующий) который по входящему IP отдает координаты
 для браузеров без поддержки navigator.geolocation или https
+http://ipgeobase.ru/
+https://ipinfodb.com/api
+https://www.geoplugin.com/webservices/javascript
+			http://geoiplookup.net/xml-api/
+https://dev.maxmind.com/geoip/geoip2/geolite2/
+https://atoumus.github.io/php-detect-country-by-ip.html
 
 - добавить все имеющиеся сервисы API
 	- поставить маркер на карту
@@ -147,7 +153,7 @@ https://ziscod.com/tekushhee-mestopolozhenie-google-maps-api-html-5-geolocation/
 https://developers.google.com/maps/documentation/geocoding/start#ReverseGeocoding
 https://developers.google.com/maps/documentation/distancematrix/#DistanceMatrixRequests
 
-https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=AIzaSyDit1piuzGn-N0JVzirMUcERxxWZ4DK4OI
+https://maps.googleapis.com/maps/api/geocode/json?latlng=55.03146,82.92317&key=AIzaSyDit1piuzGn-N0JVzirMUcERxxWZ4DK4OI
 
 https://art-lemon.com/google-maps-api-key
 

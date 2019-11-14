@@ -22,6 +22,10 @@
 			"google_apiLink": "https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key={{apiKey}}&ver=3.exp",
 //http://maps.google.com/maps/api/js?sensor=false			
 			"google_apiKey" : "AIzaSyDit1piuzGn-N0JVzirMUcERxxWZ4DK4OI",
+			"google_geocodeUrl" : "https://maps.googleapis.com/maps/api/geocode/json?\
+latlng={{lat}},{{lng}}\
+&key={{apiKey}}\
+",
 			
 			//https://api.2gis.ru/doc/maps/ru/quickstart/
 			"gis_apiLink": "https://maps.api.2gis.ru/2.0/loader.js?pkg=full",
@@ -38,10 +42,21 @@ format={{format}}\
 
 			
 			"arcgis_apiLink": "https://js.arcgis.com/3.25/",
-			"arcgis_cssLink": "https://js.arcgis.com/3.25/esri/css/esri.css"
+			"arcgis_cssLink": "https://js.arcgis.com/3.25/esri/css/esri.css",
 			//"arcgis_apiLink": "https://js.arcgis.com/4.13/",
 			//"arcgis_cssLink": "https://js.arcgis.com/4.13/esri/css/main.css"
 			
+			"templates" : {
+				tplAddr : "<div class='panel'>\
+<p>{{formatted_address}}</p>\
+<small>\
+<b>addres types:</b>\
+<ul class='list-inline'>{{list}}</ul>\
+</small>\
+</div>",
+				tplAddrTypesList : "<li>{{text}}</li>"
+			},
+
 		};//end _vars
 
 		var GPS_TIMEOUT_POSITION = 300; //(sec) time that is allowed to end finding position		
@@ -769,15 +784,35 @@ func.logAlert(_vars["logMsg"],"error");
 				break;
 				
 				case "googleMaps":
-					//var google_map_pos = new google.maps.LatLng( p.lat, p.lng );
+					var google_map_pos = new google.maps.LatLng( p.lat, p.lng );
 //console.log( google_map_pos );
-
-					//var google_maps_geocoder = new google.maps.Geocoder();
-					//google_maps_geocoder.geocode({ "latLng": google_map_pos },
-						//function( results, status ) {
-//console.log( results );
-						//}
-					//);
+/*
+					var google_maps_geocoder = new google.maps.Geocoder();
+					google_maps_geocoder.geocode({ "latLng": google_map_pos },
+						function( results, status ) {
+console.log( status, results );
+//for test
+//status = "OK";
+							if( status === "OK"){
+								_parseGoogleMapsGeocoderAnswer( results );
+							} else {
+_vars["logMsg"] = "error getting address, Google maps API, status: " + status ;
+func.logAlert(_vars["logMsg"],"error");
+								_waitWindow( "close" );
+							}
+						}
+					);
+*/
+//https://maps.googleapis.com/maps/api/geocode/json?latlng=55.03146,82.92317&key=AIzaSyDit1piuzGn-N0JVzirMUcERxxWZ4DK4OI
+					var dataUrl = _vars["google_geocodeUrl"]
+					.replace( "{{apiKey}}", _vars["google_apiKey"] )
+					.replace( "{{lng}}", p["lng"] )
+					.replace( "{{lat}}", p["lat"] );
+//console.log( dataUrl );		
+					func.runAjaxCorrect( dataUrl, __postFunc );
+				break;
+					
+					
 				case "2GIS":
 				case "ArcGIS":
 				default:
@@ -800,7 +835,7 @@ console.log( _vars["logMsg"] );
 					data = xhr.responseXML;
 				}
 				
-//console.log( data );
+console.log( data );
 //console.log( typeof data );
 //console.log( data.length );
 				if( data && data.length > 0){
@@ -911,6 +946,35 @@ func.logAlert(_vars["logMsg"],"error");
 				}//end catch
 
 			}//end _parseJSON()
+			
+			function _parseGoogleMapsGeocoderAnswer( jsonObj ){
+//for test
+// jsonObj = [
+	// {
+		// formatted_address: "ул. Орджоникидзе, 27, Новосибирск, Новосибирская обл., Россия, 630099",
+		// types:  ["establishment", "point_of_interest", "store"]
+	// }
+// ];
+
+				var tpl_addr = _vars["templates"]["tplAddr"];
+				var tpl_list = _vars["templates"]["tplAddrTypesList"];
+				var html_list = "";
+				
+				var address = jsonObj[0];
+				var items = address["types"];
+				for( var n=0; n < items.length; n++){
+					html_list += tpl_list.replace("{{text}}", items[n]);
+				}//next
+
+				var addrText = "";
+				addrText = tpl_addr
+								.replace("{{list}}", html_list)
+								.replace("{{formatted_address}}", address["formatted_address"]);
+
+				_vars["htmlObj"]["addresTitle"].style.display = "block";
+				_vars["htmlObj"]["addresText"].innerHTML = addrText;
+				_waitWindow( "close" );
+			}//end _parseGoogleMapsGeocoderAnswer()
 			
 		};//end _getAdress()
 		
