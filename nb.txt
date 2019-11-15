@@ -173,7 +173,8 @@ http://googlewebcomponents.github.io/google-map/components/google-map/
 Documentation
 
 https://developers.google.com/maps/documentation/javascript/events
-
+https://developers.google.com/maps/documentation/geocoding/intro#Types
+https://developers.google.com/places/web-service/supported_types
 
 ================================== OpenStreetMap
 

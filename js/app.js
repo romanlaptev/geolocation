@@ -23,10 +23,10 @@
 //http://maps.google.com/maps/api/js?sensor=false			
 			"google_apiKey" : "AIzaSyDit1piuzGn-N0JVzirMUcERxxWZ4DK4OI",
 //https://maps.googleapis.com/maps/api/geocode/json?latlng=55.03146,82.92317&key=AIzaSyDit1piuzGn-N0JVzirMUcERxxWZ4DK4OI
-			// "google_geocodeUrl" : "https://maps.googleapis.com/maps/api/geocode/json?\
-// latlng={{lat}},{{lng}}\
-// &key={{apiKey}}",
-			"google_geocodeUrl" : "data/answer_googleMaps.json",
+			"google_geocodeUrl" : "https://maps.googleapis.com/maps/api/geocode/json?\
+latlng={{lat}},{{lng}}\
+&key={{apiKey}}",
+			//"google_geocodeUrl" : "data/answer_googleMaps.json",
 			
 			//https://api.2gis.ru/doc/maps/ru/quickstart/
 			"gis_apiLink": "https://maps.api.2gis.ru/2.0/loader.js?pkg=full",
@@ -48,14 +48,14 @@ format={{format}}\
 			//"arcgis_cssLink": "https://js.arcgis.com/4.13/esri/css/main.css"
 			
 			"templates" : {
-				tplAddr : "<div class='panel'>\
+				tplAddr : "<div class='panel'><span class='number'>{{num}}</span>\
 <p>{{formatted_address}}</p>\
 <small>\
 <b>addres types:</b>\
 <ul class='list-inline'>{{list}}</ul>\
 </small>\
 </div>",
-				tplAddrTypesList : "<li>{{text}}</li>"
+				tplAddrTypesList : "<li>{{type}}</li>"
 			},
 
 		};//end _vars
@@ -785,32 +785,71 @@ func.logAlert(_vars["logMsg"],"error");
 				break;
 				
 				case "googleMaps":
-/*				
+
 					var google_map_pos = new google.maps.LatLng( p.lat, p.lng );
 //console.log( google_map_pos );
 
 					var google_maps_geocoder = new google.maps.Geocoder();
 					google_maps_geocoder.geocode({ "latLng": google_map_pos },
 						function( results, status ) {
-console.log( status, results );
+//console.log( status, results );
+//console.log( arguments );
 //for test
 //status = "OK";
 							if( status === "OK"){
-								_parseGoogleMapsGeocoderAnswer( results );
+								_parseGoogleMapsGeocoderAnswer({
+									"results": results,
+									"status": status
+								});
 							} else {
-_vars["logMsg"] = "error getting address, Google maps API, status: " + status ;
-func.logAlert(_vars["logMsg"],"error");
+								_vars["logMsg"] = "error getting address, Google maps API, status: " + status ;
+								func.logAlert(_vars["logMsg"],"error");
+switch (status){
+	case "ZERO_RESULTS":
+		_vars["logMsg"] = "<b>"+status +"</b>" + " indicates that the geocode was successful but returned no results. This may occur if the geocoder was passed a non-existent address.";
+		func.logAlert(_vars["logMsg"],"info");
+	break;
+	
+	case "OVER_DAILY_LIMIT":
+		_vars["logMsg"] = "<b>"+status +"</b>" + " indicates any of the following:\
+- The API key is missing or invalid.<br>\
+- Billing has not been enabled on your account.<br>\
+- A self-imposed usage cap has been exceeded.<br>\
+- The provided method of payment is no longer valid (for example, a credit card has expired).";
+		func.logAlert(_vars["logMsg"],"info");
+	break;
+	
+	case "OVER_QUERY_LIMIT":
+		_vars["logMsg"] = "<b>"+status +"</b>" + " indicates that you are over your quota.";
+		func.logAlert(_vars["logMsg"],"info");
+	break;
+	
+	case "REQUEST_DENIED":
+		_vars["logMsg"] = "<b>"+status +"</b>" + " indicates that your request was denied.";
+		func.logAlert(_vars["logMsg"],"info");
+	break;
+	
+	case "INVALID_REQUEST":
+		_vars["logMsg"] = "<b>"+status +"</b>" + " generally indicates that the query (address, components or latlng) is missing.";
+		func.logAlert(_vars["logMsg"],"info");
+	break;
+	
+	case "UNKNOWN_ERROR":
+		_vars["logMsg"] = "<b>"+status +"</b>" + " indicates that the request could not be processed due to a server error. The request may succeed if you try again.";
+		func.logAlert(_vars["logMsg"],"info");
+	break;
+}//end switch
 								_waitWindow( "close" );
 							}
 						}
 					);
-*/
-					var dataUrl = _vars["google_geocodeUrl"]
-					.replace( "{{apiKey}}", _vars["google_apiKey"] )
-					.replace( "{{lng}}", p["lng"] )
-					.replace( "{{lat}}", p["lat"] );
-//console.log( dataUrl );		
-					func.runAjaxCorrect( dataUrl, __postFunc );
+
+					// var dataUrl = _vars["google_geocodeUrl"]
+					// .replace( "{{apiKey}}", _vars["google_apiKey"] )
+					// .replace( "{{lng}}", p["lng"] )
+					// .replace( "{{lat}}", p["lat"] );
+// //console.log( dataUrl );		
+					// func.runAjaxCorrect( dataUrl, __postFunc );
 				break;
 					
 					
@@ -836,7 +875,7 @@ console.log( _vars["logMsg"] );
 					data = xhr.responseXML;
 				}
 				
-console.log( data );
+//console.log( data );
 //console.log( typeof data );
 //console.log( data.length );
 				if( data && data.length > 0){
@@ -908,7 +947,7 @@ func.logAlert( _vars["logMsg"], "error");
 			//console.log( key, value );
 						return value;
 					});
-//console.log( jsonObj );
+//console.log( jsonObj, jsonObj["results"].length );
 					var addrText = "";
 					
 					switch ( _vars["apiType"]){
@@ -928,6 +967,10 @@ func.logAlert( _vars["logMsg"], "error");
 							addrText = jsonObj["display_name"];
 							_vars["htmlObj"]["addresTitle"].style.display = "block";
 							_vars["htmlObj"]["addresText"].innerHTML = addrText;
+						break;
+					
+						case "googleMaps":
+							_parseGoogleMapsGeocoderAnswer( jsonObj );
 						break;
 					
 						default:
@@ -956,21 +999,27 @@ func.logAlert(_vars["logMsg"],"error");
 		// types:  ["establishment", "point_of_interest", "store"]
 	// }
 // ];
-
 				var tpl_addr = _vars["templates"]["tplAddr"];
 				var tpl_list = _vars["templates"]["tplAddrTypesList"];
-				var html_list = "";
-				
-				var address = jsonObj[0];
-				var items = address["types"];
-				for( var n=0; n < items.length; n++){
-					html_list += tpl_list.replace("{{text}}", items[n]);
-				}//next
-
 				var addrText = "";
-				addrText = tpl_addr
-								.replace("{{list}}", html_list)
-								.replace("{{formatted_address}}", address["formatted_address"]);
+				
+for(var n1 = 0; n1 < jsonObj["results"].length; n1++){
+	var address = jsonObj["results"][n1];
+//console.log(n1, address);
+
+	var items = address["types"];
+	var html_list = "";
+	for( var n2=0; n2 < items.length; n2++){
+		html_list += tpl_list.replace("{{type}}", items[n2]);
+	}//next
+
+	addrText += tpl_addr
+.replace("{{num}}", n1+1)
+.replace("{{list}}", html_list)
+.replace("{{formatted_address}}", address["formatted_address"]);
+
+}//next				
+//console.log(addrText);
 
 				_vars["htmlObj"]["addresTitle"].style.display = "block";
 				_vars["htmlObj"]["addresText"].innerHTML = addrText;
