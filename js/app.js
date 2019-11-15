@@ -51,8 +51,10 @@ format={{format}}\
 				tplAddr : "<div class='panel'><span class='number'>{{num}}</span>\
 <p>{{formatted_address}}</p>\
 <small>\
-<b>addres types:</b>\
-<ul class='list-inline'>{{list}}</ul>\
+<ul class='list-inline'>\
+<b>address types:</b>\
+{{list}}\
+</ul>\
 </small>\
 </div>",
 				tplAddrTypesList : "<li>{{type}}</li>"
