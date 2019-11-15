@@ -331,6 +331,11 @@ margin: 0;
 #api-type a img {
 	width: 100%;
 }
+@media (max-width: 370px) {
+  #api-type a {
+    float: none;
+  }
+}
 
 
 .list-inline {
