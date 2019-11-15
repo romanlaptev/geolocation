@@ -22,10 +22,11 @@
 			"google_apiLink": "https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key={{apiKey}}&ver=3.exp",
 //http://maps.google.com/maps/api/js?sensor=false			
 			"google_apiKey" : "AIzaSyDit1piuzGn-N0JVzirMUcERxxWZ4DK4OI",
-			"google_geocodeUrl" : "https://maps.googleapis.com/maps/api/geocode/json?\
-latlng={{lat}},{{lng}}\
-&key={{apiKey}}\
-",
+//https://maps.googleapis.com/maps/api/geocode/json?latlng=55.03146,82.92317&key=AIzaSyDit1piuzGn-N0JVzirMUcERxxWZ4DK4OI
+			// "google_geocodeUrl" : "https://maps.googleapis.com/maps/api/geocode/json?\
+// latlng={{lat}},{{lng}}\
+// &key={{apiKey}}",
+			"google_geocodeUrl" : "data/answer_googleMaps.json",
 			
 			//https://api.2gis.ru/doc/maps/ru/quickstart/
 			"gis_apiLink": "https://maps.api.2gis.ru/2.0/loader.js?pkg=full",
@@ -784,9 +785,10 @@ func.logAlert(_vars["logMsg"],"error");
 				break;
 				
 				case "googleMaps":
+/*				
 					var google_map_pos = new google.maps.LatLng( p.lat, p.lng );
 //console.log( google_map_pos );
-/*
+
 					var google_maps_geocoder = new google.maps.Geocoder();
 					google_maps_geocoder.geocode({ "latLng": google_map_pos },
 						function( results, status ) {
@@ -803,7 +805,6 @@ func.logAlert(_vars["logMsg"],"error");
 						}
 					);
 */
-//https://maps.googleapis.com/maps/api/geocode/json?latlng=55.03146,82.92317&key=AIzaSyDit1piuzGn-N0JVzirMUcERxxWZ4DK4OI
 					var dataUrl = _vars["google_geocodeUrl"]
 					.replace( "{{apiKey}}", _vars["google_apiKey"] )
 					.replace( "{{lng}}", p["lng"] )
