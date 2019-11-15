@@ -49,11 +49,11 @@ body {
 
 
 .col-1{
-	width:65%;
+	width:50%;
 }
 
 .col-2{
-	width:35%;
+	width:50%;
 }
 
 
@@ -120,6 +120,16 @@ padding: 5px 10px 5px 10px;
 .modal .buttons > button {
 	width: calc(30% - 0.5px);
 color: #fff;	
+}
+
+#btn-group {
+	width: 50%;
+	margin: auto;
+}
+@media (max-width: 700px) {
+  #btn-group {
+    width: 100%;
+  }
 }
 
 
