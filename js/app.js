@@ -99,15 +99,6 @@ format={{format}}\
 			//_vars["htmlObj"]["addresTitle"].style.display="none";
 			_vars["htmlObj"]["waitOverlay"].style.display="none";
 			
-//-----------------------------------------
-		var test =  typeof window.Promise !== "undefined";
-		_vars["logMsg"]= "window.Promise support: " + test;
-		if( test ){
-			func.logAlert(_vars["logMsg"], "success");
-		} else {
-			func.logAlert(_vars["logMsg"], "error");
-		}
-
 //----------------------------------------- load map API
 			_loadApi();
 
@@ -396,13 +387,7 @@ func.logAlert(_vars["logMsg"],"error");
 				func.logAlert(_vars["logMsg"], "success");
 				_vars["htmlObj"]["btnShowMap"].classList.remove("disabled");
 				
-				// _getAdress({
-					// lng: posObj.coords.longitude,
-					// lat: posObj.coords.latitude
-				// });
-
 				_waitWindow( "close" );
-				
 			}//end success_fn()
 			
 			function fail_fn( error ){
@@ -766,6 +751,8 @@ func.logAlert(_vars["logMsg"],"error");
 				p[key] = opt[key];
 			}
 //console.log(p);
+//for test
+//_vars["support"]["promiseSupport"] = false;
 
 			switch ( _vars["apiType"]){
 				
@@ -776,7 +763,48 @@ func.logAlert(_vars["logMsg"],"error");
 					.replace( "{{lat}}", p["lat"] );
 		//console.log( dataUrl );		
 					
-					func.runAjaxCorrect( dataUrl, __postFunc );
+					if( _vars["support"]["promiseSupport"] ){
+								var _promiseObj = _createPromise({
+									"url": dataUrl
+									//"url" : null
+								})
+								.then (
+								function( resObj ) {
+console.log( "-- promise resolve, THEN" );
+//console.log( arguments );
+									__postFunc( 
+											resObj["data"], 
+											resObj["runtime"], 
+											resObj["xhr"] );
+								}, 
+								
+								function(error){
+console.log( "-- promise reject, ", error );
+									__postFunc(false);
+								});
+//console.log( _promiseObj);
+					}
+					
+					//.....use jQuery deferred object
+					//.....use callback style
+					if( !_vars["support"]["promiseSupport"] ){
+_vars["logMsg"]= "window.Promise support FALSE, use callback style";
+console.log(_vars["logMsg"]);
+						func.runAjaxCorrect({
+							"url" : dataUrl,
+							"onSuccess" : function( data, runtime, xhr ){
+console.log("-- onSuccess", arguments);						
+								__postFunc( data, runtime, xhr );
+							},
+							
+							"onError" : function( xhr ){
+console.log( "-- onError ", arguments);
+								__postFunc( false );
+							}
+							
+						});
+					}					
+					
 				break;
 
 				case "OpenStreetMaps":
@@ -792,8 +820,44 @@ func.logAlert(_vars["logMsg"],"error");
 .replace( "{{addr_details}}", 0 )//addressdetails=[0|1], Include a breakdown of the address into elements. (Default: 0)
 .replace( "{{extratags}}", 0 )//extratags=[0|1], Include additional information in the result if available, e.g. wikipedia link, opening hours. (Default: 0)
 .replace( "{{namedetails}}", 0 )//namedetails=[0|1], Include a list of alternative names in the results. These may include language variants, references, operator and brand. (Default: 0)					
-//console.log( dataUrl );		
-					func.runAjaxCorrect( dataUrl, __postFunc );
+//console.log( dataUrl );
+
+					if( _vars["support"]["promiseSupport"] ){
+								var _promiseObj = _createPromise({
+									"url": dataUrl
+								})
+								.then (
+								function( resObj ) {
+//console.log( "-- promise resolve, THEN" );
+									__postFunc( 
+											resObj["data"], 
+											resObj["runtime"], 
+											resObj["xhr"] );
+								}, 
+								
+								function(error){
+//console.log( "-- promise reject, ", error );
+									__postFunc(false);
+								});
+					}
+					
+					//.....use callback style
+					if( !_vars["support"]["promiseSupport"] ){
+_vars["logMsg"]= "window.Promise support FALSE, use callback style";
+console.log(_vars["logMsg"]);
+						func.runAjaxCorrect({
+							"url" : dataUrl,
+							"onSuccess" : function( data, runtime, xhr ){
+								__postFunc( data, runtime, xhr );
+							},
+							
+							"onError" : function( xhr ){
+								__postFunc( false );
+							}
+							
+						});
+					}					
+					
 				break;
 				
 				case "googleMaps":
@@ -876,6 +940,14 @@ func.logAlert(_vars["logMsg"],"error");
 			
 			
 			function __postFunc( data, runtime, xhr ) {
+				
+				if( !data || data.length === 0){
+_vars["logMsg"] = "error getting geolocation data..." ;
+func.logAlert( _vars["logMsg"], "error");
+					_waitWindow( "close" );
+					return false;
+				}
+				
 _vars["logMsg"] = "ajax load url: <b>" + dataUrl + "</b>, runtime: " + runtime +" sec";
 console.log( _vars["logMsg"] );
 
@@ -892,10 +964,6 @@ console.log( _vars["logMsg"] );
 //console.log( data.length );
 				if( data && data.length > 0){
 					_parseAjax( data );
-				} else {
-_vars["logMsg"] = "error getting geolocation data..." ;
-func.logAlert( _vars["logMsg"], "error");
-					_waitWindow( "close" );
 				}
 				
 			}//end __postFunc()
@@ -1038,6 +1106,41 @@ for(var n1 = 0; n1 < jsonObj["results"].length; n1++){
 				_waitWindow( "close" );
 			}//end _parseGoogleMapsGeocoderAnswer()
 			
+			
+			function _createPromise( opt ){
+//console.log("_createPromise(): ", opt);
+				var p = {
+					"url" : false
+				};
+				//extend options object
+				for(var key in opt ){
+					p[key] = opt[key];
+				}
+//console.log(p);
+
+				return new Promise( function(resolve, reject) {
+//console.log(resolve, reject);
+					func.runAjaxCorrect({
+						"url" : p["url"],
+						//"onProgress" : null,
+						"onSuccess" : function( data, runtime, xhr ){
+//console.log("-- onSuccess", arguments);						
+							resolve({
+								"data": data,
+								"runtime" : runtime,
+								"xhr" : xhr
+							});
+						},
+						"onError" : function( xhr ){
+//console.log( "-- onError ", arguments);
+							reject( xhr.statusText );
+						}
+						
+					});
+
+				});//end promise
+			}//end __checkDate()
+		
 		};//end _getAdress()
 		
 		

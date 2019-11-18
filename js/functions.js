@@ -636,57 +636,78 @@ console.log( logMsg );
 		}//end _runAjax()
 
 
-		var _runAjaxCorrect = function( url, callback ){
+		var _runAjaxCorrect = function( opt ){
 			
-			var xhr = new XMLHttpRequest();
+			var p = {
+				"requestMethod" : "GET", 
+				"url" : false, 
+				"async" :  true,
+				"onProgress" : null,
+				"onSuccess" : null,
+				"onError" : null//,
+				//"onLoadEnd" : null
+			};
+			//extend options object
+			for(var key in opt ){
+				p[key] = opt[key];
+			}
+//console.log(p);
+			var requestMethod = p["requestMethod"]; 
+			var url = p["url"]; 
+			var async = p["async"]; 
+
+			try{
+				var xhr = new XMLHttpRequest();
+			} catch(e){
+console.log(e);
+			}		
 			
 			var timeStart = new Date();
 			
-			xhr.open("GET", url, true);
-			
+			xhr.open( requestMethod, url, async );
 			xhr.onreadystatechange = function(){
 //console.log("state:", xhr.readyState);
 				if( xhr.readyState === 4){
-console.log("end request, state ", xhr.readystate, ", status: ", xhr.status);
+console.log("end request, state ", xhr.readyState, ", status: ", xhr.status);
 //console.log( "xhr.responseText: ", xhr.responseText );
 //console.log( "xhr.responseXML: ", xhr.responseXML );
 
 					if( xhr.status === 200){
-						//ajax_content.innerHTML += xhr.responseText;
 //console.log( xhr.responseText );
 
 						//if browser not define callback "onloadend"
-						var test = "onloadend" in xhr;
-						if( !test ){
-							_loadEnd();
+						//var test = "onloadend" in xhr;
+						//if( !test ){
+							//_loadEnd();
+						//}
+						if( typeof  p["onSuccess"] === "function"){
+							var timeEnd = new Date();
+							var runtime = (timeEnd.getTime() - timeStart.getTime()) / 1000;
+							var data = xhr.responseText;
+							p["onSuccess"](data, runtime, xhr);
 						}
 
 					}
-					
+
 					if( xhr.status !== 200){
 console.log("Ajax load error, url: " + xhr.responseURL);
-console.log("status: " + xhr.status);
+//console.log("status: " + xhr.status);
 console.log("statusText:" + xhr.statusText);
-
-						//if browser not define callback "onloadend"
-						var test = "onloadend" in xhr;
-						if( !test ){
-							_loadEnd();
-						}
-						
+							if( typeof  p["onError"] === "function"){
+								p["onError"](xhr);
+							}
 					}
-					
+
 				}
-			};
+			};// end onreadystatechange
 			
 			if( "onerror" in xhr ){
-//console.log( "xhr.onerror = ", xhr.onerror  );
 				xhr.onerror = function(e){
-//console.log(arguments);
-console.log("event type:" + e.type);
-console.log("time: " + e.timeStamp);
-console.log("total: " + e.total);
-console.log("loaded: " + e.loaded);
+console.log( "xhr.onerror,", e);
+//console.log("event type:" + e.type);
+//console.log("time: " + e.timeStamp);
+//console.log("total: " + e.total);
+//console.log("loaded: " + e.loaded);
 				}
 			};
 			
@@ -697,7 +718,7 @@ console.log("loaded: " + e.loaded);
 		// console.log("time: " + e.timeStamp);
 		// console.log("total: " + e.total);
 		// console.log("loaded: " + e.loaded);
-					_loadEnd();
+					//_loadEnd();
 				}//end event callback
 			};
 			
@@ -705,10 +726,15 @@ console.log("loaded: " + e.loaded);
 				var timeEnd = new Date();
 				var runtime = (timeEnd.getTime() - timeStart.getTime()) / 1000;
 				
-				if( typeof callback === "function"){
-					var data = xhr.responseText;
-					callback( data, runtime, xhr );
-				}
+				//if( typeof callback === "function"){
+					//var data = xhr.responseText;
+					//callback( data, runtime, xhr );
+				//}
+				// if( typeof  p["onLoadEnd"] === "function"){
+					// var data = xhr.responseText;
+					// p["onLoadEnd"]( data, runtime, xhr);
+				// }
+				
 			}//end _loadEnd()
 			
 			xhr.send();
