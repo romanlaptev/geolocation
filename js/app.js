@@ -47,6 +47,7 @@ format={{format}}\
 			//"arcgis_apiLink": "https://js.arcgis.com/4.13/",
 			//"arcgis_cssLink": "https://js.arcgis.com/4.13/esri/css/main.css"
 			
+			"support" : func.testSupport(),
 			"templates" : {
 				tplAddr : "<div class='panel'><span class='number'>{{num}}</span>\
 <p>{{formatted_address}}</p>\
@@ -76,7 +77,7 @@ format={{format}}\
 				"altitudeAccuracy" : func.getById("altitude-accuracy"),
 				"heading" : func.getById("heading"),
 				"speed" : func.getById("speed"),
-				"addresTitle": func.getById("addr-title"),
+				//"addresTitle": func.getById("addr-title"),
 				"addresText": func.getById("addr-text"),
 
 				"appModal": func.getById("app-modal"),
@@ -95,8 +96,17 @@ format={{format}}\
 				"blockApiType": func.getById("api-type")
 			};
 			
-			_vars["htmlObj"]["addresTitle"].style.display="none";
+			//_vars["htmlObj"]["addresTitle"].style.display="none";
 			_vars["htmlObj"]["waitOverlay"].style.display="none";
+			
+//-----------------------------------------
+		var test =  typeof window.Promise !== "undefined";
+		_vars["logMsg"]= "window.Promise support: " + test;
+		if( test ){
+			func.logAlert(_vars["logMsg"], "success");
+		} else {
+			func.logAlert(_vars["logMsg"], "error");
+		}
 
 //----------------------------------------- load map API
 			_loadApi();
@@ -961,13 +971,13 @@ func.logAlert( _vars["logMsg"], "error");
 								addrText += _geoObj.metaDataProperty.GeocoderMetaData.text;
 							}//next
 	//console.log( addrText );
-							_vars["htmlObj"]["addresTitle"].style.display = "block";
+							//_vars["htmlObj"]["addresTitle"].style.display = "block";
 							_vars["htmlObj"]["addresText"].innerHTML = addrText;
 						break;
 						
 						case "OpenStreetMaps":
 							addrText = jsonObj["display_name"];
-							_vars["htmlObj"]["addresTitle"].style.display = "block";
+							//_vars["htmlObj"]["addresTitle"].style.display = "block";
 							_vars["htmlObj"]["addresText"].innerHTML = addrText;
 						break;
 					
@@ -1023,7 +1033,7 @@ for(var n1 = 0; n1 < jsonObj["results"].length; n1++){
 }//next				
 //console.log(addrText);
 
-				_vars["htmlObj"]["addresTitle"].style.display = "block";
+				//_vars["htmlObj"]["addresTitle"].style.display = "block";
 				_vars["htmlObj"]["addresText"].innerHTML = addrText;
 				_waitWindow( "close" );
 			}//end _parseGoogleMapsGeocoderAnswer()

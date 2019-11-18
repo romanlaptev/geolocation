@@ -115,41 +115,8 @@
 	
 	<div class="card">
 		<div class="pull-left col-1">
-			<ul class="table-view panel" id="api-type">
-				<h3>API type</h3>
-
-				<li class="table-view-cell">
-					<label><input type="radio" name="api_type" value="yandexMaps" autocomplete="off" checked>Yandex Maps API</label>
-					<a href="https://tech.yandex.ru/maps/mapsapi/" title="go to website" target="_blank"><img src="img/yandexMaps.png"/></a>
-				</li>
-
-				<li class="table-view-cell">
-	<label><input type="radio" name="api_type" value="googleMaps" autocomplete="off">Google Maps API</label>
-					<a href="https://developers.google.com/maps/" title="go to website" target="_blank"><img src="img/googleMaps.png"/></a>
-				</li>
-
-				<li class="table-view-cell">
-					<label><input type="radio" name="api_type" value="2GIS" autocomplete="off">2GIS Maps API</label>
-					<a href="https://api.2gis.ru/doc/maps/ru/quickstart/" title="go to website" target="_blank"><img src="img/2gisMaps.png"/></a>
-				</li>
-
-				<li class="table-view-cell">
-					<label><input type="radio" name="api_type" value="OpenStreetMaps" autocomplete="off">OpenStreet Maps API</label>
-					<a href="https://openlayers.org/en/latest/apidoc/" title="go to website" target="_blank"><img src="img/osMaps.png"/></a>
-				</li>
-
-				<li class="table-view-cell">
-					<label><input type="radio" name="api_type" value="ArcGIS" autocomplete="off">ArcGIS Maps API</label>
-					<a href="https://developers.arcgis.com/javascript/" title="go to website" target="_blank"><img src="img/arc-gis.png"/></a>
-				</li>
-
-			</ul>
-		</div>		
-
-		<div class="pull-right col-2">
-		
 			<div class="panel">
-				<ul class="table-view" id="btn-group">
+				<ul class="table-view col-1">
 					<li class=""><button id="btn-get-coords" class="btn btn-block green">Get coordinates</button></li>
 					<li class=""><button id="btn-get-address" class="btn btn-block blue">Get address</button></li>
 					<li class=""><button id="btn-show-map" class="btn btn-block blue disabled">Show map</button></li>
@@ -157,7 +124,9 @@
 			</div>
       
 			<div class="panel">
+
 				<div class=""><b>Coordinates:</b></div>
+
 				<ul class="table-view">
 					<p>
 						<b>Latitude, (deg.):
@@ -216,7 +185,41 @@
 				</ul>
 				
 			</div>			
+      
+		</div><!-- end left col -->
 
+		<div class="pull-right col-2">
+
+			<ul class="table-view panel" id="api-type">
+				<h3>API type</h3>
+
+				<li class="table-view-cell">
+					<label><input type="radio" name="api_type" value="yandexMaps" autocomplete="off" checked>Yandex Maps API</label>
+					<a href="https://tech.yandex.ru/maps/mapsapi/" title="go to website" target="_blank"><img src="img/yandexMaps.png"/></a>
+				</li>
+
+				<li class="table-view-cell">
+	<label><input type="radio" name="api_type" value="googleMaps" autocomplete="off">Google Maps API</label>
+					<a href="https://developers.google.com/maps/" title="go to website" target="_blank"><img src="img/googleMaps.png"/></a>
+				</li>
+
+				<li class="table-view-cell">
+					<label><input type="radio" name="api_type" value="2GIS" autocomplete="off">2GIS Maps API</label>
+					<a href="https://api.2gis.ru/doc/maps/ru/quickstart/" title="go to website" target="_blank"><img src="img/2gisMaps.png"/></a>
+				</li>
+
+				<li class="table-view-cell">
+					<label><input type="radio" name="api_type" value="OpenStreetMaps" autocomplete="off">OpenStreet Maps API</label>
+					<a href="https://openlayers.org/en/latest/apidoc/" title="go to website" target="_blank"><img src="img/osMaps.png"/></a>
+				</li>
+
+				<li class="table-view-cell">
+					<label><input type="radio" name="api_type" value="ArcGIS" autocomplete="off">ArcGIS Maps API</label>
+					<a href="https://developers.arcgis.com/javascript/" title="go to website" target="_blank"><img src="img/arc-gis.png"/></a>
+				</li>
+
+			</ul>
+      
 		</div><!-- end right col -->
 		
 	</div><!-- end card -->

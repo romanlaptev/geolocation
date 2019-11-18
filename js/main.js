@@ -65,6 +65,7 @@ window.onload = function(){
 	defineEvents();
 
 	//--------------------------
+/*	
 	var test =  typeof navigator.geolocation !== "undefined";
 	logMsg = "navigator.geolocation support: " + test;
 	if ( test ) {
@@ -73,7 +74,7 @@ window.onload = function(){
 	} else {
 		func.logAlert(logMsg, "danger");
 	}
-	
+*/	
 	//--------------------------
 	if( window.location.protocol !== "https:"){
 		support = false;
@@ -84,7 +85,7 @@ window.onload = function(){
 	}
 
 //for test
-support = true;
+//support = true;
 
 	//Start webApp
 	if( support ){
