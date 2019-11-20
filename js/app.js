@@ -46,6 +46,10 @@ format={{format}}\
 			"arcgis_cssLink": "https://js.arcgis.com/3.25/esri/css/esri.css",
 			//"arcgis_apiLink": "https://js.arcgis.com/4.13/",
 			//"arcgis_cssLink": "https://js.arcgis.com/4.13/esri/css/main.css"
+
+			"position": {
+				"coords" :{}
+			},
 			
 			"support" : func.testSupport(),
 			"templates" : {
@@ -103,71 +107,9 @@ format={{format}}\
 			_loadApi();
 
 //-----------------------------------------
-			_vars["htmlObj"]["btnGetCoord"].onclick = function(e){
-//console.log(e);
-				_waitWindow( "open" );
-				_handleCoordinateBtn();
-			}//end event
-			
-//-----------------------------------------
-			func.addEvent( _vars["htmlObj"]["btnGetAddr"], "click", function(){
-				
-				if( !_vars["position"] ){
-					_vars["logMsg"] = "Error, first you need to get the coordinates.";
-					func.logAlert(_vars["logMsg"], "error");
-					return false;
-				}
-				
-				_waitWindow( "open" );
-				_getAdress({
-					lng: _vars["position"]["coords"].longitude,
-					lat: _vars["position"]["coords"].latitude
-				});
-			
-			});//end event
-			
-//-----------------------------------------
-			_vars["htmlObj"]["btnShowMap"].onclick = function(e){
-//console.log(e);
-				if( !_vars["position"] ){
-					_vars["logMsg"] = "Error, first you need to get the coordinates.";
-					func.logAlert(_vars["logMsg"], "error");
-					return false;
-				}
-				_handleMapBtn();
-			}//end event
-			
-//-----------------------------------------
-			_vars["htmlObj"]["iconModalClose"].onclick = function(e){
-				_vars["htmlObj"]["appModal"].classList.remove("active");
-				_destroyMap( _vars["apiType"] );
-			}//end event
+			defineEvents();
 
-//-----------------------------------------
-			func.addEvent( _vars["htmlObj"]["blockApiType"], "click", function(e){
-//console.log( e.target );
-
-				if( e.target.nodeName ===  "INPUT"){
-//console.log( e.target.checked, e.target.value );
-					_vars["apiType"] = e.target.value;
-					_loadApi();
-				}
-
-				if( e.target.nodeName ===  "LABEL"){
-//console.log( e.target );
-//console.log( e.target.children["api_type"] );
-//console.log( e.target.children["api_type"].value, e.target.children["api_type"].checked );
-					_vars["apiType"] = e.target.children["api_type"].value;
-					_loadApi();
-          e.target.children["api_type"].checked = true;
-          e.preventDefault();
-          //e.stopPropagation();
-				}
-        
-			});//end event
-
-			
-		};// end _init
+		};// end _init()
 
 
 		function _loadApi(){
@@ -360,6 +302,92 @@ func.logAlert(_vars["logMsg"],"error");
 			return _cDate;
 		};//end _getDateTime()
 		
+
+
+		function defineEvents(){
+			
+		//-----------------------------------------
+			_vars["htmlObj"]["btnGetCoord"].onclick = function(e){
+//console.log(e);
+				_waitWindow( "open" );
+				_handleCoordinateBtn();
+			}//end event
+			
+		//-----------------------------------------
+			func.addEvent( _vars["htmlObj"]["btnGetAddr"], "click", function(){
+				
+				if( !_vars["position"] ){
+					_vars["logMsg"] = "Error, first you need to get the coordinates.";
+					func.logAlert(_vars["logMsg"], "error");
+					return false;
+				}
+				
+				_waitWindow( "open" );
+				_getAdress({
+					lng: _vars["position"]["coords"].longitude,
+					lat: _vars["position"]["coords"].latitude
+				});
+			
+			});//end event
+
+		//-----------------------------------------
+			_vars["htmlObj"]["btnShowMap"].onclick = function(e){
+		//console.log(e);
+				if( !_vars["position"] ){
+					_vars["logMsg"] = "Error, first you need to get the coordinates.";
+					func.logAlert(_vars["logMsg"], "error");
+					return false;
+				}
+				_handleMapBtn();
+			}//end event
+			
+		//-----------------------------------------
+			_vars["htmlObj"]["iconModalClose"].onclick = function(e){
+				_vars["htmlObj"]["appModal"].classList.remove("active");
+				_destroyMap( _vars["apiType"] );
+			}//end event
+
+		//-----------------------------------------
+			func.addEvent( _vars["htmlObj"]["blockApiType"], "click", function(e){
+		//console.log( e.target );
+
+				if( e.target.nodeName ===  "INPUT"){
+		//console.log( e.target.checked, e.target.value );
+					_vars["apiType"] = e.target.value;
+					_loadApi();
+				}
+
+				if( e.target.nodeName ===  "LABEL"){
+		//console.log( e.target );
+		//console.log( e.target.children["api_type"] );
+		//console.log( e.target.children["api_type"].value, e.target.children["api_type"].checked );
+					_vars["apiType"] = e.target.children["api_type"].value;
+					_loadApi();
+		  e.target.children["api_type"].checked = true;
+		  e.preventDefault();
+		  //e.stopPropagation();
+				}
+
+			});//end event
+			
+			//-----------------------------------------
+			//_vars["htmlObj"]["latitude"].onkeydown = function(e) {
+			//_vars["htmlObj"]["latitude"].onchange = function(e) {
+			_vars["htmlObj"]["latitude"].oninput = function( event ) {
+					event = event || window.event;
+					var target = event.target || event.srcElement;
+//console.log(event);
+//console.log(event.key);
+console.log( target.value );
+				_vars["position"]["coords"]["latitude"] = target.value;
+			};//end event
+			
+			_vars["htmlObj"]["longitude"].oninput = function(e) {
+console.log("event: ", e.type, e);
+			};//end event
+			
+		}//end defineEvents()
+
 		
 		var _handleCoordinateBtn = function(){
 
