@@ -371,8 +371,10 @@ func.logAlert(_vars["logMsg"],"error");
 // for(var item in posObj.coords){
 	// console.log( item, posObj.coords[item] );
 // }
-				_vars["htmlObj"]["latitude"].innerHTML = posObj.coords.latitude;
-				_vars["htmlObj"]["longitude"].innerHTML = posObj.coords.longitude;
+				//_vars["htmlObj"]["latitude"].innerHTML = posObj.coords.latitude;
+				_vars["htmlObj"]["latitude"].value = posObj.coords.latitude;
+				_vars["htmlObj"]["longitude"].value = posObj.coords.longitude;
+				
 				_vars["htmlObj"]["accuracy"].innerHTML = posObj.coords.accuracy;
 				_vars["htmlObj"]["datetime"].innerHTML = _getDateTime( posObj.timestamp );
 				
@@ -385,13 +387,14 @@ func.logAlert(_vars["logMsg"],"error");
 				
 				_vars["logMsg"] = "Your coordinates were determined successfully.";
 				func.logAlert(_vars["logMsg"], "success");
-				_vars["htmlObj"]["btnShowMap"].classList.remove("disabled");
 				
+				_vars["htmlObj"]["btnShowMap"].classList.remove("disabled");
 				_waitWindow( "close" );
 			}//end success_fn()
 			
 			function fail_fn( error ){
 				var errorTypes = {
+					0: "Required https",
 					1: "Permission denied",
 					2: "Position is not available",
 					3: "Request timeout"
@@ -399,6 +402,8 @@ func.logAlert(_vars["logMsg"],"error");
 				_vars["logMsg"] = "Error code: " + error.code + ", " + errorTypes[error.code] + ", " + error.message;
 console.log(error);
 				func.logAlert(_vars["logMsg"], "error");
+				
+				_waitWindow( "close" );
 			}//end fail_fn()
 
 			
@@ -727,16 +732,30 @@ func.logAlert(_vars["logMsg"],"error");
 
 		var  _getCoordinates = function(success_fn, fail_fn){
 //console.log(arguments);
+//console.log(window.location.protocol, window.location.protocol !== "https:");
+
+			if( window.location.protocol !== "https:"){
+				fail_fn({
+					code: 0,
+					message: "<b>navigator.geolocation</b> requires <b>'https:'</b> protocol...."
+				});
+				return false;
+			}
 
 			var opts = {
 				enableHighAccuracy: true,  // high accuracy
 				maximumAge: 0,  // no cache
 				timeout: ( GPS_TIMEOUT_POSITION * 1000) // timeout
 			};
-			navigator.geolocation.getCurrentPosition(
-				success_fn,
-				fail_fn,
-				opts);
+			//try {
+				navigator.geolocation.getCurrentPosition(
+					success_fn,
+					fail_fn,
+					opts);
+			//} catch(e){
+//console.log(e);				
+			//}
+			
 		};//end _getCoordinates()
 		
 		

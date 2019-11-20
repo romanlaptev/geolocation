@@ -76,6 +76,7 @@ window.onload = function(){
 	}
 */	
 	//--------------------------
+/*	
 	if( window.location.protocol !== "https:"){
 		support = false;
 		logMsg = "error, <b>navigator.geolocation</b> requires <b>'https:'</b> protocol....";
@@ -86,11 +87,11 @@ window.onload = function(){
 
 //for test
 //support = true;
-
+*/
 	//Start webApp
-	if( support ){
+	//if( support ){
 		_runApp();
-	}
+	//}
 
 	function _runApp(){
 		var _app = App();
