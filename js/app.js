@@ -47,9 +47,7 @@ format={{format}}\
 			//"arcgis_apiLink": "https://js.arcgis.com/4.13/",
 			//"arcgis_cssLink": "https://js.arcgis.com/4.13/esri/css/main.css"
 
-			"position": {
-				"coords" :{}
-			},
+			"position": {},
 			
 			"support" : func.testSupport(),
 			"templates" : {
@@ -374,19 +372,33 @@ func.logAlert(_vars["logMsg"],"error");
 			//_vars["htmlObj"]["latitude"].onkeydown = function(e) {
 			//_vars["htmlObj"]["latitude"].onchange = function(e) {
 			_vars["htmlObj"]["latitude"].oninput = function( event ) {
-					event = event || window.event;
-					var target = event.target || event.srcElement;
+				event = event || window.event;
+				var target = event.target || event.srcElement;
 //console.log(event);
 //console.log(event.key);
-console.log( target.value );
-				_vars["position"]["coords"]["latitude"] = target.value;
+//console.log( target.value, typeof  target.value);
+				_vars["position"]["latitude_input"] = _InputCoordsHandler( target );
 			};//end event
 			
-			_vars["htmlObj"]["longitude"].oninput = function(e) {
-console.log("event: ", e.type, e);
+			_vars["htmlObj"]["longitude"].oninput = function(event) {
+				event = event || window.event;
+				var target = event.target || event.srcElement;
+				_vars["position"]["longitude_input"] = _InputCoordsHandler( target );
 			};//end event
 			
 		}//end defineEvents()
+
+
+		function _InputCoordsHandler( target ){
+			var _num = parseFloat(target.value);
+//console.log( _num );
+			if( !isNaN( _num) && _num > 0){
+				return target.value;
+			} else {
+_vars["logMsg"] = "Incorrect input value, only numbers...";
+func.logAlert(_vars["logMsg"], "warning");
+			}
+		}//end _InputCoordsHandler()
 
 		
 		var _handleCoordinateBtn = function(){
@@ -401,7 +413,10 @@ console.log("event: ", e.type, e);
 // }
 				//_vars["htmlObj"]["latitude"].innerHTML = posObj.coords.latitude;
 				_vars["htmlObj"]["latitude"].value = posObj.coords.latitude;
+				_vars["position"]["latitude_input"] = posObj.coords.latitude;
+				
 				_vars["htmlObj"]["longitude"].value = posObj.coords.longitude;
+				_vars["position"]["longitude_input"] = posObj.coords.longitude;
 				
 				_vars["htmlObj"]["accuracy"].innerHTML = posObj.coords.accuracy;
 				_vars["htmlObj"]["datetime"].innerHTML = _getDateTime( posObj.timestamp );
@@ -411,7 +426,7 @@ console.log("event: ", e.type, e);
 				_vars["htmlObj"]["heading"].innerHTML = posObj.coords.heading;
 				_vars["htmlObj"]["speed"].innerHTML = posObj.coords.speed;
 				
-				_vars["position"] = posObj;
+				_vars["position"]["posObj"] = posObj;
 				
 				_vars["logMsg"] = "Your coordinates were determined successfully.";
 				func.logAlert(_vars["logMsg"], "success");
@@ -461,8 +476,12 @@ console.log( "googleMaps API version: " + google.maps.version );
 //----------------------------
 					_vars["htmlObj"]["modalTitle"].innerHTML = "googleMaps API version: " + google.maps.version;
 					
-					var lat = _vars["position"]["coords"].latitude.toFixed(5);// 55.03146
-					var lng = _vars["position"]["coords"].longitude.toFixed(5);// 82.92317
+					//var lat = _vars["position"]["coords"].latitude.toFixed(5);// 55.03146
+					//var lng = _vars["position"]["coords"].longitude.toFixed(5);// 82.92317
+					
+					var lat = _vars["position"]["latitude_input"].toFixed(5);// 55.03146
+					var lng = _vars["position"]["longitude_input"].toFixed(5);// 82.92317
+					
 					var latlng = new google.maps.LatLng(lat, lng);
 					
 					var _options = {
