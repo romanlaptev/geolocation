@@ -107,6 +107,7 @@ console.log("_app:", _app);
 function defineEvents(){
 
 	var btn_clear_log = func.getById("btn-clear-log");
+	var logPanel = func.getById("log");
 	btn_clear_log.onclick = function( event ){
 //console.log("click...", e);			
 		event = event || window.event;
@@ -116,7 +117,7 @@ function defineEvents(){
 		} else {
 			event.returnValue = false;				
 		}
-		log.innerHTML = "";
+		logPanel.innerHTML = "";
 	};//end event
 
 }//end defineEvents()
