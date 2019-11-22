@@ -71,8 +71,12 @@ format={{format}}\
 //console.log("App initialize...");
 			
 			_vars["htmlObj"]={
-				"latitude" : func.getById("latitude"),
-				"longitude" : func.getById("longitude"),
+				"latitudeInput" : func.getById("latitude-input"),
+				"latitudeRange": func.getById("latitude-range"),
+				
+				"longitudeInput" : func.getById("longitude-input"),
+				"longitudeRange": func.getById("longitude-range"),
+				
 				"accuracy" : func.getById("accuracy"),
 				"datetime" : func.getById("datetime"),
 				"altitude" : func.getById("altitude"),
@@ -100,8 +104,11 @@ format={{format}}\
 			
 			//_vars["htmlObj"]["addresTitle"].style.display="none";
 			_vars["htmlObj"]["waitOverlay"].style.display="none";
-			_vars["position"]["latitude_input"] = parseFloat( _vars["htmlObj"]["latitude"].value );
-			_vars["position"]["longitude_input"] = parseFloat( _vars["htmlObj"]["longitude"].value );
+			_vars["position"]["latitude_input"] = parseFloat( _vars["htmlObj"]["latitudeInput"].value );
+			_vars["position"]["longitude_input"] = parseFloat( _vars["htmlObj"]["longitudeInput"].value );
+			
+			_vars["htmlObj"]["latitudeRange"].value  = parseFloat( _vars["htmlObj"]["latitudeInput"].value );
+			_vars["htmlObj"]["longitudeRange"].value  = parseFloat( _vars["htmlObj"]["longitudeInput"].value );
 			
 //----------------------------------------- load map API
 			_loadApi();
@@ -371,29 +378,48 @@ func.logAlert(_vars["logMsg"],"error");
 			});//end event
 			
 			//-----------------------------------------
-			//_vars["htmlObj"]["latitude"].onkeydown = function(e) {
-			_vars["htmlObj"]["latitude"].onchange = function(event) {
-			//_vars["htmlObj"]["latitude"].oninput = function( event ) {
+			//_vars["htmlObj"]["latitudeInput"].onkeydown = function(e) {
+			_vars["htmlObj"]["latitudeInput"].onchange = function(event) {
+			//_vars["htmlObj"]["latitudeInput"].oninput = function( event ) {
 				event = event || window.event;
 				var target = event.target || event.srcElement;
 //console.log(event);
 //console.log(event.key);
 //console.log( target.value, typeof  target.value);
-				_vars["position"]["latitude_input"] = _InputCoordsHandler( target );
+				_vars["position"]["latitude_input"] = _InputCoordsHandler( target.value );
+				_vars["htmlObj"]["latitudeRange"].value  = _vars["position"]["latitude_input"];
 			};//end event
 			
-			_vars["htmlObj"]["longitude"].onchange = function(event) {
-			//_vars["htmlObj"]["longitude"].oninput = function(event) {
+			_vars["htmlObj"]["longitudeInput"].onchange = function(event) {
+			//_vars["htmlObj"]["longitudeInput"].oninput = function(event) {
 				event = event || window.event;
 				var target = event.target || event.srcElement;
-				_vars["position"]["longitude_input"] = _InputCoordsHandler( target );
+				_vars["position"]["longitude_input"] = _InputCoordsHandler( target.value );
+				_vars["htmlObj"]["longitudeRange"].value  = _vars["position"]["longitude_input"];
+			};//end event
+
+			//-----------------------------------------
+			_vars["htmlObj"]["latitudeRange"].onchange = function(event) {
+				event = event || window.event;
+				var target = event.target || event.srcElement;
+//console.log("change latitude:", target.value);
+				_vars["htmlObj"]["latitudeInput"].value = target.value;
+				_vars["position"]["latitude_input"] = _InputCoordsHandler( target.value );
+			};//end event
+			
+			_vars["htmlObj"]["longitudeRange"].onchange = function(event) {
+				event = event || window.event;
+				var target = event.target || event.srcElement;
+//console.log("change longitude:", target.value);
+				_vars["htmlObj"]["longitudeInput"].value = target.value;
+				_vars["position"]["longitude_input"] = _InputCoordsHandler( target.value );
 			};//end event
 			
 		}//end defineEvents()
 
 
-		function _InputCoordsHandler( target ){
-			var _num = parseFloat(target.value);
+		function _InputCoordsHandler( value ){
+			var _num = parseFloat(value);
 //console.log( _num );
 			if( !isNaN( _num) ){
 				return _num;
@@ -415,12 +441,14 @@ func.logAlert(_vars["logMsg"], "warning");
 // for(var item in posObj.coords){
 	// console.log( item, posObj.coords[item] );
 // }
-				//_vars["htmlObj"]["latitude"].innerHTML = posObj.coords.latitude;
-				_vars["htmlObj"]["latitude"].value = posObj.coords.latitude;
+				//_vars["htmlObj"]["latitudeInput"].innerHTML = posObj.coords.latitude;
+				_vars["htmlObj"]["latitudeInput"].value = posObj.coords.latitude;
 				_vars["position"]["latitude_input"] = posObj.coords.latitude;
+				_vars["htmlObj"]["latitudeRange"].value  = posObj.coords.latitude.toFixed(1);
 				
-				_vars["htmlObj"]["longitude"].value = posObj.coords.longitude;
+				_vars["htmlObj"]["longitudeInput"].value = posObj.coords.longitude;
 				_vars["position"]["longitude_input"] = posObj.coords.longitude;
+				_vars["htmlObj"]["longitudeRange"].value  = posObj.coords.longitude.toFixed(1);
 				
 				_vars["htmlObj"]["accuracy"].innerHTML = posObj.coords.accuracy;
 				_vars["htmlObj"]["datetime"].innerHTML = _getDateTime( posObj.timestamp );

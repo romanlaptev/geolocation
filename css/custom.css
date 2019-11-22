@@ -351,6 +351,12 @@ margin: 0;
 	/*margin: 5px;*/
 	padding: 3px;
 }
+
+#coord input[type="range"] {
+	display: block;
+	width: 100%;
+}
+
 #coord small {
 	font-size: 70%;
 	font-weight:bold;
