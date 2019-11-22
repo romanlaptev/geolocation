@@ -324,8 +324,8 @@ func.logAlert(_vars["logMsg"],"error");
 				
 				_waitWindow( "open" );
 				_getAdress({
-					lng: _vars["position"]["coords"].longitude,
-					lat: _vars["position"]["coords"].latitude
+					lng: _vars["position"]["longitude_input"],
+					lat: _vars["position"]["latitude_input"]
 				});
 			
 			});//end event
@@ -372,8 +372,8 @@ func.logAlert(_vars["logMsg"],"error");
 			
 			//-----------------------------------------
 			//_vars["htmlObj"]["latitude"].onkeydown = function(e) {
-			//_vars["htmlObj"]["latitude"].onchange = function(e) {
-			_vars["htmlObj"]["latitude"].oninput = function( event ) {
+			_vars["htmlObj"]["latitude"].onchange = function(event) {
+			//_vars["htmlObj"]["latitude"].oninput = function( event ) {
 				event = event || window.event;
 				var target = event.target || event.srcElement;
 //console.log(event);
@@ -382,7 +382,8 @@ func.logAlert(_vars["logMsg"],"error");
 				_vars["position"]["latitude_input"] = _InputCoordsHandler( target );
 			};//end event
 			
-			_vars["htmlObj"]["longitude"].oninput = function(event) {
+			_vars["htmlObj"]["longitude"].onchange = function(event) {
+			//_vars["htmlObj"]["longitude"].oninput = function(event) {
 				event = event || window.event;
 				var target = event.target || event.srcElement;
 				_vars["position"]["longitude_input"] = _InputCoordsHandler( target );
@@ -394,7 +395,7 @@ func.logAlert(_vars["logMsg"],"error");
 		function _InputCoordsHandler( target ){
 			var _num = parseFloat(target.value);
 //console.log( _num );
-			if( !isNaN( _num) && _num > 0){
+			if( !isNaN( _num) ){
 				return _num;
 			} else {
 _vars["logMsg"] = "Incorrect input value, only numbers...";
@@ -488,7 +489,8 @@ console.log( "googleMaps API version: " + google.maps.version );
 					var latlng = new google.maps.LatLng(lat, lng);
 					
 					var _options = {
-						zoom: 16,
+						zoom: 6,
+						//zoom: 16,
 						//center: new google.maps.LatLng(-34.397, 150.644),
 						center: latlng,
 						navigationControlOptions: {
@@ -552,7 +554,8 @@ console.log("2GIS API version: " + DG.version);
 						_vars.mapObj = DG.map( _vars["htmlObj"]["map"], {
 							//center: [54.98, 82.89],
 							center: [lat, lng],
-							zoom: 16
+							//zoom: 16
+							zoom: 10
 						});
 						DG.marker([lat, lng]).addTo( _vars.mapObj ).bindPopup("You are here...");
 						_waitWindow( "close" );
@@ -613,7 +616,8 @@ console.log("2GIS API version: " + DG.version);
 					_vars.mapObj.addLayer( markers );
 					markers.addMarker( new OpenLayers.Marker(position) );
 					
-					var zoom = 17; 
+					//var zoom = 17; 
+					var zoom = 6; 
 					_vars.mapObj.setCenter( position, zoom);
 					
 					_vars.mapObj.addControl(new OpenLayers.Control.LayerSwitcher());
@@ -683,7 +687,8 @@ GraphicsLayer//,
 //"streets-vector" | "streets-night-vector" | 
 //"streets-relief-vector" | "streets-navigation-vector" | "topo-vector"
 								center: [lng, lat],
-								zoom: 15
+								//zoom: 15
+								zoom: 6
 							});
 //console.log("Point:", Point);
 						
@@ -1106,6 +1111,7 @@ func.logAlert( _vars["logMsg"], "error");
 						return value;
 					});
 //console.log( jsonObj, jsonObj["results"].length );
+console.log( jsonObj );
 					var addrText = "";
 					
 					switch ( _vars["apiType"]){
@@ -1244,7 +1250,8 @@ for(var n1 = 0; n1 < jsonObj["results"].length; n1++){
 			_vars.mapObj = new ymaps.Map( _vars["htmlObj"]["map"], {
 				//center: [55.76, 37.64],
 				center: [ lat, lng],
-				zoom: 15
+				//zoom: 15
+				zoom: 5
 			}, {
 					searchControlProvider: 'yandex#search'
 			}),
