@@ -127,27 +127,21 @@
 				<h4>Coordinates</h4>
 				<div class="panel-body">
 				
-					<div class="row">
-							<div class="pull-left w30">
-								<small>Latitude <mark>(широта)</mark>:</small> 
+					<div class="row panel">
+							<div class="">
+								<small>Latitude <mark>(широта), 90...-90 deg./град.</mark>:</small> 
 							</div>
-							<div class="pull-left w50">
+							<div class="">
 <input type="text" value="0" name="coord_lat" id="latitude" autocomplete="off" placeholder="">
-							</div>
-							<div class="pull-left w20">
-								<small>deg./град. (90...-90)</small> 
 							</div>
 					</div>
 					
-					<div class="row">
-							<div class="pull-left w30">
-								<small>Longitude <mark>(долгота)</mark>:</small> 
+					<div class="row panel">
+							<div class="">
+								<small>Longitude <mark>(долгота), -180...180 deg./град.</mark>:</small> 
 							</div>
-							<div class="pull-left w50">
-<input type="text" value="300" name="coord_long" id="longitude" autocomplete="off" placeholder="">
-							</div>
-							<div class="pull-left w20">
-								<small>deg./град.(0...360)</small> 
+							<div class="">
+<input type="text" value="-60" name="coord_long" id="longitude" autocomplete="off" placeholder="">
 							</div>
 					</div>
 					
@@ -192,6 +186,13 @@
 		</div><!-- end left col -->
 
 		<div id="column-right" class="pull-right w50">
+		
+			<div class="panel">
+				<h4 id="addr-title">Address</h4>
+				<div class="panel-body">
+					<span id="addr-text"></span>
+				</div>
+			</div>
 
 			<ul class="table-view panel" id="api-type">
 				<h4>API type</h4>
@@ -226,13 +227,14 @@
 		</div><!-- end right col -->
 		
 	</div><!-- end card -->
-  
+<!--  
 	<div class="card panel">
 			<h4 id="addr-title">Address</h4>
 			<div class="panel-body">
 				<span id="addr-text"></span>
 			</div>
-	</div><!-- end panel -->
+	</div>
+-->
   
 </div><!-- end app-container -->
 
