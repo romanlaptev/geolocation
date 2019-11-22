@@ -349,7 +349,7 @@ margin: 0;
 #coord input[type="text"]{
 	background-color: #fffff0;
 	/*margin: 5px;*/
-	padding: 3px;
+	padding: 5px;
 }
 
 #coord input[type="range"] {

@@ -399,7 +399,8 @@ func.logAlert(_vars["logMsg"],"error");
 			};//end event
 
 			//-----------------------------------------
-			_vars["htmlObj"]["latitudeRange"].onchange = function(event) {
+			//_vars["htmlObj"]["latitudeRange"].onchange = function(event) {
+			_vars["htmlObj"]["latitudeRange"].oninput = function(event) {
 				event = event || window.event;
 				var target = event.target || event.srcElement;
 //console.log("change latitude:", target.value);
@@ -407,7 +408,8 @@ func.logAlert(_vars["logMsg"],"error");
 				_vars["position"]["latitude_input"] = _InputCoordsHandler( target.value );
 			};//end event
 			
-			_vars["htmlObj"]["longitudeRange"].onchange = function(event) {
+			//_vars["htmlObj"]["longitudeRange"].onchange = function(event) {
+			_vars["htmlObj"]["longitudeRange"].oninput = function(event) {
 				event = event || window.event;
 				var target = event.target || event.srcElement;
 //console.log("change longitude:", target.value);
